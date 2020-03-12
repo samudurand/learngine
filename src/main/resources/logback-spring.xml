@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="name" source="spring.application.name"/>
+    <springProperty scope="context" name="env" source="info.environment"/>
+    <contextName>${name}</contextName>
+
+    <appender name="PLAIN_TEXT_OUTPUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.gargoylesoftware.htmlunit" level="ERROR"/>
+    <logger name="com.learngine.learngine" level="debug"/>
+    <root level="info">
+        <appender-ref ref="PLAIN_TEXT_OUTPUT"/>
+    </root>
+
+</configuration>

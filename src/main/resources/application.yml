@@ -1,0 +1,7 @@
+themoviedb:
+  url: https://api.themoviedb.org
+  apiVersion: 3
+  apiToken: ${THEMOVIEDB_TOKEN}
+
+server:
+  port: 9000
