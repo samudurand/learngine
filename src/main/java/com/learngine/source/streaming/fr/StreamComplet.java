@@ -1,18 +1,21 @@
 package com.learngine.source.streaming.fr;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
-import com.learngine.source.SeleniumBrowsable;
-import com.learngine.source.SeleniumWebsiteHandler;
+import com.learngine.source.HtmlUnitBrowsable;
+import com.learngine.source.HtmlUnitWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
-import org.openqa.selenium.By;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
-public class StreamComplet implements Website, SeleniumBrowsable {
+public class StreamComplet implements Website, HtmlUnitBrowsable {
     @Override
     public String getName() {
         return "Stream Complet";
@@ -29,30 +32,33 @@ public class StreamComplet implements Website, SeleniumBrowsable {
     }
 
     @Override
-    public SeleniumWebsiteHandler getHandler() {
+    public HtmlUnitWebsiteHandler getHandler() {
         return new Handler(this);
     }
 
-    private static class Handler extends SeleniumWebsiteHandler {
+    private static class Handler extends HtmlUnitWebsiteHandler {
 
         public Handler(Website website) {
             super(website);
         }
 
         @Override
-        protected void performSearch(String title) {
-            browser.get(String.format("%s/fr/search/?s=%s", website.getUrl(), encodeSearchParams(title)));
+        protected HtmlPage performSearch(String title) throws IOException {
+            return client.getPage(String.format("%s/fr/search/?s=%s", website.getUrl(), encodeSearchParams(title)));
         }
 
         @Override
-        protected List<StreamDetails> parseResults() {
-            return browser.findElements(By.className("streamcompletpage_moviefilm"))
-                    .stream()
+        protected List<StreamDetails> parseResults(HtmlPage page) {
+            List<HtmlElement> elts = page.getByXPath("//div[@class='streamcompletpage_moviefilm']");
+            return elts.stream()
                     .map(elt -> {
-                        var link = elt.findElement(By.className("streamcompletpage_movief")).findElement(By.tagName("a"));
-                        return new StreamDetails(link.getText(), link.getAttribute("href"), website.getName());
-                    })
-                    .collect(Collectors.toList());
+                        HtmlAnchor link = elt.getFirstByXPath(".//div[@class='streamcompletpage_movief']/a");
+                        return new StreamDetails(
+                                link.getTextContent(),
+                                buildFullLink(link.getHrefAttribute()),
+                                website.getName()
+                        );
+                    }).collect(Collectors.toList());
         }
     }
 }

@@ -1,18 +1,21 @@
 package com.learngine.source.streaming.en;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
-import com.learngine.source.SeleniumBrowsable;
-import com.learngine.source.SeleniumWebsiteHandler;
+import com.learngine.source.HtmlUnitBrowsable;
+import com.learngine.source.HtmlUnitWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
-import org.openqa.selenium.By;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
-public class SolarMovie implements Website, SeleniumBrowsable {
+public class SolarMovie implements Website, HtmlUnitBrowsable {
     @Override
     public String getName() {
         return "Solar Movie";
@@ -29,30 +32,33 @@ public class SolarMovie implements Website, SeleniumBrowsable {
     }
 
     @Override
-    public SeleniumWebsiteHandler getHandler() {
+    public HtmlUnitWebsiteHandler getHandler() {
         return new Handler(this);
     }
 
-    public static class Handler extends SeleniumWebsiteHandler {
+    public static class Handler extends HtmlUnitWebsiteHandler {
 
         public Handler(Website website) {
             super(website);
         }
 
         @Override
-        protected void performSearch(String title) {
-            browser.get(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
+        protected HtmlPage performSearch(String title) throws IOException {
+            return client.getPage(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
         }
 
         @Override
-        protected List<StreamDetails> parseResults() {
-            return browser.findElements(By.className("result-item"))
-                    .stream()
-                    .map(item -> {
-                        var link = item.findElement(By.className("title")).findElement(By.tagName("a"));
-                        return new StreamDetails(link.getText(), link.getAttribute("href"), website.getName());
-                    })
-                    .collect(Collectors.toList());
+        protected List<StreamDetails> parseResults(HtmlPage page) {
+            List<HtmlElement> elts = page.getByXPath("//div[@class='result-item']");
+            return elts.stream()
+                    .map(elt -> {
+                        HtmlAnchor link = elt.getFirstByXPath(".//div[@class='title']/a");
+                        return new StreamDetails(
+                                link.getTextContent(),
+                                link.getHrefAttribute(),
+                                website.getName()
+                        );
+                    }).collect(Collectors.toList());
         }
     }
 }

@@ -58,7 +58,6 @@ public class TheMovieDB {
 
     public List<AlternativeTitle> findAlternativeTitles(int movieId) {
         var searchUrl = String.format("%s/%s/movie/%d/alternative_titles?api_key=%s", baseUrl, apiVersion, movieId, apiToken);
-        logger.info(searchUrl);
         try {
             var response = client.execute(new HttpGet(searchUrl));
             final var titles = mapper.readValue(response.getEntity().getContent(), AlternativeTitleSearchResult.class).getTitles();

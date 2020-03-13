@@ -1,18 +1,22 @@
 package com.learngine.source.streaming.en;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
-import com.learngine.source.SeleniumBrowsable;
-import com.learngine.source.SeleniumWebsiteHandler;
+import com.learngine.source.HtmlUnitBrowsable;
+import com.learngine.source.HtmlUnitWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
-import org.openqa.selenium.By;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.alternativeEncodeSearchParams;
 
-public class ISubsMovies implements Website, SeleniumBrowsable {
+public class ISubsMovies implements Website, HtmlUnitBrowsable {
     @Override
     public String getName() {
         return "I Subs Movies";
@@ -29,31 +33,30 @@ public class ISubsMovies implements Website, SeleniumBrowsable {
     }
 
     @Override
-    public SeleniumWebsiteHandler getHandler() {
+    public HtmlUnitWebsiteHandler getHandler() {
         return new Handler(this);
     }
 
-    public static class Handler extends SeleniumWebsiteHandler {
+    public static class Handler extends HtmlUnitWebsiteHandler {
 
         public Handler(Website website) {
             super(website);
         }
 
         @Override
-        protected void performSearch(String title) {
-            browser.get(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
+        protected HtmlPage performSearch(String title) throws IOException {
+            return client.getPage(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
         }
 
         @Override
-        protected List<StreamDetails> parseResults() {
-            return browser.findElements(By.tagName("figcaption"))
-                    .stream()
+        protected List<StreamDetails> parseResults(HtmlPage page) {
+            List<HtmlElement> elts = page.getByXPath("//figcaption");
+            return elts.stream()
                     .map(elt -> new StreamDetails(
-                            elt.findElement(By.tagName("h2")).getText(),
-                            elt.findElement(By.xpath(".//parent::figure/parent::a")).getAttribute("href"),
-                            website.getName())
-                    )
-                    .collect(Collectors.toList());
+                            ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
+                            buildFullLink(((HtmlAnchor) elt.getFirstByXPath(".//parent::figure/parent::a")).getHrefAttribute()),
+                            website.getName()
+                    )).collect(Collectors.toList());
         }
     }
 }

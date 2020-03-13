@@ -62,4 +62,8 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
         client.setJavaScriptTimeout(10000);
         return client;
     }
+
+    protected String buildFullLink(String relativeLink) {
+        return website.getUrl() + relativeLink;
+    }
 }

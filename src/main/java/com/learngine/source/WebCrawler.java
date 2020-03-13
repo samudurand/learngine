@@ -6,6 +6,9 @@ import com.learngine.source.metadata.MetadataService;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import com.learngine.source.streaming.en.FiveMovies;
+import com.learngine.source.streaming.en.ISubsMovies;
+import com.learngine.source.streaming.en.SolarMovie;
+import com.learngine.source.streaming.fr.StreamComplet;
 import com.learngine.source.streaming.it.AnimeAltaDefinizione;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +31,11 @@ public class WebCrawler {
 //            new Unog(),
             // French
 //            new FilmFra(),
-//            new StreamComplet(),
+            new StreamComplet(),
             // English
             new FiveMovies(),
-//            new ISubsMovies(),
-//            new SolarMovie(),
+            new ISubsMovies(),
+            new SolarMovie(),
             // Italian
 //            new AltaDefinizione(),
             new AnimeAltaDefinizione()
