@@ -49,6 +49,8 @@ public abstract class SeleniumWebsiteHandler extends WebsiteHandler {
     private WebDriver defaultBrowser() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
+        options.addArguments("--start-maximized");
+        options.addArguments("--window-size=2560,1440");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
         var browser = new ChromeDriver(options);

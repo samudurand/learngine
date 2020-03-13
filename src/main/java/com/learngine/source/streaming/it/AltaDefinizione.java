@@ -51,11 +51,11 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
 
         @Override
         protected List<StreamDetails> parseResults() {
-            return browser.findElements(By.xpath("//h2[@class='titleFilmMobile']"))
+            return browser.findElements(By.xpath("//h5[@class='titleFilm']"))
                     .stream()
                     .map(elt -> {
-                        var link = elt.findElement(By.tagName("a"));
-                        return new StreamDetails(link.getText(), link.getAttribute("href"), website.getName());
+                        var link = elt.findElement(By.xpath(".//parent::div/parent::div/parent::a"));
+                        return new StreamDetails(elt.getText(), link.getAttribute("href"), website.getName());
                     })
                     .collect(Collectors.toList());
         }

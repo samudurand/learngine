@@ -64,6 +64,10 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
     }
 
     protected String buildFullLink(String relativeLink) {
-        return website.getUrl() + relativeLink;
+        if (relativeLink.startsWith("/")) {
+            return website.getUrl() + relativeLink;
+        }
+        logger.warn("Link provided is not a relative link, formatting skipped.");
+        return relativeLink;
     }
 }
