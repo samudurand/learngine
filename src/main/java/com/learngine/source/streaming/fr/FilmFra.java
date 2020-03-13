@@ -1,8 +1,9 @@
 package com.learngine.source.streaming.fr;
 
 import com.learngine.common.Language;
+import com.learngine.source.SeleniumBrowsable;
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteHandler;
+import com.learngine.source.SeleniumWebsiteHandler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FilmFra implements Website {
+public class FilmFra implements Website, SeleniumBrowsable {
     @Override
     public String getName() {
         return "Film Fra";
@@ -33,14 +34,14 @@ public class FilmFra implements Website {
     }
 
     @Override
-    public WebsiteHandler getHandler(WebDriver browser) {
-        return new Handler(browser, this);
+    public SeleniumWebsiteHandler getHandler() {
+        return new Handler(this);
     }
 
-    private static class Handler extends WebsiteHandler {
+    private static class Handler extends SeleniumWebsiteHandler {
 
-        public Handler(WebDriver browser, Website website) {
-            super(browser, website);
+        public Handler(Website website) {
+            super(website);
         }
 
         /**

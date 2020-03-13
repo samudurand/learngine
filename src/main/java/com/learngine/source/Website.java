@@ -18,6 +18,4 @@ public interface Website {
     default Boolean isCloudflareProtected() {
         return false;
     }
-
-    WebsiteHandler getHandler(WebDriver browser);
 }

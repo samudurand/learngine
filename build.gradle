@@ -24,7 +24,8 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3:3.9'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.10.Final'
-	implementation 'org.apache.httpcomponents:httpclient:4.4.1'
+//	implementation 'org.apache.httpcomponents:httpclient:4.4.1'
+	implementation 'net.sourceforge.htmlunit:htmlunit:2.38.0'
 
 	compileOnly 'org.projectlombok:lombok:1.18.6'
 	compileOnly 'org.springframework.boot:spring-boot-devtools'

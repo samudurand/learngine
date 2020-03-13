@@ -3,6 +3,8 @@ package com.learngine.source.searchengine;
 import com.google.common.collect.Iterables;
 import com.learngine.common.Language;
 import com.learngine.configuration.SearchedFailedException;
+import com.learngine.source.SeleniumBrowsable;
+import com.learngine.source.SeleniumWebsiteHandler;
 import com.learngine.source.WebCrawler;
 import com.learngine.source.Website;
 import com.learngine.source.WebsiteHandler;
@@ -17,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Unog implements Website, SearchEngine {
+public class Unog implements Website, SearchEngine, SeleniumBrowsable {
 
     private static final String netflixUrlPattern = "https://netflix.com/title/%s";
 
@@ -42,15 +44,15 @@ public class Unog implements Website, SearchEngine {
     }
 
     @Override
-    public WebsiteHandler getHandler(WebDriver browser) {
-        return new Handler(browser, this);
+    public SeleniumWebsiteHandler getHandler() {
+        return new Handler(this);
     }
 
-    public static class Handler extends WebsiteHandler {
+    public static class Handler extends SeleniumWebsiteHandler {
         private final Logger logger = LoggerFactory.getLogger(Handler.class);
 
-        public Handler(WebDriver browser, Website website) {
-            super(browser, website);
+        public Handler(Website website) {
+            super(website);
         }
 
         @Override

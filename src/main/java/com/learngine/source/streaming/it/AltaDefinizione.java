@@ -1,8 +1,9 @@
 package com.learngine.source.streaming.it;
 
 import com.learngine.common.Language;
+import com.learngine.source.SeleniumBrowsable;
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteHandler;
+import com.learngine.source.SeleniumWebsiteHandler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
-public class AltaDefinizione implements Website {
+public class AltaDefinizione implements Website, SeleniumBrowsable {
 
     @Override
     public String getName() {
@@ -36,13 +37,13 @@ public class AltaDefinizione implements Website {
     }
 
     @Override
-    public WebsiteHandler getHandler(WebDriver browser) {
-        return new Handler(browser, this);
+    public SeleniumWebsiteHandler getHandler() {
+        return new Handler(this);
     }
 
-    public static class Handler extends WebsiteHandler {
-        public Handler(WebDriver browser, Website website) {
-            super(browser, website);
+    public static class Handler extends SeleniumWebsiteHandler {
+        public Handler(Website website) {
+            super(website);
         }
 
         @Override
