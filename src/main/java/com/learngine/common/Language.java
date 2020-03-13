@@ -2,7 +2,11 @@ package com.learngine.common;
 
 import java.util.List;
 
-import static com.learngine.common.Country.*;
+import static com.learngine.common.Country.ES;
+import static com.learngine.common.Country.FR;
+import static com.learngine.common.Country.GB;
+import static com.learngine.common.Country.IT;
+import static com.learngine.common.Country.US;
 
 //TODO consider using Locale.getIsoLanguage() or even http://site.icu-project.org/ for complete support
 // https://www.tutorialspoint.com/java/util/locale_getisolanguages.htm
@@ -33,6 +37,7 @@ public enum Language {
     public String getShortName() {
         return shortName;
     }
+
     public List<Country> getCountries() {
         return countries;
     }

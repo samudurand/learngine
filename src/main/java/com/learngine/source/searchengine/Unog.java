@@ -1,18 +1,13 @@
 package com.learngine.source.searchengine;
 
-import com.google.common.collect.Iterables;
 import com.learngine.common.Language;
 import com.learngine.configuration.SearchedFailedException;
 import com.learngine.source.SeleniumBrowsable;
 import com.learngine.source.SeleniumWebsiteHandler;
-import com.learngine.source.WebCrawler;
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteHandler;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

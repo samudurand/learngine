@@ -1,9 +1,9 @@
 package com.learngine.api;
 
+import com.learngine.api.domain.MovieSummary;
 import com.learngine.api.domain.StreamsSearchResults;
 import com.learngine.common.Language;
 import com.learngine.source.WebCrawler;
-import com.learngine.api.domain.MovieSummary;
 import com.learngine.source.metadata.MetadataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

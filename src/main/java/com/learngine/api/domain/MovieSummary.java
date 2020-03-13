@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +13,7 @@ public class MovieSummary {
     private String title;
     private String imageUrl;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
 }

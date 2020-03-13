@@ -2,11 +2,10 @@ package com.learngine.source.streaming.it;
 
 import com.learngine.common.Language;
 import com.learngine.source.SeleniumBrowsable;
-import com.learngine.source.Website;
 import com.learngine.source.SeleniumWebsiteHandler;
+import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

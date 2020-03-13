@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.learngine.configuration.MetadataRetrievalFailedException;
-import com.learngine.source.HttpUtils;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.AlternativeTitleSearchResult;
 import com.learngine.source.metadata.domain.MovieMetadata;
@@ -25,14 +24,12 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class TheMovieDB {
 
-    private final Logger logger = LoggerFactory.getLogger(TheMovieDB.class);
-
     final CloseableHttpClient client = HttpClients.createDefault();
-
-    @Value("${themoviedb.url}" )
+    private final Logger logger = LoggerFactory.getLogger(TheMovieDB.class);
+    @Value("${themoviedb.url}")
     private String baseUrl;
 
-    @Value("${themoviedb.apiVersion}" )
+    @Value("${themoviedb.apiVersion}")
     private String apiVersion;
 
     @Value("${themoviedb.apiToken}")

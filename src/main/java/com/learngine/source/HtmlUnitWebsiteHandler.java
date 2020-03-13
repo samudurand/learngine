@@ -5,15 +5,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.configuration.SearchedFailedException;
 import com.learngine.source.streaming.StreamDetails;
 import org.apache.commons.lang3.NotImplementedException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
 

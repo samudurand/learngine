@@ -9,7 +9,6 @@ import com.learngine.source.HtmlUnitBrowsable;
 import com.learngine.source.HtmlUnitWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
-import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 import java.util.List;

@@ -61,7 +61,7 @@ public class WebCrawler {
                             return results;
                         } else {
                             handler = ((SeleniumBrowsable) website).getHandler();
-                            var results = ((SeleniumWebsiteHandler)handler).searchTitleByName(movieTitle);
+                            var results = ((SeleniumWebsiteHandler) handler).searchTitleByName(movieTitle);
                             handler.closeClient();
                             return results;
                         }

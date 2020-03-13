@@ -1,7 +1,7 @@
 package com.learngine.source.metadata;
 
-import com.learngine.common.Language;
 import com.learngine.api.domain.MovieSummary;
+import com.learngine.common.Language;
 import com.learngine.configuration.MetadataRetrievalFailedException;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import org.springframework.beans.factory.annotation.Autowired;
