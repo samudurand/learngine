@@ -52,14 +52,24 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
 
         @Override
         protected void performSearch(String title) {
-            var searchTextField = browser.findElement(By.id("atitle"));
-            var searchButton = browser.findElement(By.id("asfbutton"));
-
             try {
+                // Prevent failed loading of the main page
+                browser.get("http://localhost");
+                navigateToWebsite();
+
+                // Attempt to handle ads redirection
+                if (!browser.getCurrentUrl().contains(website.getUrl())) {
+                    navigateToWebsite();
+                }
+
                 // Wait a little to leave some time to the JS to execute
                 Thread.sleep(2000);
+
+                var searchTextField = browser.findElement(By.id("atitle"));
+                var searchButton = browser.findElement(By.id("asfbutton"));
                 searchTextField.sendKeys(title);
                 searchButton.click();
+
             } catch (InterruptedException e) {
                 throw new SearchedFailedException();
             }

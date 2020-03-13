@@ -48,6 +48,7 @@ public class FilmFra implements Website, SeleniumBrowsable {
          */
         @Override
         protected void performSearch(String title) {
+            navigateToWebsite();
             var searchTextField = browser.findElement(By.id("tags"));
             searchTextField.sendKeys(title);
         }
