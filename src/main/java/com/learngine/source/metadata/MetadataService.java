@@ -20,7 +20,7 @@ public class MetadataService {
     private TheMovieDB metadataSource;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private String imageDimensions = "w92";
-    private String baseImagePath = "http://image.tmdb.org/t/p/w92";
+    private String baseImagePath = "http://image.tmdb.org/t/p/" + imageDimensions;
 
     @Autowired
     public MetadataService(TheMovieDB metadataSource) {
