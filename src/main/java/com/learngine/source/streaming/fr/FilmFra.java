@@ -10,15 +10,16 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Component
 public class FilmFra implements Website, SeleniumBrowsable {
 
-    private final WebDriver browser;
+    private final Supplier<WebDriver> browserSupplier;
 
-    public FilmFra(WebDriver browser) {
-        this.browser = browser;
+    public FilmFra(Supplier<WebDriver> browserSupplier) {
+        this.browserSupplier = browserSupplier;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class FilmFra implements Website, SeleniumBrowsable {
 
     @Override
     public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this, browser);
+        return new Handler(this, browserSupplier.get());
     }
 
     private static class Handler extends SeleniumWebsiteHandler {

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
@@ -19,10 +20,10 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
 
-    private final WebDriver browser;
+    private final Supplier<WebDriver> browserSupplier;
 
-    public AnimeAltaDefinizione(WebDriver browser) {
-        this.browser = browser;
+    public AnimeAltaDefinizione(Supplier<WebDriver> browserSupplier) {
+        this.browserSupplier = browserSupplier;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
 
     @Override
     public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this, browser);
+        return new Handler(this, browserSupplier.get());
     }
 
     public static class Handler extends SeleniumWebsiteHandler {

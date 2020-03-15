@@ -14,16 +14,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Component
 public class Unog implements Website, SearchEngine, SeleniumBrowsable {
 
     private static final String netflixUrlPattern = "https://netflix.com/title/%s";
-    private final WebDriver browser;
+    private final Supplier<WebDriver> browserSupplier;
 
-    public Unog(WebDriver browser) {
-        this.browser = browser;
+    public Unog(Supplier<WebDriver> browser) {
+        this.browserSupplier = browser;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
 
     @Override
     public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this, browser);
+        return new Handler(this, browserSupplier.get());
     }
 
     public static class Handler extends SeleniumWebsiteHandler {

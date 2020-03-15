@@ -7,10 +7,10 @@ import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
@@ -18,10 +18,10 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class AltaDefinizione implements Website, SeleniumBrowsable {
 
-    private final WebDriver browser;
+    private final Supplier<WebDriver> browserSupplier;
 
-    public AltaDefinizione(WebDriver browser) {
-        this.browser = browser;
+    public AltaDefinizione(Supplier<WebDriver> browserSupplier) {
+        this.browserSupplier = browserSupplier;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
 
     @Override
     public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this, browser);
+        return new Handler(this, browserSupplier.get());
     }
 
     public static class Handler extends SeleniumWebsiteHandler {
