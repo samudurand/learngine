@@ -13,19 +13,11 @@ ENV CHROME_DRIVER_VERSION="80"
 
 EXPOSE 9000
 
-RUN mkdir /app
+RUN apt-get update -y
 
-# Install chrome
-RUN apt-get update && apt-get install -y \
-    wget fonts-liberation libappindicator3-1 libasound2 libnspr4 libnss3 libx11-xcb1 libxss1 xdg-utils xvfb \
-    && wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb \
-    && dpkg -i google-chrome*.deb \
-    && apt-get -fy install
-RUN apt-get install -y xvfb
-
+RUN useradd -ms /bin/bash learngine
 USER learngine
 
-COPY drivers/chromedriver_${CHROME_DRIVER_VERSION} /app/drivers/chromedriver
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/learngine.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /home/learngine/learngine.jar
 
-ENTRYPOINT ["java", "-Dwebdriver.chrome.driver=/app/drivers/chromedriver", "-jar", "/app/learngine.jar"]
+ENTRYPOINT ["java", "-Dwebdriver.chrome.driver=/app/drivers/chromedriver", "-Dspring.profiles.active=dev", "-jar", "/home/learngine/learngine.jar"]

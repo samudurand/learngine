@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +41,7 @@ public class SeleniumConfig {
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Profile("dev | preprod | prod")
-    public Supplier<WebDriver> remoteBrowser() {
+    public Supplier<WebDriver> remoteBrowser(@Value("${selenium.node.url}") String seleniumNodeUrl) {
         return () -> {
             var options = new ChromeOptions();
             options.addArguments("--disable-notifications");
@@ -50,7 +51,7 @@ public class SeleniumConfig {
             capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
             try {
-                var browser = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+                var browser = new RemoteWebDriver(new URL(seleniumNodeUrl), capabilities);
                 browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 return browser;
             } catch (MalformedURLException e) {

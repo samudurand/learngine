@@ -1,0 +1,6 @@
+server:
+  port: 9000
+
+selenium:
+  node:
+    url: http://host.docker.internal:4444/wd/hub
