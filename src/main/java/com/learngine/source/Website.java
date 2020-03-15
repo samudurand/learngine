@@ -1,6 +1,7 @@
 package com.learngine.source;
 
 import com.learngine.common.Language;
+import org.springframework.stereotype.Component;
 
 public interface Website {
     String getName();

@@ -5,10 +5,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
-import com.learngine.source.HtmlUnitBrowsable;
-import com.learngine.source.HtmlUnitWebsiteHandler;
+import com.learngine.source.htmlunit.HtmlUnitBrowsable;
+import com.learngine.source.htmlunit.HtmlUnitWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
+@Component
 public class FiveMovies implements Website, HtmlUnitBrowsable {
     @Override
     public String getName() {

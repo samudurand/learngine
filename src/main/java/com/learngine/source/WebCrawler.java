@@ -2,17 +2,11 @@ package com.learngine.source;
 
 import com.learngine.api.domain.StreamsSearchResults;
 import com.learngine.common.Language;
+import com.learngine.source.htmlunit.HtmlUnitBrowsable;
 import com.learngine.source.metadata.MetadataService;
-import com.learngine.source.searchengine.Unog;
+import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
-import com.learngine.source.streaming.en.FiveMovies;
-import com.learngine.source.streaming.en.ISubsMovies;
-import com.learngine.source.streaming.en.SolarMovie;
-import com.learngine.source.streaming.fr.FilmFra;
-import com.learngine.source.streaming.fr.StreamComplet;
-import com.learngine.source.streaming.it.AltaDefinizione;
-import com.learngine.source.streaming.it.AnimeAltaDefinizione;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,25 +22,12 @@ public class WebCrawler {
     private final Logger logger = LoggerFactory.getLogger(WebCrawler.class);
 
     private final MetadataService metadataSource;
-
-    private final List<Website> sources = List.of(
-            // Search Engines
-            new Unog(),
-            // French
-            new FilmFra(),
-            new StreamComplet(),
-            // English
-            new FiveMovies(),
-            new ISubsMovies(),
-            new SolarMovie(),
-            // Italian
-            new AltaDefinizione(),
-            new AnimeAltaDefinizione()
-    );
+    private final List<Website> streamingSources;
 
     @Autowired
-    public WebCrawler(final MetadataService metadataSource) {
+    public WebCrawler(final MetadataService metadataSource, List<Website> streamingSources) {
         this.metadataSource = metadataSource;
+        this.streamingSources = streamingSources;
     }
 
     public StreamsSearchResults search(String movieTitle, Integer movieId, Language audio, Language subtitles) {
@@ -94,7 +75,7 @@ public class WebCrawler {
     }
 
     private List<Website> findCompatibleSources(Language audio) {
-        return sources.stream()
+        return streamingSources.stream()
                 .filter(website -> website instanceof SearchEngine || website.getAudioLanguage().equals(audio))
                 .collect(Collectors.toList());
     }

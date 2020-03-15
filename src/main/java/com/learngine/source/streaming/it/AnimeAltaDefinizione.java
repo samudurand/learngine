@@ -1,20 +1,29 @@
 package com.learngine.source.streaming.it;
 
 import com.learngine.common.Language;
-import com.learngine.source.SeleniumBrowsable;
-import com.learngine.source.SeleniumWebsiteHandler;
+import com.learngine.source.selenium.SeleniumBrowsable;
+import com.learngine.source.selenium.SeleniumWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
+@Component
 public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
+
+    private final WebDriver browser;
+
+    public AnimeAltaDefinizione(WebDriver browser) {
+        this.browser = browser;
+    }
 
     @Override
     public String getName() {
@@ -38,14 +47,14 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
 
     @Override
     public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this);
+        return new Handler(this, browser);
     }
 
     public static class Handler extends SeleniumWebsiteHandler {
         private final Logger logger = LoggerFactory.getLogger(Handler.class);
 
-        public Handler(Website website) {
-            super(website);
+        public Handler(Website website, WebDriver browser) {
+            super(website, browser);
         }
 
         @Override

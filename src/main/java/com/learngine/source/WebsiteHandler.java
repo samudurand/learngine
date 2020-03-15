@@ -13,7 +13,7 @@ public abstract class WebsiteHandler {
         this.website = website;
     }
 
-    protected void closeClient() {
+    public void closeClient() {
         throw new NotImplementedException("Method not yet implemented");
     }
 }

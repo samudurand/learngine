@@ -1,16 +1,26 @@
 package com.learngine.source.streaming.fr;
 
 import com.learngine.common.Language;
-import com.learngine.source.SeleniumBrowsable;
-import com.learngine.source.SeleniumWebsiteHandler;
+import com.learngine.source.selenium.SeleniumBrowsable;
+import com.learngine.source.selenium.SeleniumWebsiteHandler;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class FilmFra implements Website, SeleniumBrowsable {
+
+    private final WebDriver browser;
+
+    public FilmFra(WebDriver browser) {
+        this.browser = browser;
+    }
+
     @Override
     public String getName() {
         return "Film Fra";
@@ -33,13 +43,13 @@ public class FilmFra implements Website, SeleniumBrowsable {
 
     @Override
     public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this);
+        return new Handler(this, browser);
     }
 
     private static class Handler extends SeleniumWebsiteHandler {
 
-        public Handler(Website website) {
-            super(website);
+        public Handler(Website website, WebDriver browser) {
+            super(website, browser);
         }
 
         /**
