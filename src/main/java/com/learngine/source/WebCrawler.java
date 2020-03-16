@@ -1,6 +1,5 @@
 package com.learngine.source;
 
-import com.learngine.api.domain.StreamsSearchResults;
 import com.learngine.common.Language;
 import com.learngine.source.htmlunit.HtmlUnitBrowsable;
 import com.learngine.source.metadata.MetadataService;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class WebCrawler {
@@ -30,22 +30,24 @@ public class WebCrawler {
         this.streamingSources = streamingSources;
     }
 
-    public StreamsSearchResults search(String movieTitle, Integer movieId, Language audio, Language subtitles) {
+    public Stream<StreamDetails> search(String movieTitle, Integer movieId, Language audio, Language subtitles, Boolean includeSearchEngines) {
         final var alternativeTitles = metadataSource.findLocalizedTitles(movieTitle, movieId, audio);
         final var compatibleSources = findCompatibleSources(audio);
 
-        var streams = compatibleSources.parallelStream()
+        return compatibleSources.parallelStream()
                 .map(website -> {
+                    if (website instanceof SearchEngine && !includeSearchEngines) {
+                        return new ArrayList<StreamDetails>();
+                    }
                     if (website instanceof HtmlUnitBrowsable) {
                         return performHeadlessSearch(movieTitle, website);
                     } else {
                         return performBrowserSearch(movieTitle, website);
                     }
                 })
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+                .flatMap(List::stream);
 
-        return new StreamsSearchResults(streams, alternativeTitles);
+//        return new StreamsSearchResults(streams, alternativeTitles);
     }
 
     private List<StreamDetails> performBrowserSearch(String movieTitle, Website website) {

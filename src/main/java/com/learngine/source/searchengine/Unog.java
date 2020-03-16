@@ -2,9 +2,9 @@ package com.learngine.source.searchengine;
 
 import com.learngine.common.Language;
 import com.learngine.configuration.SearchedFailedException;
+import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.selenium.SeleniumWebsiteHandler;
-import com.learngine.source.Website;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
