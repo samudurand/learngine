@@ -2,7 +2,7 @@ package com.learngine.source.htmlunit;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.configuration.SearchedFailedException;
+import com.learngine.configuration.SearchFailedException;
 import com.learngine.source.Website;
 import com.learngine.source.WebsiteHandler;
 import com.learngine.source.streaming.StreamDetails;
@@ -36,7 +36,7 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
             return resultsFound;
         } catch (IOException e) {
             logger.error("Could not perform search.", e);
-            throw new SearchedFailedException();
+            throw new SearchFailedException();
         }
     }
 

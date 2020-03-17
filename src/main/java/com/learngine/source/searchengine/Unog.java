@@ -1,7 +1,7 @@
 package com.learngine.source.searchengine;
 
 import com.learngine.common.Language;
-import com.learngine.configuration.SearchedFailedException;
+import com.learngine.configuration.SearchFailedException;
 import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.selenium.SeleniumWebsiteHandler;
@@ -67,9 +67,9 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
                 navigateToWebsite();
 
                 // Attempt to handle ads redirection
-                if (!browser.getCurrentUrl().contains(website.getUrl())) {
-                    navigateToWebsite();
-                }
+                //if (!browser.getCurrentUrl().contains(website.getUrl())) {
+                //    navigateToWebsite();
+                //}
 
                 // Wait a little to leave some time to the JS to execute
                 Thread.sleep(2000);
@@ -79,8 +79,8 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
                 searchTextField.sendKeys(title);
                 searchButton.click();
 
-            } catch (InterruptedException e) {
-                throw new SearchedFailedException();
+            } catch (Exception e) {
+                throw new SearchFailedException();
             }
         }
 

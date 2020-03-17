@@ -10,11 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.ParallelFlux;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class WebCrawler {
@@ -30,22 +32,24 @@ public class WebCrawler {
         this.streamingSources = streamingSources;
     }
 
-    public Stream<StreamDetails> search(String movieTitle, Integer movieId, Language audio, Language subtitles, Boolean includeSearchEngines) {
+    public ParallelFlux<StreamDetails> search(String movieTitle, Integer movieId, Language audio, Language subtitles, Boolean includeSearchEngines) {
         final var alternativeTitles = metadataSource.findLocalizedTitles(movieTitle, movieId, audio);
         final var compatibleSources = findCompatibleSources(audio);
 
-        return compatibleSources.parallelStream()
-                .map(website -> {
+        return Flux.fromIterable(compatibleSources)
+                .parallel()
+                .runOn(Schedulers.parallel())
+                .flatMap(website -> {
+                    logger.info("Start search for " + website.getName());
                     if (website instanceof SearchEngine && !includeSearchEngines) {
-                        return new ArrayList<StreamDetails>();
+                        return Flux.fromIterable(new ArrayList<StreamDetails>());
                     }
                     if (website instanceof HtmlUnitBrowsable) {
-                        return performHeadlessSearch(movieTitle, website);
+                        return Flux.fromIterable(performHeadlessSearch(movieTitle, website));
                     } else {
-                        return performBrowserSearch(movieTitle, website);
+                        return Flux.fromIterable(performBrowserSearch(movieTitle, website));
                     }
-                })
-                .flatMap(List::stream);
+                });
 
 //        return new StreamsSearchResults(streams, alternativeTitles);
     }

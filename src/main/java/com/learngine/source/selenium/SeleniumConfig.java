@@ -1,6 +1,6 @@
 package com.learngine.source.selenium;
 
-import com.learngine.configuration.SearchedFailedException;
+import com.learngine.configuration.SearchFailedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -22,15 +22,19 @@ import java.util.function.Supplier;
 public class SeleniumConfig {
 
     @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Profile("default")
-    public Supplier<WebDriver> defaultBrowser() {
-        return () -> {
-            var options = new ChromeOptions();
-            options.addArguments("--disable-notifications");
-            options.addArguments("--start-maximized");
-            options.addArguments("--window-size=2560,1440");
+    public ChromeOptions browserOptions() {
+        var options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+        options.addArguments("--start-maximized");
+        options.addArguments("--window-size=2560,1440");
+        return options;
+    }
 
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    @Profile("local-driver")
+    public Supplier<WebDriver> defaultBrowser(ChromeOptions options) {
+        return () -> {
             System.setProperty("webdriver.chrome.silentOutput", "true");
             var browser = new ChromeDriver(options);
             browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -40,13 +44,9 @@ public class SeleniumConfig {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Profile("dev | preprod | prod")
-    public Supplier<WebDriver> remoteBrowser(@Value("${selenium.node.url}") String seleniumNodeUrl) {
+    @Profile("default | dev | preprod | prod")
+    public Supplier<WebDriver> remoteBrowser(@Value("${selenium.node.url}") String seleniumNodeUrl, ChromeOptions options) {
         return () -> {
-            var options = new ChromeOptions();
-            options.addArguments("--disable-notifications");
-            options.addArguments("--start-maximized");
-            options.addArguments("--window-size=2560,1440");
             var capabilities = DesiredCapabilities.chrome();
             capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
@@ -55,7 +55,7 @@ public class SeleniumConfig {
                 browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 return browser;
             } catch (MalformedURLException e) {
-                throw new SearchedFailedException();
+                throw new SearchFailedException();
             }
         };
     }

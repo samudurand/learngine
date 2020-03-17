@@ -5,3 +5,10 @@ themoviedb:
 
 server:
   port: 9000
+
+selenium:
+  node:
+    url: http://localhost:4444/wd/hub
+
+learngineui:
+  domain: http://localhost:3000

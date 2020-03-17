@@ -1,6 +1,6 @@
 package com.learngine.source;
 
-import com.learngine.configuration.SearchedFailedException;
+import com.learngine.configuration.SearchFailedException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,7 +11,7 @@ public class HttpUtils {
         try {
             return URLEncoder.encode(param, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            throw new SearchedFailedException();
+            throw new SearchFailedException();
         }
     }
 

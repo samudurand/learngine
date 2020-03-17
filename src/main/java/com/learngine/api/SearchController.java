@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.ParallelFlux;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,10 +39,9 @@ public class SearchController {
         return metadataService.findMatchingMovies(title);
     }
 
-
     @GetMapping(value = "/search/streams", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 //    @GetMapping(value="/search/streams")
-    public Flux<StreamDetails> searchForTitle(
+    public ParallelFlux<StreamDetails> searchForTitle(
             @RequestParam @NotNull String title,
             @RequestParam @NotNull Integer movieId,
             @RequestParam(defaultValue = "en") Language audio,
@@ -50,7 +49,7 @@ public class SearchController {
             @RequestParam(required = false, defaultValue = "false") Boolean engines
     ) {
         logger.info("call");
-        return Flux.fromStream(crawler.search(title, movieId, audio, subtitles, engines));
+        return crawler.search(title, movieId, audio, subtitles, engines);
     }
 
 }
