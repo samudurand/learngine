@@ -15,9 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
-import java.util.List;
 
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
@@ -42,27 +42,27 @@ public class TheMovieDB {
 
     private String baseFormattedUrl;
 
-    public List<MovieMetadata> findMoviesByTitle(String title) {
+    public Flux<MovieMetadata> findMoviesByTitle(String title) {
         var searchUrl = String.format("%s/%s/search/movie?api_key=%s&query=%s", baseUrl, apiVersion, apiToken, encodeSearchParams(title));
         logger.info(searchUrl);
         try {
             var response = client.execute(new HttpGet(searchUrl));
             final var movies = mapper.readValue(response.getEntity().getContent(), MovieMetadataSearchResult.class).getMovies();
             logger.debug("Movies found for title '{}': \n {}", title, movies);
-            return movies;
+            return Flux.fromIterable(movies);
         } catch (IOException e) {
             logger.error("Could not retrieve titles matching '" + title + "'", e);
             throw new MetadataRetrievalFailedException();
         }
     }
 
-    public List<AlternativeTitle> findAlternativeTitles(int movieId) {
+    public Flux<AlternativeTitle> findAlternativeTitles(int movieId) {
         var searchUrl = String.format("%s/%s/movie/%d/alternative_titles?api_key=%s", baseUrl, apiVersion, movieId, apiToken);
         try {
             var response = client.execute(new HttpGet(searchUrl));
             final var titles = mapper.readValue(response.getEntity().getContent(), AlternativeTitleSearchResult.class).getTitles();
             logger.debug("Alternative titles for movie '{}': \n {}", movieId, titles);
-            return titles;
+            return Flux.fromIterable(titles);
         } catch (IOException e) {
             logger.error("Could not retrieve alternative titles for movie '" + movieId + "'", e);
             throw new MetadataRetrievalFailedException();

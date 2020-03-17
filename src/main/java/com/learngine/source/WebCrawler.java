@@ -2,7 +2,6 @@ package com.learngine.source;
 
 import com.learngine.common.Language;
 import com.learngine.source.htmlunit.HtmlUnitBrowsable;
-import com.learngine.source.metadata.MetadataService;
 import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
@@ -16,27 +15,21 @@ import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class WebCrawler {
 
     private final Logger logger = LoggerFactory.getLogger(WebCrawler.class);
 
-    private final MetadataService metadataSource;
     private final List<Website> streamingSources;
 
     @Autowired
-    public WebCrawler(final MetadataService metadataSource, List<Website> streamingSources) {
-        this.metadataSource = metadataSource;
+    public WebCrawler(final List<Website> streamingSources) {
         this.streamingSources = streamingSources;
     }
 
-    public ParallelFlux<StreamDetails> search(String movieTitle, Integer movieId, Language audio, Language subtitles, Boolean includeSearchEngines) {
-        final var alternativeTitles = metadataSource.findLocalizedTitles(movieTitle, movieId, audio);
-        final var compatibleSources = findCompatibleSources(audio);
-
-        return Flux.fromIterable(compatibleSources)
+    public ParallelFlux<StreamDetails> search(String movieTitle, Language audio, Language subtitles, Boolean includeSearchEngines) {
+        return findCompatibleSources(audio)
                 .parallel()
                 .runOn(Schedulers.parallel())
                 .flatMap(website -> {
@@ -50,8 +43,6 @@ public class WebCrawler {
                         return Flux.fromIterable(performBrowserSearch(movieTitle, website));
                     }
                 });
-
-//        return new StreamsSearchResults(streams, alternativeTitles);
     }
 
     private List<StreamDetails> performBrowserSearch(String movieTitle, Website website) {
@@ -80,10 +71,9 @@ public class WebCrawler {
         }
     }
 
-    private List<Website> findCompatibleSources(Language audio) {
-        return streamingSources.stream()
-                .filter(website -> website instanceof SearchEngine || website.getAudioLanguage().equals(audio))
-                .collect(Collectors.toList());
+    private Flux<Website> findCompatibleSources(Language audio) {
+        return Flux.fromIterable(streamingSources)
+                .filter(website -> website instanceof SearchEngine || website.getAudioLanguage().equals(audio));
     }
 
 //    private List<StreamDetails> findMatchingTitles(String searchedName, List<StreamDetails> titlesFound) {

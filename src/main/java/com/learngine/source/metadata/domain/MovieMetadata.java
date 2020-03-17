@@ -13,7 +13,7 @@ public class MovieMetadata {
     String originalTitle;
 
     @JsonProperty("release_date")
-    String releaseDate;
+    Optional<String> releaseDate;
 
     @JsonProperty("poster_path")
     Optional<String> posterPath;
