@@ -35,7 +35,7 @@ public class WebCrawler {
                 .flatMap(website -> {
                     logger.info("Start search for " + website.getName());
                     if (website instanceof SearchEngine && !includeSearchEngines) {
-                        return Flux.fromIterable(new ArrayList<StreamDetails>());
+                        return Flux.fromIterable(new ArrayList<>());
                     }
                     if (website instanceof HtmlUnitBrowsable) {
                         return Flux.fromIterable(performHeadlessSearch(movieTitle, website));
@@ -54,7 +54,7 @@ public class WebCrawler {
         } catch (Exception ex) {
             logger.error("An exception occurred during the search on website " + website.getName(), ex);
             handler.closeClient();
-            return new ArrayList<StreamDetails>();
+            return new ArrayList<>();
         }
     }
 
@@ -67,7 +67,7 @@ public class WebCrawler {
         } catch (Exception ex) {
             logger.error("An exception occurred during the search on website " + website.getName(), ex);
             handler.closeClient();
-            return new ArrayList<StreamDetails>();
+            return new ArrayList<>();
         }
     }
 

@@ -9,8 +9,6 @@ import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -53,7 +51,6 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
     }
 
     public static class Handler extends SeleniumWebsiteHandler {
-        private final Logger logger = LoggerFactory.getLogger(Handler.class);
 
         public Handler(Website website, WebDriver browser) {
             super(website, browser);

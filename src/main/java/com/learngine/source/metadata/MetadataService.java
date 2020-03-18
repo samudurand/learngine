@@ -19,10 +19,10 @@ public class MetadataService {
 
     private final Logger logger = LoggerFactory.getLogger(MetadataService.class);
 
-    private TheMovieDB metadataSource;
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    private String imageDimensions = "w92";
-    private String baseImagePath = "http://image.tmdb.org/t/p/" + imageDimensions;
+    private final TheMovieDB metadataSource;
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private final String imageDimensions = "w92";
+    private final String baseImagePath = "http://image.tmdb.org/t/p/" + imageDimensions;
 
     @Autowired
     public MetadataService(TheMovieDB metadataSource) {
@@ -54,7 +54,7 @@ public class MetadataService {
         return posterPath.map(path -> String.format("%s%s", baseImagePath, path)).orElse("");
     }
 
-    public Flux<String> findLocalizedTitles(String submittedTitle, Integer movieId, Language audio) {
+    public Flux<String> findLocalizedTitles(Integer movieId, Language audio) {
         return metadataSource.findAlternativeTitles(movieId)
                 .filter(title -> audio.getCountries().contains(title.getCountry()))
                 .map(AlternativeTitle::getTitle);

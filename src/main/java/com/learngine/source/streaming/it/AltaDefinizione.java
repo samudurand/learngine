@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,11 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
     @Override
     public String getUrl() {
         return "https://altadefinizione.style";
+    }
+
+    @Override
+    public Optional<String> getReferenceUrl() {
+        return Optional.of("https://altadefinizione-nuovo.info");
     }
 
     @Override

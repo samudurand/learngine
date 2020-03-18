@@ -15,8 +15,8 @@ import java.util.List;
 
 public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
 
-    protected WebClient client = defaultWebClient();
-    private Logger logger = LoggerFactory.getLogger(HtmlUnitWebsiteHandler.class);
+    protected final WebClient client = defaultWebClient();
+    private final Logger logger = LoggerFactory.getLogger(HtmlUnitWebsiteHandler.class);
 
     public HtmlUnitWebsiteHandler(Website website) {
         super(website);
