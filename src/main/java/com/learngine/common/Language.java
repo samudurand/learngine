@@ -20,7 +20,7 @@ public enum Language {
     private final String shortName;
     private final List<Country> countries;
 
-    private Language(String shortName, List<Country> countries) {
+    Language(String shortName, List<Country> countries) {
         this.shortName = shortName;
         this.countries = countries;
     }

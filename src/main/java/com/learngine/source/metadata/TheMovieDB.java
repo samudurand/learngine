@@ -23,7 +23,7 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 
 @Component
 public class TheMovieDB {
-
+    
     final CloseableHttpClient client = HttpClients.createDefault();
     private final Logger logger = LoggerFactory.getLogger(TheMovieDB.class);
     @Value("${themoviedb.url}")
@@ -39,8 +39,6 @@ public class TheMovieDB {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
             .registerModule(new Jdk8Module());
-
-    private String baseFormattedUrl;
 
     public Flux<MovieMetadata> findMoviesByTitle(String title) {
         var searchUrl = String.format("%s/%s/search/movie?api_key=%s&query=%s", baseUrl, apiVersion, apiToken, encodeSearchParams(title));

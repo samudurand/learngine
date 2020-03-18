@@ -11,5 +11,5 @@ public enum Country {
     US, // United States
 
     @JsonEnumDefaultValue
-    UKNOWN; // For all country codes not handled
+    UKNOWN // For all country codes not handled
 }
