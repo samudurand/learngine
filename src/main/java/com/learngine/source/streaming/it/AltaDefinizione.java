@@ -77,7 +77,7 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
                     .stream()
                     .map(elt -> {
                         var link = elt.findElement(By.xpath(".//parent::div/parent::div/parent::a"));
-                        return new StreamDetails(elt.getText(), link.getAttribute("href"), website.getName());
+                        return new StreamDetails(elt.getText(), link.getAttribute("href"), website.getId(), website.getName());
                     })
                     .collect(Collectors.toList());
         }

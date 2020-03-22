@@ -63,6 +63,7 @@ public class StreamComplet implements Website, HtmlUnitBrowsable {
                         return new StreamDetails(
                                 link.getTextContent(),
                                 buildFullLink(link.getHrefAttribute()),
+                                website.getId(),
                                 website.getName()
                         );
                     }).collect(Collectors.toList());

@@ -63,6 +63,7 @@ public class SolarMovie implements Website, HtmlUnitBrowsable {
                         return new StreamDetails(
                                 link.getTextContent(),
                                 link.getHrefAttribute(),
+                                website.getId(),
                                 website.getName()
                         );
                     }).collect(Collectors.toList());

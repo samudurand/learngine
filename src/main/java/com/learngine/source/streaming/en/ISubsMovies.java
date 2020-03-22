@@ -62,6 +62,7 @@ public class ISubsMovies implements Website, HtmlUnitBrowsable {
                     .map(elt -> new StreamDetails(
                             ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
                             buildFullLink(((HtmlAnchor) elt.getFirstByXPath(".//parent::figure/parent::a")).getHrefAttribute()),
+                            website.getId(),
                             website.getName()
                     )).collect(Collectors.toList());
         }

@@ -76,7 +76,7 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
                     .stream()
                     .map(elt -> {
                         var link = elt.findElement(By.tagName("h3")).findElement(By.tagName("a"));
-                        return new StreamDetails(link.getText(), link.getAttribute("href"), website.getName());
+                        return new StreamDetails(link.getText(), link.getAttribute("href"), website.getId(), website.getName());
                     })
                     .collect(Collectors.toList());
         }
