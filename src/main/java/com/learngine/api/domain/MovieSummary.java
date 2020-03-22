@@ -13,7 +13,7 @@ public class MovieSummary {
     private String title;
     private String imageUrl;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy")
     private Date date;
 
 }
