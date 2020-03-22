@@ -26,6 +26,11 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
     }
 
     @Override
+    public String getId() {
+        return "netflix";
+    }
+
+    @Override
     public String getName() {
         return "Netflix";
     }
@@ -88,6 +93,7 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
                     .map(elt -> new StreamDetails(
                             elt.findElement(By.tagName("b")).getText(),
                             convertNetflixURL(elt.findElement(By.xpath(".//parent::a")).getAttribute("href")),
+                            website.getId(),
                             website.getName()
                     ))
                     .collect(Collectors.toList());

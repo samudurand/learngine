@@ -19,6 +19,11 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class StreamComplet implements Website, HtmlUnitBrowsable {
     @Override
+    public String getId() {
+        return "streamcomplet";
+    }
+
+    @Override
     public String getName() {
         return "Stream Complet";
     }

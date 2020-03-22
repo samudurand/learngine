@@ -27,6 +27,11 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
     }
 
     @Override
+    public String getId() {
+        return "animealtadefinizione";
+    }
+
+    @Override
     public String getName() {
         return "Anime Alta Definizione";
     }

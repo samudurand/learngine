@@ -26,6 +26,11 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
     }
 
     @Override
+    public String getId() {
+        return "altadefinizione";
+    }
+
+    @Override
     public String getName() {
         return "Alta Definizione";
     }

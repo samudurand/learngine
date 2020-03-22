@@ -20,6 +20,11 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class FiveMovies implements Website, HtmlUnitBrowsable {
     @Override
+    public String getId() {
+        return "5movies";
+    }
+
+    @Override
     public String getName() {
         return "5 Movies";
     }
@@ -57,6 +62,7 @@ public class FiveMovies implements Website, HtmlUnitBrowsable {
                     .map(elt -> new StreamDetails(
                             ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
                             ((HtmlAnchor) elt.getFirstByXPath(".//a")).getHrefAttribute(),
+                            website.getId(),
                             website.getName()
                     )).collect(Collectors.toList());
         }

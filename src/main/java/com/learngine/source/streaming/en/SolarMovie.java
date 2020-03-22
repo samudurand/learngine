@@ -19,6 +19,11 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class SolarMovie implements Website, HtmlUnitBrowsable {
     @Override
+    public String getId() {
+        return "solarmovie";
+    }
+
+    @Override
     public String getName() {
         return "Solar Movie";
     }

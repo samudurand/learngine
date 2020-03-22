@@ -20,6 +20,11 @@ import static com.learngine.source.HttpUtils.alternativeEncodeSearchParams;
 @Component
 public class ISubsMovies implements Website, HtmlUnitBrowsable {
     @Override
+    public String getId() {
+        return "isubsmovies";
+    }
+
+    @Override
     public String getName() {
         return "I Subs Movies";
     }

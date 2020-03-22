@@ -23,6 +23,11 @@ public class FilmFra implements Website, SeleniumBrowsable {
     }
 
     @Override
+    public String getId() {
+        return "filmfra";
+    }
+
+    @Override
     public String getName() {
         return "Film Fra";
     }
@@ -70,7 +75,7 @@ public class FilmFra implements Website, SeleniumBrowsable {
                     .stream()
                     .map(elt -> {
                         var link = elt.findElement(By.tagName("a"));
-                        return new StreamDetails(link.getText(), website.getUrl(), website.getName());
+                        return new StreamDetails(link.getText(), website.getUrl(), website.getId(), website.getName());
                     })
                     .collect(Collectors.toList());
         }

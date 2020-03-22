@@ -5,6 +5,8 @@ import com.learngine.common.Language;
 import java.util.Optional;
 
 public interface Website {
+    String getId();
+
     String getName();
 
     String getUrl();
