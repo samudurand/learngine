@@ -16,4 +16,5 @@ public class MovieSummary {
     @JsonFormat(pattern = "yyyy")
     private Date date;
 
+    private String description;
 }

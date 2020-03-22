@@ -17,4 +17,6 @@ public class MovieMetadata {
 
     @JsonProperty("poster_path")
     Optional<String> posterPath;
+
+    Optional<String> overview;
 }

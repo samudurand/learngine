@@ -35,7 +35,8 @@ public class MetadataService {
                         movie.getId(),
                         movie.getOriginalTitle(),
                         buildImagePath(movie.getPosterPath()),
-                        formatDate(movie.getReleaseDate())
+                        formatDate(movie.getReleaseDate()),
+                        buildDescription(movie.getOverview())
                 ));
     }
 
@@ -52,6 +53,10 @@ public class MetadataService {
 
     private String buildImagePath(Optional<String> posterPath) {
         return posterPath.map(path -> String.format("%s%s", baseImagePath, path)).orElse("");
+    }
+
+    private String buildDescription(Optional<String> overview) {
+        return overview.orElse("");
     }
 
     public Flux<String> findLocalizedTitles(Integer movieId, Language audio) {
