@@ -17,4 +17,5 @@ public class MovieSummary {
     private Date date;
 
     private String description;
+    private Float voteAverage;
 }

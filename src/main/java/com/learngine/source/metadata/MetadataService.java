@@ -11,6 +11,7 @@ import reactor.core.publisher.Flux;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
 
@@ -36,8 +37,9 @@ public class MetadataService {
                         movie.getOriginalTitle(),
                         buildImagePath(movie.getPosterPath()),
                         formatDate(movie.getReleaseDate()),
-                        buildDescription(movie.getOverview())
-                ));
+                        buildDescription(movie.getOverview()),
+                        movie.getVoteAverage()
+                )).sort(Comparator.comparingDouble(MovieSummary::getVoteAverage).reversed());
     }
 
     private Date formatDate(Optional<String> date) {

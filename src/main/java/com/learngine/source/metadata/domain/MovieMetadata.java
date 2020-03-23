@@ -19,4 +19,7 @@ public class MovieMetadata {
     Optional<String> posterPath;
 
     Optional<String> overview;
+
+    @JsonProperty("vote_average")
+    Float voteAverage;
 }
