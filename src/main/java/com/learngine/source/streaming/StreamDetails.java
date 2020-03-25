@@ -8,6 +8,7 @@ import lombok.Data;
 public class StreamDetails {
     private String title;
     private String link;
+    private String imageUrl;
     private String sourceId;
     private String source;
 }

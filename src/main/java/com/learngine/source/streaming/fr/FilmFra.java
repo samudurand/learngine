@@ -75,7 +75,12 @@ public class FilmFra implements Website, SeleniumBrowsable {
                     .stream()
                     .map(elt -> {
                         var link = elt.findElement(By.tagName("a"));
-                        return new StreamDetails(link.getText(), website.getUrl(), website.getId(), website.getName());
+                        return new StreamDetails(
+                                link.getText(),
+                                website.getUrl(),
+                                "", // No direct results so no images
+                                website.getId(),
+                                website.getName());
                     })
                     .collect(Collectors.toList());
         }

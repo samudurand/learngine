@@ -3,6 +3,7 @@ package com.learngine.source.streaming.en;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
+import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
 import com.learngine.source.Website;
@@ -62,6 +63,7 @@ public class FiveMovies implements Website, HtmlUnitBrowsable {
                     .map(elt -> new StreamDetails(
                             ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
                             ((HtmlAnchor) elt.getFirstByXPath(".//a")).getHrefAttribute(),
+                            ((HtmlImage) elt.getFirstByXPath(".//img")).getSrcAttribute(),
                             website.getId(),
                             website.getName()
                     )).collect(Collectors.toList());

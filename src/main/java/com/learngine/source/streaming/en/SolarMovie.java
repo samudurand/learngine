@@ -2,6 +2,7 @@ package com.learngine.source.streaming.en;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
 import com.learngine.source.Website;
@@ -60,9 +61,11 @@ public class SolarMovie implements Website, HtmlUnitBrowsable {
             return elts.stream()
                     .map(elt -> {
                         HtmlAnchor link = elt.getFirstByXPath(".//div[@class='title']/a");
+                        HtmlImage img = elt.getFirstByXPath(".//img");
                         return new StreamDetails(
                                 link.getTextContent(),
                                 link.getHrefAttribute(),
+                                img.getSrcAttribute(),
                                 website.getId(),
                                 website.getName()
                         );
