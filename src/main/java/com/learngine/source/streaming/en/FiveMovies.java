@@ -63,10 +63,10 @@ public class FiveMovies implements Website, HtmlUnitBrowsable {
                     .map(elt -> new StreamDetails(
                             ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
                             ((HtmlAnchor) elt.getFirstByXPath(".//a")).getHrefAttribute(),
-                            ((HtmlImage) elt.getFirstByXPath(".//img")).getSrcAttribute(),
+                            ((HtmlImage) elt.getFirstByXPath(".//a//img")).getAttribute("data-original"),
                             website.getId(),
-                            website.getName()
-                    )).collect(Collectors.toList());
+                            website.getName())
+                    ).collect(Collectors.toList());
         }
     }
 }
