@@ -93,7 +93,7 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
                     .map(elt -> new StreamDetails(
                             elt.findElement(By.tagName("b")).getText(),
                             convertNetflixURL(elt.findElement(By.xpath(".//parent::a")).getAttribute("href")),
-                            elt.findElement(By.tagName("img")).getAttribute("src"),
+                            isImageRetrievable() ? elt.findElement(By.tagName("img")).getAttribute("src") : "",
                             website.getId(),
                             website.getName()
                     ))

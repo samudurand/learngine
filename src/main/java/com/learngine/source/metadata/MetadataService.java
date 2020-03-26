@@ -3,6 +3,7 @@ package com.learngine.source.metadata;
 import com.learngine.api.domain.MovieSummary;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.domain.AlternativeTitle;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ import java.util.Date;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class MetadataService {
-
-    private final Logger logger = LoggerFactory.getLogger(MetadataService.class);
 
     private final TheMovieDB metadataSource;
     private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -34,7 +34,7 @@ public class MetadataService {
         return metadataSource.findMoviesByTitle(title)
                 .map(movie -> new MovieSummary(
                         movie.getId(),
-                        movie.getOriginalTitle(),
+                        movie.getOriginalTitle().toLowerCase(),
                         buildImagePath(movie.getPosterPath()),
                         formatDate(movie.getReleaseDate()),
                         buildDescription(movie.getOverview()),
@@ -47,7 +47,7 @@ public class MetadataService {
             try {
                 return format.parse(d);
             } catch (ParseException e) {
-                logger.error("Parsing of date failed : " + d);
+                log.error("Parsing of date failed : " + d);
                 return null;
             }
         }).orElse(null);

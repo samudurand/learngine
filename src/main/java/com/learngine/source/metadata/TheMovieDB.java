@@ -8,8 +8,7 @@ import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.AlternativeTitleSearchResult;
 import com.learngine.source.metadata.domain.MovieMetadata;
 import com.learngine.source.metadata.domain.MovieMetadataSearchResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,10 +19,10 @@ import java.io.IOException;
 import static com.learngine.source.HttpUtils.encodeSearchParams;
 
 @Component
+@Slf4j
 public class TheMovieDB {
 
     final WebClient webClient = WebClient.create();
-    private final Logger logger = LoggerFactory.getLogger(TheMovieDB.class);
     @Value("${themoviedb.url}")
     private String baseUrl;
 
@@ -46,7 +45,7 @@ public class TheMovieDB {
                     try {
                         return Flux.fromIterable(mapper.readValue(body, MovieMetadataSearchResult.class).getMovies());
                     } catch (IOException e) {
-                        logger.error("Could not retrieve titles matching '" + title + "'", e);
+                        log.error("Could not retrieve titles matching '" + title + "'", e);
                         throw new MetadataRetrievalFailedException();
                     }
                 });
@@ -59,9 +58,9 @@ public class TheMovieDB {
                 .flatMapMany(body -> {
                     try {
                         return Flux.fromIterable(mapper.readValue(body, AlternativeTitleSearchResult.class).getTitles());
-                    } catch (IOException e) {
-                        logger.error("Could not retrieve alternative titles for movie '" + movieId + "'", e);
-                        throw new MetadataRetrievalFailedException();
+                    } catch (Exception e) {
+                        log.error("Could not retrieve alternative titles for movie '" + movieId + "'", e);
+                        return Flux.empty();
                     }
                 });
     }

@@ -6,17 +6,16 @@ import com.learngine.configuration.SearchFailedException;
 import com.learngine.source.Website;
 import com.learngine.source.WebsiteHandler;
 import com.learngine.source.streaming.StreamDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
 
     protected final WebClient client = defaultWebClient();
-    private final Logger logger = LoggerFactory.getLogger(HtmlUnitWebsiteHandler.class);
 
     public HtmlUnitWebsiteHandler(Website website) {
         super(website);
@@ -32,10 +31,10 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
             HtmlPage searchResultsPage = performSearch(title);
             List<StreamDetails> resultsFound = parseResults(searchResultsPage);
 
-            logger.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
+            log.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
             return resultsFound;
         } catch (IOException e) {
-            logger.error("Could not perform search.", e);
+            log.error("Could not perform search.", e);
             throw new SearchFailedException();
         }
     }
@@ -69,7 +68,7 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
         if (relativeLink.startsWith("/")) {
             return website.getUrl() + relativeLink;
         }
-        logger.warn("Link provided is not a relative link, formatting skipped.");
+        log.warn("Link provided is not a relative link, formatting skipped.");
         return relativeLink;
     }
 }

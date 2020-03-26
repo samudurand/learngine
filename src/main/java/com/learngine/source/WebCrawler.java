@@ -5,10 +5,9 @@ import com.learngine.source.htmlunit.HtmlUnitBrowsable;
 import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.ParallelFlux;
 import reactor.core.scheduler.Schedulers;
@@ -17,10 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO reformat to move some of the logic to a StreamingService, and separate StreamingDetails into a Stream and StreamDetails for instance to isolate layers (do not explicitely use is and name in the website result)
-@Component
+@Service
+@Slf4j
 public class WebCrawler {
-
-    private final Logger logger = LoggerFactory.getLogger(WebCrawler.class);
 
     private final List<Website> streamingSources;
 
@@ -34,7 +32,7 @@ public class WebCrawler {
                 .parallel()
                 .runOn(Schedulers.parallel())
                 .flatMap(website -> {
-                    logger.info("Start search for " + website.getName());
+                    log.info("Start search for " + website.getName());
                     if (website instanceof SearchEngine && !includeSearchEngines) {
                         return Flux.fromIterable(new ArrayList<>());
                     }
@@ -53,7 +51,7 @@ public class WebCrawler {
             handler.closeClient();
             return results;
         } catch (Exception ex) {
-            logger.error("An exception occurred during the search on website " + website.getName(), ex);
+            log.error("An exception occurred during the search on website " + website.getName(), ex);
             handler.closeClient();
             return new ArrayList<>();
         }
@@ -66,7 +64,7 @@ public class WebCrawler {
             handler.closeClient();
             return results;
         } catch (Exception ex) {
-            logger.error("An exception occurred during the search on website " + website.getName(), ex);
+            log.error("An exception occurred during the search on website " + website.getName(), ex);
             handler.closeClient();
             return new ArrayList<>();
         }

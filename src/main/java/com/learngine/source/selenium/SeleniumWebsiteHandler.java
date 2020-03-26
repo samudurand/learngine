@@ -3,20 +3,18 @@ package com.learngine.source.selenium;
 import com.learngine.source.Website;
 import com.learngine.source.WebsiteHandler;
 import com.learngine.source.streaming.StreamDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import java.util.List;
 
 @Configurable
+@Slf4j
 public abstract class SeleniumWebsiteHandler extends WebsiteHandler {
 
     protected final WebDriver browser;
-
-    private final Logger logger = LoggerFactory.getLogger(SeleniumWebsiteHandler.class);
 
     public SeleniumWebsiteHandler(Website website, WebDriver browser) {
         super(website);
@@ -32,7 +30,7 @@ public abstract class SeleniumWebsiteHandler extends WebsiteHandler {
         performSearch(title);
         List<StreamDetails> resultsFound = parseResults();
 
-        logger.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
+        log.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
         return resultsFound;
     }
 
@@ -42,6 +40,10 @@ public abstract class SeleniumWebsiteHandler extends WebsiteHandler {
 
     protected void performSearch(String title) {
         throw new NotImplementedException("Method not yet implemented");
+    }
+
+    protected Boolean isImageRetrievable() {
+        return !website.isCloudflareProtected();
     }
 
     @Override

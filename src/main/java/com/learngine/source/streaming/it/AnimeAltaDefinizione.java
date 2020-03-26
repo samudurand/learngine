@@ -5,10 +5,9 @@ import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.selenium.SeleniumWebsiteHandler;
 import com.learngine.source.streaming.StreamDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -56,8 +55,8 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
         return new Handler(this, browserSupplier.get());
     }
 
+    @Slf4j
     public static class Handler extends SeleniumWebsiteHandler {
-        private final Logger logger = LoggerFactory.getLogger(Handler.class);
 
         public Handler(Website website, WebDriver browser) {
             super(website, browser);
@@ -71,7 +70,7 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
         @Override
         protected List<StreamDetails> parseResults() {
             var result = browser.findElements(By.className("article-image"));
-            logger.info("Found {} elements", result.size());
+            log.info("Found {} elements", result.size());
             return browser.findElements(By.className("article-image"))
                     .stream()
                     .map(elt -> {
@@ -80,7 +79,7 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
                         return new StreamDetails(
                                 link.getText(),
                                 link.getAttribute("href"),
-                                img.getAttribute("src"),
+                                isImageRetrievable() ? img.getAttribute("src") : "",
                                 website.getId(),
                                 website.getName());
                     })

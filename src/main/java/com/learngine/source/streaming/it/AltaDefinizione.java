@@ -81,7 +81,7 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
                         return new StreamDetails(
                                 elt.getText(),
                                 link.getAttribute("href"),
-                                img.getAttribute("src"),
+                                isImageRetrievable() ? img.getAttribute("src") : "",
                                 website.getId(),
                                 website.getName());
                     })
