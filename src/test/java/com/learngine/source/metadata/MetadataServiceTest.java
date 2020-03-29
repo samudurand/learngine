@@ -2,6 +2,7 @@ package com.learngine.source.metadata;
 
 import com.learngine.api.domain.MovieSummary;
 import com.learngine.source.metadata.domain.MovieMetadata;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,66 +29,66 @@ class MetadataServiceTest {
     @InjectMocks
     private MetadataService service;
 
+    List<MovieMetadata> metadata;
+    List<MovieSummary> defaultResultMovies;
+
+    @BeforeEach
+    void setUp() {
+        metadata = defaultTestMetadata();
+        defaultResultMovies = defaultResultMovies();
+    }
+
     @Test
     void retrieveMoviesMetadata() {
-        var metadata = defaultTestMetadata();
         when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
-        assertIterableEquals(defaultResultMovies(), result);
+        assertIterableEquals(defaultResultMovies, result);
     }
 
     @Test
     void retrieveMoviesMetadataWithoutDate() {
-        var metadata = defaultTestMetadata();
         metadata.get(0).setReleaseDate(Optional.empty());
         when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
-        var expectedResult = defaultResultMovies();
-        expectedResult.get(0).setDate(MetadataService.DEFAULT_RELEASE_DATE);
-        assertIterableEquals(expectedResult, result);
+        defaultResultMovies.get(0).setDate(MetadataService.DEFAULT_RELEASE_DATE);
+        assertIterableEquals(defaultResultMovies, result);
     }
 
     @Test
     void retrieveMoviesMetadataWithBadlyFormattedDate() {
-        var metadata = defaultTestMetadata();
         metadata.get(0).setReleaseDate(Optional.of("2006-23-xx"));
         when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
-        var expectedResult = defaultResultMovies();
-        expectedResult.get(0).setDate(MetadataService.DEFAULT_RELEASE_DATE);
-        assertIterableEquals(expectedResult, result);
+        defaultResultMovies.get(0).setDate(MetadataService.DEFAULT_RELEASE_DATE);
+        assertIterableEquals(defaultResultMovies, result);
     }
 
     @Test
     void retrieveMoviesMetadataWithMissingDescription() {
-        var metadata = defaultTestMetadata();
         metadata.get(0).setOverview(Optional.empty());
         when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
-        var expectedResult = defaultResultMovies();
-        expectedResult.get(0).setDescription("");
-        assertIterableEquals(expectedResult, result);
+        defaultResultMovies.get(0).setDescription("");
+        assertIterableEquals(defaultResultMovies, result);
     }
 
     @Test
     void retrieveMoviesMetadataOrderedByVoteAverage() {
-        var metadata = defaultTestMetadata();
         metadata.get(0).setVoteAverage(2f);
         when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
-        var defaultResult = defaultResultMovies();
-        defaultResult.get(0).setVoteAverage(2f);
-        var expectedResult = List.of(defaultResult.get(1), defaultResult.get(0));
+        defaultResultMovies.get(0).setVoteAverage(2f);
+        var expectedResult = List.of(defaultResultMovies.get(1), defaultResultMovies.get(0));
         assertIterableEquals(expectedResult, result);
     }
 
