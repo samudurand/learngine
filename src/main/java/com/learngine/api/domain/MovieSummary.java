@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -14,7 +15,7 @@ public class MovieSummary {
     private String imageUrl;
 
     @JsonFormat(pattern = "yyyy")
-    private Date date;
+    private LocalDate date;
 
     private String description;
     private Float voteAverage;

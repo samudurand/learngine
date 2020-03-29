@@ -37,7 +37,7 @@ public class SearchController {
         return metadataService.findMatchingMovies(title);
     }
 
-    @GetMapping(value = "/search/alternatives", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/search/titles", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<List<String>> searchForTitle(
             @RequestParam @NotNull Integer movieId,
             @RequestParam(defaultValue = "en") Language audio
