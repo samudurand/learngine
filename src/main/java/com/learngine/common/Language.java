@@ -15,7 +15,8 @@ public enum Language {
     ENGLISH("en", List.of(GB, US)),
     FRENCH("fr", List.of(FR)),
     SPANISH("es", List.of(ES)),
-    ITALIAN("it", List.of(IT));
+    ITALIAN("it", List.of(IT)),
+    UNKNOWN("unknown", List.of());
 
     private final String shortName;
     private final List<Country> countries;
@@ -26,12 +27,12 @@ public enum Language {
     }
 
     public static Language valueOfName(String shortName) {
-        for (Language e : values()) {
-            if (e.shortName.equals(shortName)) {
-                return e;
+        for (Language lang : values()) {
+            if (lang.shortName.equals(shortName)) {
+                return lang;
             }
         }
-        return null;
+        return UNKNOWN;
     }
 
     public String getShortName() {

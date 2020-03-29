@@ -7,7 +7,7 @@ public class StringToLanguageConverter implements Converter<String, Language> {
     @Override
     public Language convert(String language) {
         final var result = Language.valueOfName(language.toLowerCase());
-        if (result == null) {
+        if (Language.UNKNOWN.equals(result)) {
             throw new IllegalArgumentException();
         }
         return result;
