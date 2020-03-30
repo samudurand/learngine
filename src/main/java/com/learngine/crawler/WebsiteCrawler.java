@@ -1,5 +1,6 @@
-package com.learngine.source;
+package com.learngine.crawler;
 
+import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 
 import java.util.List;

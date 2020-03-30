@@ -1,4 +1,4 @@
-package com.learngine.source.searchengine;
+package com.learngine.source.streaming.engine;
 
 import com.learngine.common.Language;
 import com.learngine.source.Website;

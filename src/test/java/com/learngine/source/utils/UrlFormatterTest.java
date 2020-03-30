@@ -1,5 +1,6 @@
-package com.learngine.source;
+package com.learngine.source.utils;
 
+import com.learngine.source.utils.UrlFormatter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

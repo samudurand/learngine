@@ -16,7 +16,7 @@ import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 
-import static com.learngine.source.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 @Component
 @Slf4j

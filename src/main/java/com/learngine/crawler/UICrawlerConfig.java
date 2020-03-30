@@ -1,4 +1,4 @@
-package com.learngine.source.selenium;
+package com.learngine.crawler;
 
 import com.learngine.config.SearchFailedException;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 @Configuration
-public class SeleniumConfig {
+public class UICrawlerConfig {
 
     @Bean
     public ChromeOptions browserOptions() {

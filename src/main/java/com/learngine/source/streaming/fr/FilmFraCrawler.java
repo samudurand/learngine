@@ -1,6 +1,6 @@
 package com.learngine.source.streaming.fr;
 
-import com.learngine.source.selenium.SeleniumWebsiteCrawler;
+import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Component
-class FilmFraCrawler extends SeleniumWebsiteCrawler {
+class FilmFraCrawler extends UICrawler {
 
     public FilmFraCrawler(Supplier<WebDriver> browserSupplier) {
         super(new FilmFra(), browserSupplier);

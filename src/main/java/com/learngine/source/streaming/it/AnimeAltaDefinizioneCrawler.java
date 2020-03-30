@@ -1,6 +1,6 @@
 package com.learngine.source.streaming.it;
 
-import com.learngine.source.selenium.SeleniumWebsiteCrawler;
+import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.learngine.source.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 @Slf4j
 @Component
-public class AnimeAltaDefinizioneCrawler extends SeleniumWebsiteCrawler {
+public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
     public AnimeAltaDefinizioneCrawler(Supplier<WebDriver> browserSupplier) {
         super(new AnimeAltaDefinizione(), browserSupplier);

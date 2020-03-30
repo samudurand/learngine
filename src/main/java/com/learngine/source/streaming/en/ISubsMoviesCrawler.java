@@ -6,8 +6,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.source.UrlFormatter;
-import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
+import com.learngine.source.utils.UrlFormatter;
+import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.learngine.source.HttpUtils.alternativeEncodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.alternativeEncodeSearchParams;
 
 @Component
-class ISubsMoviesCrawler extends HtmlUnitWebsiteCrawler {
+class ISubsMoviesCrawler extends HeadlessCrawler {
 
     public ISubsMoviesCrawler(Supplier<WebClient> clientSupplier) {
         super(new ISubsMovies(), clientSupplier);

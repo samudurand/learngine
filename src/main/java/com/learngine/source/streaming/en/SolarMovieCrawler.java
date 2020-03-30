@@ -5,7 +5,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
+import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.learngine.source.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 @Component
-public class SolarMovieCrawler extends HtmlUnitWebsiteCrawler {
+public class SolarMovieCrawler extends HeadlessCrawler {
 
     public SolarMovieCrawler(Supplier<WebClient> clientSupplier) {
         super(new SolarMovie(), clientSupplier);

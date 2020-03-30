@@ -1,6 +1,6 @@
 package com.learngine.source.streaming.it;
 
-import com.learngine.source.selenium.SeleniumWebsiteCrawler;
+import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.learngine.source.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 @Component
-public class AltaDefinizioneCrawler extends SeleniumWebsiteCrawler {
+public class AltaDefinizioneCrawler extends UICrawler {
 
     public AltaDefinizioneCrawler(Supplier<WebDriver> browserSupplier) {
         super(new AltaDefinizione(), browserSupplier);

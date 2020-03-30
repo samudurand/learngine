@@ -1,10 +1,9 @@
-package com.learngine.source.htmlunit;
+package com.learngine.crawler;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -14,13 +13,13 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @Slf4j
-public abstract class HtmlUnitWebsiteCrawler implements WebsiteCrawler {
+public abstract class HeadlessCrawler implements WebsiteCrawler {
 
     protected final Website website;
     private final Supplier<WebClient> clientSupplier;
     private WebClient client;
 
-    public HtmlUnitWebsiteCrawler(Website website, Supplier<WebClient> clientSupplier) {
+    public HeadlessCrawler(Website website, Supplier<WebClient> clientSupplier) {
         this.website = website;
         this.clientSupplier = clientSupplier;
     }

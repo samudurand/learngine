@@ -1,4 +1,4 @@
-package com.learngine.source.htmlunit;
+package com.learngine.crawler;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.function.Supplier;
 
 @Configuration
-public class HtmlUnitConfig {
+public class HeadlessCrawlerConfig {
 
     @Bean
     public Supplier<WebClient> defaultWebClient() {

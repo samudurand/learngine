@@ -1,8 +1,7 @@
-package com.learngine.source.searchengine;
+package com.learngine.source.streaming.engine;
 
 import com.learngine.config.SearchFailedException;
-import com.learngine.source.Website;
-import com.learngine.source.selenium.SeleniumWebsiteCrawler;
+import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +12,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Component
-public class UnogCrawler extends SeleniumWebsiteCrawler {
+public class UnogCrawler extends UICrawler {
 
     public UnogCrawler(Supplier<WebDriver> browserSupplier) {
         super(new Unog(), browserSupplier);

@@ -1,7 +1,6 @@
-package com.learngine.source.selenium;
+package com.learngine.crawler;
 
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -11,13 +10,13 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @Slf4j
-public abstract class SeleniumWebsiteCrawler implements WebsiteCrawler {
+public abstract class UICrawler implements WebsiteCrawler {
 
     protected final Website website;
     private final Supplier<WebDriver> browserSupplier;
     private WebDriver browser;
 
-    public SeleniumWebsiteCrawler(Website website, Supplier<WebDriver> browserSupplier) {
+    public UICrawler(Website website, Supplier<WebDriver> browserSupplier) {
         this.browserSupplier = browserSupplier;
         this.website = website;
     }

@@ -1,4 +1,4 @@
-package com.learngine.source;
+package com.learngine.source.utils;
 
 import com.learngine.config.SearchFailedException;
 

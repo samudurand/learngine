@@ -1,7 +1,9 @@
-package com.learngine.source.htmlunit;
+package com.learngine.crawler;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.config.SearchFailedException;
+import com.learngine.crawler.HeadlessCrawler;
+import com.learngine.crawler.HeadlessCrawlerConfig;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,21 +23,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class HtmlUnitWebsiteCrawlerTest {
+class HeadlessCrawlerTest {
 
     private final static StreamDetails matrixStream = getMatrixStreamDetails();
 
     @Mock
     private Website matrixStreamingWebsite;
 
-    HtmlUnitWebsiteCrawler crawler;
+    HeadlessCrawler crawler;
     @BeforeEach
     void setUp() {
         crawler = Mockito.mock(
-                HtmlUnitWebsiteCrawler.class,
+                HeadlessCrawler.class,
                 Mockito.withSettings()
                         .useConstructor(matrixStreamingWebsite,
-                                new HtmlUnitConfig().defaultWebClient()));
+                                new HeadlessCrawlerConfig().defaultWebClient()));
         when(crawler.searchTitleByName(any())).thenCallRealMethod();
     }
 

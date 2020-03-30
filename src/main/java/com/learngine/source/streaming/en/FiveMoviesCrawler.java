@@ -6,7 +6,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
+import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.learngine.source.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 @Component
-public class FiveMoviesCrawler extends HtmlUnitWebsiteCrawler {
+public class FiveMoviesCrawler extends HeadlessCrawler {
 
     public FiveMoviesCrawler(Supplier<WebClient> clientSupplier) {
         super(new FiveMovies(), clientSupplier);

@@ -1,6 +1,7 @@
-package com.learngine.source;
+package com.learngine;
 
 import com.learngine.common.Language;
+import com.learngine.crawler.WebsiteCrawler;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
