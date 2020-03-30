@@ -1,6 +1,6 @@
-package com.learngine.configuration;
+package com.learngine.config;
 
-import com.learngine.api.formatting.StringToLanguageConverter;
+import com.learngine.api.StringToLanguageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

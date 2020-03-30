@@ -60,7 +60,7 @@ public class WebCrawler {
     private List<StreamDetails> performHeadlessSearch(String movieTitle, Website website) {
         var handler = ((HtmlUnitBrowsable) website).getHandler();
         try {
-            var results = handler.searchTitleByName(movieTitle);
+            var results = handler.searchStreamByTitle(movieTitle);
             handler.closeClient();
             return results;
         } catch (Exception ex) {

@@ -1,21 +1,10 @@
 package com.learngine.source.streaming.en;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlImage;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.common.Language;
 import com.learngine.source.Website;
 import com.learngine.source.htmlunit.HtmlUnitBrowsable;
-import com.learngine.source.htmlunit.HtmlUnitWebsiteHandler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.learngine.source.HttpUtils.encodeSearchParams;
 
 @Component
 public class SolarMovie implements Website, HtmlUnitBrowsable {
@@ -40,36 +29,8 @@ public class SolarMovie implements Website, HtmlUnitBrowsable {
     }
 
     @Override
-    public HtmlUnitWebsiteHandler getHandler() {
-        return new Handler(this);
+    public HtmlUnitWebsiteCrawler getHandler() {
+        return new SolarMovieCrawler(this);
     }
 
-    public static class Handler extends HtmlUnitWebsiteHandler {
-
-        public Handler(Website website) {
-            super(website);
-        }
-
-        @Override
-        protected HtmlPage performSearch(String title) throws IOException {
-            return client.getPage(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
-        }
-
-        @Override
-        protected List<StreamDetails> parseResults(HtmlPage page) {
-            List<HtmlElement> elts = page.getByXPath("//div[@class='result-item']");
-            return elts.stream()
-                    .map(elt -> {
-                        HtmlAnchor link = elt.getFirstByXPath(".//div[@class='title']/a");
-                        HtmlImage img = elt.getFirstByXPath(".//img");
-                        return new StreamDetails(
-                                link.getTextContent(),
-                                link.getHrefAttribute(),
-                                img.getSrcAttribute(),
-                                website.getId(),
-                                website.getName()
-                        );
-                    }).collect(Collectors.toList());
-        }
-    }
 }

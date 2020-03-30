@@ -28,4 +28,6 @@ public interface Website {
     default Boolean isCloudflareProtected() {
         return false;
     }
+
+
 }

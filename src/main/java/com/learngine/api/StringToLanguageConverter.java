@@ -1,4 +1,4 @@
-package com.learngine.api.formatting;
+package com.learngine.api;
 
 import com.learngine.common.Language;
 import org.springframework.core.convert.converter.Converter;

@@ -1,5 +1,6 @@
 package com.learngine.api.formatting;
 
+import com.learngine.api.StringToLanguageConverter;
 import com.learngine.common.Language;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

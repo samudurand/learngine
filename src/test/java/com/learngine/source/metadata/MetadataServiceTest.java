@@ -1,6 +1,6 @@
 package com.learngine.source.metadata;
 
-import com.learngine.api.domain.MovieSummary;
+import com.learngine.api.MovieSummary;
 import com.learngine.source.metadata.domain.MovieMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,9 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

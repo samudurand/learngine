@@ -2,11 +2,11 @@ package com.learngine.source;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-public abstract class WebsiteHandler {
+public abstract class WebsiteCrawler {
 
     protected Website website;
 
-    public WebsiteHandler(Website website) {
+    public WebsiteCrawler(Website website) {
         this.website = website;
     }
 

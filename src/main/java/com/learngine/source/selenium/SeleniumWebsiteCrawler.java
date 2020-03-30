@@ -1,7 +1,7 @@
 package com.learngine.source.selenium;
 
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteHandler;
+import com.learngine.source.WebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -12,11 +12,11 @@ import java.util.List;
 
 @Configurable
 @Slf4j
-public abstract class SeleniumWebsiteHandler extends WebsiteHandler {
+public abstract class SeleniumWebsiteCrawler extends WebsiteCrawler {
 
     protected final WebDriver browser;
 
-    public SeleniumWebsiteHandler(Website website, WebDriver browser) {
+    public SeleniumWebsiteCrawler(Website website, WebDriver browser) {
         super(website);
         this.browser = browser;
         this.website = website;

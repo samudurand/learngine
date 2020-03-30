@@ -1,6 +1,5 @@
 package com.learngine.api;
 
-import com.learngine.api.domain.MovieSummary;
 import com.learngine.common.Language;
 import com.learngine.source.WebCrawler;
 import com.learngine.source.metadata.MetadataService;

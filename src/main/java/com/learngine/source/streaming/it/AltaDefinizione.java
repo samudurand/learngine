@@ -3,18 +3,12 @@ package com.learngine.source.streaming.it;
 import com.learngine.common.Language;
 import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumBrowsable;
-import com.learngine.source.selenium.SeleniumWebsiteHandler;
-import com.learngine.source.streaming.StreamDetails;
-import org.openqa.selenium.By;
+import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import static com.learngine.source.HttpUtils.encodeSearchParams;
 
 @Component
 public class AltaDefinizione implements Website, SeleniumBrowsable {
@@ -56,36 +50,8 @@ public class AltaDefinizione implements Website, SeleniumBrowsable {
     }
 
     @Override
-    public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this, browserSupplier.get());
+    public SeleniumWebsiteCrawler getHandler() {
+        return new AltaDefinizioneCrawler(this, browserSupplier.get());
     }
 
-    public static class Handler extends SeleniumWebsiteHandler {
-
-        public Handler(Website website, WebDriver browser) {
-            super(website, browser);
-        }
-
-        @Override
-        protected void performSearch(String title) {
-            browser.get(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
-        }
-
-        @Override
-        protected List<StreamDetails> parseResults() {
-            return browser.findElements(By.xpath("//h5[@class='titleFilm']"))
-                    .stream()
-                    .map(elt -> {
-                        var link = elt.findElement(By.xpath(".//parent::div/parent::div/parent::a"));
-                        var img = elt.findElement(By.xpath(".//parent::div/parent::div//img"));
-                        return new StreamDetails(
-                                elt.getText(),
-                                link.getAttribute("href"),
-                                isImageRetrievable() ? img.getAttribute("src") : "",
-                                website.getId(),
-                                website.getName());
-                    })
-                    .collect(Collectors.toList());
-        }
-    }
 }

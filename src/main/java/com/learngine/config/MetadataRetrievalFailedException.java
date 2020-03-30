@@ -1,4 +1,4 @@
-package com.learngine.configuration;
+package com.learngine.config;
 
 public class MetadataRetrievalFailedException extends RuntimeException {
 }

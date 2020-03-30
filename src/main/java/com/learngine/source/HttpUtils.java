@@ -1,6 +1,6 @@
 package com.learngine.source;
 
-import com.learngine.configuration.SearchFailedException;
+import com.learngine.config.SearchFailedException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

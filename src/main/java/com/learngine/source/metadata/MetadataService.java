@@ -1,6 +1,6 @@
 package com.learngine.source.metadata;
 
-import com.learngine.api.domain.MovieSummary;
+import com.learngine.api.MovieSummary;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.MovieMetadata;

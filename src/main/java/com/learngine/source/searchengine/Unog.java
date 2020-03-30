@@ -1,10 +1,10 @@
 package com.learngine.source.searchengine;
 
 import com.learngine.common.Language;
-import com.learngine.configuration.SearchFailedException;
+import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumBrowsable;
-import com.learngine.source.selenium.SeleniumWebsiteHandler;
+import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
@@ -51,13 +51,13 @@ public class Unog implements Website, SearchEngine, SeleniumBrowsable {
     }
 
     @Override
-    public SeleniumWebsiteHandler getHandler() {
-        return new Handler(this, browserSupplier.get());
+    public SeleniumWebsiteCrawler getHandler() {
+        return new Crawler(this, browserSupplier.get());
     }
 
-    public static class Handler extends SeleniumWebsiteHandler {
+    public static class Crawler extends SeleniumWebsiteCrawler {
 
-        public Handler(Website website, WebDriver browser) {
+        public Crawler(Website website, WebDriver browser) {
             super(website, browser);
         }
 

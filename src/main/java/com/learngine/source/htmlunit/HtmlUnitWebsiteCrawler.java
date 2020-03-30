@@ -2,9 +2,9 @@ package com.learngine.source.htmlunit;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.configuration.SearchFailedException;
+import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
-import com.learngine.source.WebsiteHandler;
+import com.learngine.source.WebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
@@ -13,20 +13,16 @@ import java.io.IOException;
 import java.util.List;
 
 @Slf4j
-public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
+public abstract class HtmlUnitWebsiteCrawler extends WebsiteCrawler {
 
     protected final WebClient client = defaultWebClient();
 
-    public HtmlUnitWebsiteHandler(Website website) {
+    public HtmlUnitWebsiteCrawler(Website website) {
         super(website);
         this.website = website;
     }
 
-    public HtmlPage navigateToWebsite() throws IOException {
-        return client.getPage(website.getUrl());
-    }
-
-    public List<StreamDetails> searchTitleByName(String title) {
+    public List<StreamDetails> searchStreamByTitle(String title) {
         try {
             HtmlPage searchResultsPage = performSearch(title);
             List<StreamDetails> resultsFound = parseResults(searchResultsPage);
@@ -34,7 +30,7 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
             log.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
             return resultsFound;
         } catch (IOException e) {
-            log.error("Could not perform search.", e);
+            log.error("Search failed on website " + website.getName(), e);
             throw new SearchFailedException();
         }
     }
@@ -62,13 +58,5 @@ public abstract class HtmlUnitWebsiteHandler extends WebsiteHandler {
         client.getCache().setMaxSize(0);
         client.setJavaScriptTimeout(10000);
         return client;
-    }
-
-    protected String buildFullLink(String relativeLink) {
-        if (relativeLink.startsWith("/")) {
-            return website.getUrl() + relativeLink;
-        }
-        log.warn("Link provided is not a relative link, formatting skipped.");
-        return relativeLink;
     }
 }

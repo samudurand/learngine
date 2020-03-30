@@ -3,7 +3,7 @@ package com.learngine.source.metadata;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.learngine.configuration.MetadataRetrievalFailedException;
+import com.learngine.config.MetadataRetrievalFailedException;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.AlternativeTitleSearchResult;
 import com.learngine.source.metadata.domain.MovieMetadata;
