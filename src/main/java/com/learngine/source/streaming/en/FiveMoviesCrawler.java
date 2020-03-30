@@ -6,7 +6,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.source.Website;
 import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.springframework.stereotype.Component;

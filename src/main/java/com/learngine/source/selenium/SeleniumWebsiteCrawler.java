@@ -6,7 +6,6 @@ import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import java.util.List;
 import java.util.function.Supplier;

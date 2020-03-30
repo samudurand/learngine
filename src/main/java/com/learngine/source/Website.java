@@ -14,7 +14,9 @@ public interface Website {
     /**
      * Indicates where the latest URL can be found. Some websites change URL regularly.
      */
-    default Optional<String> getReferenceUrl() { return Optional.empty(); }
+    default Optional<String> getReferenceUrl() {
+        return Optional.empty();
+    }
 
     Language getAudioLanguage();
 

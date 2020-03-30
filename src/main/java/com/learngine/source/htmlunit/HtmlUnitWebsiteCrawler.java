@@ -8,8 +8,6 @@ import com.learngine.source.WebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
-import org.openqa.selenium.WebDriver;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;

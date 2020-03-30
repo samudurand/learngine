@@ -23,19 +23,16 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 public class TheMovieDB {
 
     final WebClient webClient = WebClient.create();
-    @Value("${themoviedb.url}")
-    private String baseUrl;
-
-    @Value("${themoviedb.apiVersion}")
-    private String apiVersion;
-
-    @Value("${themoviedb.apiToken}")
-    private String apiToken;
-
     private final ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
             .registerModule(new Jdk8Module());
+    @Value("${themoviedb.url}")
+    private String baseUrl;
+    @Value("${themoviedb.apiVersion}")
+    private String apiVersion;
+    @Value("${themoviedb.apiToken}")
+    private String apiToken;
 
     public Flux<MovieMetadata> findMoviesByTitle(String title) {
         var searchUrl = String.format("%s/%s/search/movie?api_key=%s&query=%s", baseUrl, apiVersion, apiToken, encodeSearchParams(title));

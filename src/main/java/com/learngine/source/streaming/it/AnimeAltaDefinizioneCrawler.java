@@ -1,6 +1,5 @@
 package com.learngine.source.streaming.it;
 
-import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;

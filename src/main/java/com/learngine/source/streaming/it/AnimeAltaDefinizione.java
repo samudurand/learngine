@@ -2,11 +2,7 @@ package com.learngine.source.streaming.it;
 
 import com.learngine.common.Language;
 import com.learngine.source.Website;
-import com.learngine.source.selenium.SeleniumWebsiteCrawler;
-import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
-
-import java.util.function.Supplier;
 
 @Component
 public class AnimeAltaDefinizione implements Website {

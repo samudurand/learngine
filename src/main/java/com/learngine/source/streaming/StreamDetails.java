@@ -1,6 +1,5 @@
 package com.learngine.source.streaming;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

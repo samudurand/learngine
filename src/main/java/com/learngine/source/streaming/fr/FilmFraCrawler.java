@@ -1,6 +1,5 @@
 package com.learngine.source.streaming.fr;
 
-import com.learngine.source.Website;
 import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
