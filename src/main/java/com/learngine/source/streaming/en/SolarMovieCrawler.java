@@ -19,8 +19,8 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class SolarMovieCrawler extends HtmlUnitWebsiteCrawler {
 
-    public SolarMovieCrawler(SolarMovie website, Supplier<WebClient> clientSupplier) {
-        super(website, clientSupplier);
+    public SolarMovieCrawler(Supplier<WebClient> clientSupplier) {
+        super(new SolarMovie(), clientSupplier);
     }
 
     @Override

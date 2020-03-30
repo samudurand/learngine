@@ -21,8 +21,8 @@ import static com.learngine.source.HttpUtils.alternativeEncodeSearchParams;
 @Component
 class ISubsMoviesCrawler extends HtmlUnitWebsiteCrawler {
 
-    public ISubsMoviesCrawler(ISubsMovies website, Supplier<WebClient> clientSupplier) {
-        super(website, clientSupplier);
+    public ISubsMoviesCrawler(Supplier<WebClient> clientSupplier) {
+        super(new ISubsMovies(), clientSupplier);
     }
 
     @Override

@@ -15,8 +15,8 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class AltaDefinizioneCrawler extends SeleniumWebsiteCrawler {
 
-    public AltaDefinizioneCrawler(AltaDefinizione website, Supplier<WebDriver> browserSupplier) {
-        super(website, browserSupplier);
+    public AltaDefinizioneCrawler(Supplier<WebDriver> browserSupplier) {
+        super(new AltaDefinizione(), browserSupplier);
     }
 
     @Override

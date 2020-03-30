@@ -20,8 +20,8 @@ import static com.learngine.source.HttpUtils.encodeSearchParams;
 @Component
 public class FiveMoviesCrawler extends HtmlUnitWebsiteCrawler {
 
-    public FiveMoviesCrawler(FiveMovies website, Supplier<WebClient> clientSupplier) {
-        super(website, clientSupplier);
+    public FiveMoviesCrawler(Supplier<WebClient> clientSupplier) {
+        super(new FiveMovies(), clientSupplier);
     }
 
     @Override
