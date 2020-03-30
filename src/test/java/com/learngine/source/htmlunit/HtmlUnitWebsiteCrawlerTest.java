@@ -5,6 +5,7 @@ import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamDetails;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -33,8 +34,9 @@ class HtmlUnitWebsiteCrawlerTest {
         crawler = Mockito.mock(
                 HtmlUnitWebsiteCrawler.class,
                 Mockito.withSettings()
-                        .useConstructor(matrixStreamingWebsite));
-        when(crawler.searchStreamByTitle(any())).thenCallRealMethod();
+                        .useConstructor(matrixStreamingWebsite,
+                                new HtmlUnitConfig().defaultWebClient()));
+        when(crawler.searchTitleByName(any())).thenCallRealMethod();
     }
 
     @Test
@@ -44,7 +46,7 @@ class HtmlUnitWebsiteCrawlerTest {
         var expectedResults = List.of(matrixStream);
         when(crawler.parseResults(searchResultPage)).thenReturn(expectedResults);
 
-        var result = crawler.searchStreamByTitle("matrix");
+        var result = crawler.searchTitleByName("matrix");
 
         Mockito.verify(crawler).performSearch("matrix");
         Mockito.verify(crawler).parseResults(searchResultPage);
@@ -55,10 +57,11 @@ class HtmlUnitWebsiteCrawlerTest {
     void searchByTitleFails() throws IOException {
         when(crawler.performSearch(any())).thenThrow(new IOException("Search failed"));
 
-        assertThrows(SearchFailedException.class, () -> crawler.searchStreamByTitle("matrix"));
+        assertThrows(SearchFailedException.class, () -> crawler.searchTitleByName("matrix"));
     }
 
     @Test
+    @Disabled
     void addWebsiteBaseDomainToRelativeLink() {
 
     }

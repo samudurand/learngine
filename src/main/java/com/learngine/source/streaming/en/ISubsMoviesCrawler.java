@@ -1,5 +1,6 @@
 package com.learngine.source.streaming.en;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
@@ -9,22 +10,25 @@ import com.learngine.source.UrlFormatter;
 import com.learngine.source.Website;
 import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.HttpUtils.alternativeEncodeSearchParams;
 
+@Component
 class ISubsMoviesCrawler extends HtmlUnitWebsiteCrawler {
 
-    public ISubsMoviesCrawler(Website website) {
-        super(website);
+    public ISubsMoviesCrawler(ISubsMovies website, Supplier<WebClient> clientSupplier) {
+        super(website, clientSupplier);
     }
 
     @Override
     protected HtmlPage performSearch(String title) throws IOException {
-        return client.getPage(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
+        return getClient().getPage(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
     }
 
     @Override

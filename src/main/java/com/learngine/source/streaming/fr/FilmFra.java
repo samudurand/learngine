@@ -2,7 +2,6 @@ package com.learngine.source.streaming.fr;
 
 import com.learngine.common.Language;
 import com.learngine.source.Website;
-import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
@@ -10,14 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
 @Component
-public class FilmFra implements Website, SeleniumBrowsable {
-
-    private final Supplier<WebDriver> browserSupplier;
-
-    public FilmFra(Supplier<WebDriver> browserSupplier) {
-        this.browserSupplier = browserSupplier;
-    }
-
+public class FilmFra implements Website {
     @Override
     public String getId() {
         return "filmfra";
@@ -42,10 +34,4 @@ public class FilmFra implements Website, SeleniumBrowsable {
     public Boolean isUiBasedSearch() {
         return true;
     }
-
-    @Override
-    public SeleniumWebsiteCrawler getHandler() {
-        return new FilmFraCrawler(this, browserSupplier.get());
-    }
-
 }

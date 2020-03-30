@@ -8,21 +8,39 @@ import com.learngine.source.WebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
+import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Slf4j
-public abstract class HtmlUnitWebsiteCrawler extends WebsiteCrawler {
+public abstract class HtmlUnitWebsiteCrawler implements WebsiteCrawler {
 
-    protected final WebClient client = defaultWebClient();
+    protected final Website website;
+    private final Supplier<WebClient> clientSupplier;
+    private WebClient client;
 
-    public HtmlUnitWebsiteCrawler(Website website) {
-        super(website);
+    public HtmlUnitWebsiteCrawler(Website website, Supplier<WebClient> clientSupplier) {
         this.website = website;
+        this.clientSupplier = clientSupplier;
     }
 
-    public List<StreamDetails> searchStreamByTitle(String title) {
+    @Override
+    public Website getWebsite() {
+        return website;
+    }
+
+    public WebClient getClient() {
+        if (client == null) {
+            client = clientSupplier.get();
+        }
+        return client;
+    }
+
+    @Override
+    public List<StreamDetails> searchTitleByName(String title) {
         try {
             HtmlPage searchResultsPage = performSearch(title);
             List<StreamDetails> resultsFound = parseResults(searchResultsPage);
@@ -45,18 +63,6 @@ public abstract class HtmlUnitWebsiteCrawler extends WebsiteCrawler {
 
     @Override
     public void closeClient() {
-        client.close();
-    }
-
-    private WebClient defaultWebClient() {
-        final WebClient client = new WebClient();
-        client.getOptions().setCssEnabled(false);
-        client.getOptions().setJavaScriptEnabled(false);
-        client.getOptions().setThrowExceptionOnFailingStatusCode(false);
-        client.getOptions().setRedirectEnabled(true);
-        client.getOptions().setUseInsecureSSL(true);
-        client.getCache().setMaxSize(0);
-        client.setJavaScriptTimeout(10000);
-        return client;
+        getClient().close();
     }
 }

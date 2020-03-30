@@ -9,21 +9,34 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-@Configurable
 @Slf4j
-public abstract class SeleniumWebsiteCrawler extends WebsiteCrawler {
+public abstract class SeleniumWebsiteCrawler implements WebsiteCrawler {
 
-    protected final WebDriver browser;
+    protected final Website website;
+    private final Supplier<WebDriver> browserSupplier;
+    private WebDriver browser;
 
-    public SeleniumWebsiteCrawler(Website website, WebDriver browser) {
-        super(website);
-        this.browser = browser;
+    public SeleniumWebsiteCrawler(Website website, Supplier<WebDriver> browserSupplier) {
+        this.browserSupplier = browserSupplier;
         this.website = website;
     }
 
+    @Override
+    public Website getWebsite() {
+        return website;
+    }
+
+    public WebDriver getBrowser() {
+        if (browser != null) {
+            browser = browserSupplier.get();
+        }
+        return browser;
+    }
+
     public void navigateToWebsite() {
-        browser.get(website.getUrl());
+        getBrowser().get(website.getUrl());
     }
 
     public List<StreamDetails> searchTitleByName(String title) {
@@ -48,6 +61,6 @@ public abstract class SeleniumWebsiteCrawler extends WebsiteCrawler {
 
     @Override
     public void closeClient() {
-        browser.quit();
+        getBrowser().quit();
     }
 }

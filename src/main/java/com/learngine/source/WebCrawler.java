@@ -1,8 +1,8 @@
 package com.learngine.source;
 
 import com.learngine.common.Language;
-import com.learngine.source.htmlunit.HtmlUnitBrowsable;
-import com.learngine.source.selenium.SeleniumBrowsable;
+import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
+import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamDetails;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +20,10 @@ import java.util.List;
 @Slf4j
 public class WebCrawler {
 
-    private final List<Website> streamingSources;
+    private final List<WebsiteCrawler> streamingSources;
 
     @Autowired
-    public WebCrawler(final List<Website> streamingSources) {
+    public WebCrawler(final List<WebsiteCrawler> streamingSources) {
         this.streamingSources = streamingSources;
     }
 
@@ -31,53 +31,29 @@ public class WebCrawler {
         return findCompatibleSources(audio)
                 .parallel()
                 .runOn(Schedulers.parallel())
-                .flatMap(website -> {
-                    log.info("Start search for " + website.getName());
-                    if (website instanceof SearchEngine && !includeSearchEngines) {
+                .flatMap(source -> {
+                    if (source.getWebsite() instanceof SearchEngine && !includeSearchEngines) {
                         return Flux.fromIterable(new ArrayList<>());
                     }
-                    if (website instanceof HtmlUnitBrowsable) {
-                        return Flux.fromIterable(performHeadlessSearch(movieTitle, website));
-                    } else {
-                        return Flux.fromIterable(performBrowserSearch(movieTitle, website));
-                    }
+                    return Flux.fromIterable(performSearch(movieTitle, source));
                 });
     }
 
-    private List<StreamDetails> performBrowserSearch(String movieTitle, Website website) {
-        var handler = ((SeleniumBrowsable) website).getHandler();
+    private List<StreamDetails> performSearch(String movieTitle, WebsiteCrawler crawler) {
         try {
-            var results = handler.searchTitleByName(movieTitle);
-            handler.closeClient();
+            var results = crawler.searchTitleByName(movieTitle);
+            crawler.closeClient();
             return results;
         } catch (Exception ex) {
-            log.error("An exception occurred during the search on website " + website.getName(), ex);
-            handler.closeClient();
+            log.error("An exception occurred during the search on website " + crawler.getWebsite().getName(), ex);
+            crawler.closeClient();
             return new ArrayList<>();
         }
     }
 
-    private List<StreamDetails> performHeadlessSearch(String movieTitle, Website website) {
-        var handler = ((HtmlUnitBrowsable) website).getHandler();
-        try {
-            var results = handler.searchStreamByTitle(movieTitle);
-            handler.closeClient();
-            return results;
-        } catch (Exception ex) {
-            log.error("An exception occurred during the search on website " + website.getName(), ex);
-            handler.closeClient();
-            return new ArrayList<>();
-        }
-    }
-
-    private Flux<Website> findCompatibleSources(Language audio) {
+    private Flux<WebsiteCrawler> findCompatibleSources(Language audio) {
         return Flux.fromIterable(streamingSources)
-                .filter(website -> website instanceof SearchEngine || website.getAudioLanguage().equals(audio));
+                .filter(crawler -> crawler.getWebsite() instanceof SearchEngine
+                        || crawler.getWebsite().getAudioLanguage().equals(audio));
     }
-
-//    private List<StreamDetails> findMatchingTitles(String searchedName, List<StreamDetails> titlesFound) {
-//        return titlesFound.stream()
-//                .filter(details -> details.getTitle().toLowerCase().trim().contains(searchedName))
-//                .collect(Collectors.toList());
-//    }
 }

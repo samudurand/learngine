@@ -2,7 +2,6 @@ package com.learngine.source.streaming.it;
 
 import com.learngine.common.Language;
 import com.learngine.source.Website;
-import com.learngine.source.selenium.SeleniumBrowsable;
 import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
@@ -10,14 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
 @Component
-public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
-
-    private final Supplier<WebDriver> browserSupplier;
-
-    public AnimeAltaDefinizione(Supplier<WebDriver> browserSupplier) {
-        this.browserSupplier = browserSupplier;
-    }
-
+public class AnimeAltaDefinizione implements Website {
     @Override
     public String getId() {
         return "animealtadefinizione";
@@ -41,11 +33,6 @@ public class AnimeAltaDefinizione implements Website, SeleniumBrowsable {
     @Override
     public Boolean isCloudflareProtected() {
         return true;
-    }
-
-    @Override
-    public SeleniumWebsiteCrawler getHandler() {
-        return new AnimeAltaDefinizioneCrawler(this, browserSupplier.get());
     }
 
 }

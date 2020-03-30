@@ -1,16 +1,15 @@
 package com.learngine.source;
 
+import com.learngine.source.streaming.StreamDetails;
 import org.apache.commons.lang3.NotImplementedException;
 
-public abstract class WebsiteCrawler {
+import java.util.List;
 
-    protected Website website;
+public interface WebsiteCrawler {
 
-    public WebsiteCrawler(Website website) {
-        this.website = website;
-    }
+    Website getWebsite();
 
-    public void closeClient() {
-        throw new NotImplementedException("Method not yet implemented");
-    }
+    List<StreamDetails> searchTitleByName(String title);
+
+    void closeClient();
 }

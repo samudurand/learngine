@@ -2,12 +2,11 @@ package com.learngine.source.streaming.en;
 
 import com.learngine.common.Language;
 import com.learngine.source.Website;
-import com.learngine.source.htmlunit.HtmlUnitBrowsable;
 import com.learngine.source.htmlunit.HtmlUnitWebsiteCrawler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ISubsMovies implements Website, HtmlUnitBrowsable {
+public class ISubsMovies implements Website {
     @Override
     public String getId() {
         return "isubsmovies";
@@ -27,10 +26,4 @@ public class ISubsMovies implements Website, HtmlUnitBrowsable {
     public Language getAudioLanguage() {
         return Language.ENGLISH;
     }
-
-    @Override
-    public HtmlUnitWebsiteCrawler getHandler() {
-        return new ISubsMoviesCrawler(this);
-    }
-
 }

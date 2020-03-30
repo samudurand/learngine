@@ -5,14 +5,17 @@ import com.learngine.source.selenium.SeleniumWebsiteCrawler;
 import com.learngine.source.streaming.StreamDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+@Component
 class FilmFraCrawler extends SeleniumWebsiteCrawler {
 
-    public FilmFraCrawler(Website website, WebDriver browser) {
-        super(website, browser);
+    public FilmFraCrawler(FilmFra website, Supplier<WebDriver> browserSupplier) {
+        super(website, browserSupplier);
     }
 
     /**
@@ -22,13 +25,13 @@ class FilmFraCrawler extends SeleniumWebsiteCrawler {
     @Override
     protected void performSearch(String title) {
         navigateToWebsite();
-        var searchTextField = browser.findElement(By.id("tags"));
+        var searchTextField = getBrowser().findElement(By.id("tags"));
         searchTextField.sendKeys(title);
     }
 
     @Override
     protected List<StreamDetails> parseResults() {
-        return browser.findElement(By.id("ui-id-1")).findElements(By.tagName("li"))
+        return getBrowser().findElement(By.id("ui-id-1")).findElements(By.tagName("li"))
                 .stream()
                 .map(elt -> {
                     var link = elt.findElement(By.tagName("a"));
