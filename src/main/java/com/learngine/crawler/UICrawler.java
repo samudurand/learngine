@@ -27,7 +27,7 @@ public abstract class UICrawler implements WebsiteCrawler {
     }
 
     public WebDriver getBrowser() {
-        if (browser != null) {
+        if (browser == null) {
             browser = browserSupplier.get();
         }
         return browser;
