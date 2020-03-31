@@ -1,6 +1,9 @@
 package com.learngine.source.metadata;
 
 import com.learngine.api.MovieSummary;
+import com.learngine.common.Country;
+import com.learngine.common.Language;
+import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.MovieMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +24,12 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class MetadataServiceTest {
 
-    @Mock
-    private TheMovieDB metadataSource;
-
-    @InjectMocks
-    private MetadataService service;
-
     List<MovieMetadata> metadata;
     List<MovieSummary> defaultResultMovies;
+    @Mock
+    private MetadataSource metadataSource;
+    @InjectMocks
+    private MetadataService service;
 
     @BeforeEach
     void setUp() {
@@ -37,7 +39,7 @@ class MetadataServiceTest {
 
     @Test
     void retrieveMoviesMetadata() {
-        when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
@@ -47,7 +49,7 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataWithoutDate() {
         metadata.get(0).setReleaseDate(Optional.empty());
-        when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
@@ -58,7 +60,7 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataWithBadlyFormattedDate() {
         metadata.get(0).setReleaseDate(Optional.of("2006-23-xx"));
-        when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
@@ -69,7 +71,7 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataWithMissingDescription() {
         metadata.get(0).setOverview(Optional.empty());
-        when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
@@ -80,13 +82,40 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataOrderedByVoteAverage() {
         metadata.get(0).setVoteAverage(2f);
-        when(metadataSource.findMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
 
         var result = service.findMatchingMovies("matrix").toIterable();
 
         defaultResultMovies.get(0).setVoteAverage(2f);
         var expectedResult = List.of(defaultResultMovies.get(1), defaultResultMovies.get(0));
         assertIterableEquals(expectedResult, result);
+    }
+
+    @Test
+    void findAllTitlesInEnglish() {
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
+
+        var result = service.findLocalizedTitles(123, Language.ENGLISH);
+
+        assertIterableEquals(List.of("The Matrix", "The Matrix for USA"), result.toIterable());
+    }
+
+    @Test
+    void findNoTitlesInItalian() {
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
+
+        var result = service.findLocalizedTitles(123, Language.ITALIAN);
+
+        assertIterableEquals(Collections.emptyList(), result.toIterable());
+    }
+
+    @Test
+    void findNoTitlesForUnsupportedLanguage() {
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
+
+        var result = service.findLocalizedTitles(123, Language.ITALIAN);
+
+        assertIterableEquals(Collections.emptyList(), result.toIterable());
     }
 
     private List<MovieMetadata> defaultTestMetadata() {
@@ -121,5 +150,13 @@ class MetadataServiceTest {
                         "another Great movie",
                         7f)
         );
+    }
+
+    private Flux<AlternativeTitle> matrixAlternativeTitles() {
+        return Flux.fromIterable(List.of(
+                new AlternativeTitle(Country.GB, "The Matrix"),
+                new AlternativeTitle(Country.US, "The Matrix for USA"),
+                new AlternativeTitle(Country.ES, "The Matrix por Espana")
+        ));
     }
 }

@@ -9,6 +9,10 @@ import org.openqa.selenium.WebDriver;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Selenium based web crawler. Slower and less reliable than the {@link HeadlessCrawler},
+ * but necessary when the JS is too elaborate, or the website is protected, for instance by Cloudflare.
+ */
 @Slf4j
 public abstract class UICrawler implements WebsiteCrawler {
 
@@ -26,7 +30,7 @@ public abstract class UICrawler implements WebsiteCrawler {
         return website;
     }
 
-    public WebDriver getBrowser() {
+    public WebDriver getOrCreateBrowser() {
         if (browser == null) {
             browser = browserSupplier.get();
         }
@@ -34,7 +38,7 @@ public abstract class UICrawler implements WebsiteCrawler {
     }
 
     public void navigateToWebsite() {
-        getBrowser().get(website.getUrl());
+        getOrCreateBrowser().get(website.getUrl());
     }
 
     public List<StreamDetails> searchTitleByName(String title) {
@@ -59,6 +63,6 @@ public abstract class UICrawler implements WebsiteCrawler {
 
     @Override
     public void closeClient() {
-        getBrowser().quit();
+        getOrCreateBrowser().quit();
     }
 }

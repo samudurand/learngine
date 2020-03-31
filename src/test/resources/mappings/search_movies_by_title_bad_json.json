@@ -1,0 +1,18 @@
+{
+  "id": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
+  "name": "search_movies_by_title_json_badly_formatted",
+  "request": {
+    "url": "/3/search/movie?api_key=token&query=badjson",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "{\"page\":1,total_results:0,\"total_pages\":0}",
+    "headers": {
+      "Content-Type": "application/json;charset=utf-8"
+    }
+  },
+  "uuid": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
+  "persistent": true,
+  "insertionIndex": 1
+}

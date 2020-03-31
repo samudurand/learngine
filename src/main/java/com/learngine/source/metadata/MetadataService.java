@@ -28,15 +28,15 @@ public class MetadataService {
     private final static String IMG_DIMENSIONS = "w92";
     private final static String BASE_IMG_PATH = "http://image.tmdb.org/t/p/" + IMG_DIMENSIONS;
 
-    private final TheMovieDB metadataSource;
+    private final MetadataSource metadataSource;
 
     @Autowired
-    public MetadataService(TheMovieDB metadataSource) {
+    public MetadataService(MetadataSource metadataSource) {
         this.metadataSource = metadataSource;
     }
 
     public Flux<MovieSummary> findMatchingMovies(String title) {
-        return metadataSource.findMoviesByTitle(title)
+        return metadataSource.searchMoviesByTitle(title)
                 .map(convertToSummary())
                 .sort(Comparator.comparingDouble(MovieSummary::getVoteAverage).reversed());
     }

@@ -16,13 +16,13 @@ repositories {
 }
 
 dependencies {
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6'
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 	implementation 'org.apache.commons:commons-lang3:3.9'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6'
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.10.Final'
+	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 	implementation 'net.sourceforge.htmlunit:htmlunit:2.38.0'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// Documentation, requires webflux libraries, not yet available in Springfox
 	//	implementation 'io.springfox:springfox-swagger2:2.9.2'
@@ -36,6 +36,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+//	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:2.2.2.RELEASE'
 	testImplementation 'com.github.tomakehurst:wiremock-jre8:2.26.2'
 	testImplementation 'com.github.JensPiegsa:wiremock-extension:0.4.0'
 }

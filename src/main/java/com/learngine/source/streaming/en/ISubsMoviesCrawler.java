@@ -6,9 +6,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.source.utils.UrlFormatter;
 import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.utils.UrlFormatter;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ class ISubsMoviesCrawler extends HeadlessCrawler {
 
     @Override
     protected HtmlPage performSearch(String title) throws IOException {
-        return getClient().getPage(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
+        return getOrCreateClient().getPage(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
     }
 
     @Override

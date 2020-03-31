@@ -1,0 +1,18 @@
+{
+  "id": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
+  "name": "search_movies_by_title",
+  "request": {
+    "url": "/3/search/movie?api_key=token&query=matrix",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "{\"page\":1,\"total_results\":63,\"total_pages\":4,\"results\":[{\"popularity\":41.633,\"vote_count\":16386,\"video\":false,\"poster_path\":\"\\/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg\",\"id\":603,\"adult\":false,\"backdrop_path\":\"\\/icmmSD4vTTDKOq2vvdulafOGw93.jpg\",\"original_language\":\"en\",\"original_title\":\"The Matrix\",\"genre_ids\":[28,878],\"title\":\"The Matrix\",\"vote_average\":8.1,\"overview\":\"Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.\",\"release_date\":\"1999-03-30\"},{\"popularity\":25.803,\"vote_count\":6566,\"video\":false,\"poster_path\":\"\\/ezIurBz2fdUc68d98Fp9dRf5ihv.jpg\",\"id\":604,\"adult\":false,\"backdrop_path\":\"\\/Fp3piEuHXxKnPBO5R0Wj4wjZHg.jpg\",\"original_language\":\"en\",\"original_title\":\"The Matrix Reloaded\",\"genre_ids\":[28,12,878,53],\"title\":\"The Matrix Reloaded\",\"vote_average\":6.9,\"overview\":\"Six months after the events depicted in The Matrix, Neo has proved to be a good omen for the free humans, as more and more humans are being freed from the matrix and brought to Zion, the one and only stronghold of the Resistance.  Neo himself has discovered his superpowers including super speed, ability to see the codes of the things inside the matrix and a certain degree of pre-cognition. But a nasty piece of news hits the human resistance: 250,000 machine sentinels are digging to Zion and would reach them in 72 hours. As Zion prepares for the ultimate war, Neo, Morpheus and Trinity are advised by the Oracle to find the Keymaker who would help them reach the Source.  Meanwhile Neo's recurrent dreams depicting Trinity's death have got him worried and as if it was not enough, Agent Smith has somehow escaped deletion, has become more powerful than before and has fixed Neo as his next target.\",\"release_date\":\"2003-05-15\"},{\"popularity\":22.885,\"vote_count\":5884,\"video\":false,\"poster_path\":\"\\/sKogjhfs5q3azmpW7DFKKAeLEG8.jpg\",\"id\":605,\"adult\":false,\"backdrop_path\":\"\\/pdVHUsb2eEz9ALNTr6wfRJe5xVa.jpg\",\"original_language\":\"en\",\"original_title\":\"The Matrix Revolutions\",\"genre_ids\":[28,12,878,53],\"title\":\"The Matrix Revolutions\",\"vote_average\":6.6,\"overview\":\"The human city of Zion defends itself against the massive invasion of the machines as Neo fights to end the war at another front while also opposing the rogue Agent Smith.\",\"release_date\":\"2003-11-03\"}]}",
+    "headers": {
+      "Content-Type": "application/json;charset=utf-8"
+    }
+  },
+  "uuid": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
+  "persistent": true,
+  "insertionIndex": 1
+}

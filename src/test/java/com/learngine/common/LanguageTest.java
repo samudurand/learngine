@@ -2,7 +2,7 @@ package com.learngine.common;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LanguageTest {
 
@@ -13,20 +13,20 @@ class LanguageTest {
     }
 
     @Test
-    void defaultsToUknownLanguage() {
+    void defaultsToUnsupportedLanguage() {
         var result = Language.valueOfName("zz");
-        assertEquals(Language.UNKNOWN, result);
+        assertEquals(Language.UNSUPPORTED, result);
     }
 
     @Test
-    void defaultsToUknownLanguageForEmptyInput() {
+    void defaultsToUnsupportedLanguageForEmptyInput() {
         var result = Language.valueOfName("");
-        assertEquals(Language.UNKNOWN, result);
+        assertEquals(Language.UNSUPPORTED, result);
     }
 
     @Test
-    void defaultsToUknownLanguageForNullInput() {
+    void defaultsToUnsupportedLanguageForNullInput() {
         var result = Language.valueOfName(null);
-        assertEquals(Language.UNKNOWN, result);
+        assertEquals(Language.UNSUPPORTED, result);
     }
 }

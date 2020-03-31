@@ -22,7 +22,7 @@ public class UnogCrawler extends UICrawler {
     protected void performSearch(String title) {
         try {
             // Prevent failed loading of the main page
-            getBrowser().get("http://localhost");
+            getOrCreateBrowser().get("http://localhost");
             navigateToWebsite();
 
             // Attempt to handle ads redirection
@@ -33,8 +33,8 @@ public class UnogCrawler extends UICrawler {
             // Wait a little to leave some time to the JS to execute
             Thread.sleep(2000);
 
-            var searchTextField = getBrowser().findElement(By.id("atitle"));
-            var searchButton = getBrowser().findElement(By.id("asfbutton"));
+            var searchTextField = getOrCreateBrowser().findElement(By.id("atitle"));
+            var searchButton = getOrCreateBrowser().findElement(By.id("asfbutton"));
             searchTextField.sendKeys(title);
             searchButton.click();
 
@@ -45,7 +45,7 @@ public class UnogCrawler extends UICrawler {
 
     @Override
     protected List<StreamDetails> parseResults() {
-        return getBrowser().findElements(By.className("videodiv"))
+        return getOrCreateBrowser().findElements(By.className("videodiv"))
                 .stream()
                 .map(elt -> new StreamDetails(
                         elt.findElement(By.tagName("b")).getText(),

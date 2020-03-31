@@ -1,0 +1,18 @@
+{
+  "id": "05dac993-2e93-41e6-9c63-a596c78d7bca",
+  "name": "search_alternative_titles_no_results",
+  "request": {
+    "url": "/3/movie/10/alternative_titles?api_key=token",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "{\"id\": 603,\"titles\": []}",
+    "headers": {
+      "Content-Type": "application/json;charset=utf-8"
+    }
+  },
+  "uuid": "05dac993-2e93-41e6-9c63-a596c78d7bca",
+  "persistent": true,
+  "insertionIndex": 1
+}

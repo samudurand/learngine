@@ -1,5 +1,5 @@
 themoviedb:
-  url: https://api.themoviedb.org
+  url: http://localhost:8080
   apiVersion: 3
   apiToken: ${THEMOVIEDB_TOKEN}
 

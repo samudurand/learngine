@@ -26,7 +26,7 @@ public class FiveMoviesCrawler extends HeadlessCrawler {
 
     @Override
     protected HtmlPage performSearch(String title) throws IOException {
-        return getClient().getPage(String.format("%s/movie/search/%s", website.getUrl(), encodeSearchParams(title)));
+        return getOrCreateClient().getPage(String.format("%s/movie/search/%s", website.getUrl(), encodeSearchParams(title)));
     }
 
     @Override

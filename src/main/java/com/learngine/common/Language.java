@@ -16,7 +16,7 @@ public enum Language {
     FRENCH("fr", List.of(FR)),
     SPANISH("es", List.of(ES)),
     ITALIAN("it", List.of(IT)),
-    UNKNOWN("unknown", List.of());
+    UNSUPPORTED("unsupported", List.of());
 
     private final String shortName;
     private final List<Country> countries;
@@ -32,7 +32,7 @@ public enum Language {
                 return lang;
             }
         }
-        return UNKNOWN;
+        return UNSUPPORTED;
     }
 
     public String getShortName() {

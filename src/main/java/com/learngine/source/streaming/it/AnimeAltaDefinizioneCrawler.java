@@ -23,14 +23,14 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
     @Override
     protected void performSearch(String title) {
-        getBrowser().get(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
+        getOrCreateBrowser().get(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
     }
 
     @Override
     protected List<StreamDetails> parseResults() {
-        var result = getBrowser().findElements(By.className("article-image"));
+        var result = getOrCreateBrowser().findElements(By.className("article-image"));
         log.info("Found {} elements", result.size());
-        return getBrowser().findElements(By.className("article-image"))
+        return getOrCreateBrowser().findElements(By.className("article-image"))
                 .stream()
                 .map(elt -> {
                     var link = elt.findElement(By.tagName("h3")).findElement(By.tagName("a"));

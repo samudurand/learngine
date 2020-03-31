@@ -24,13 +24,13 @@ class FilmFraCrawler extends UICrawler {
     @Override
     protected void performSearch(String title) {
         navigateToWebsite();
-        var searchTextField = getBrowser().findElement(By.id("tags"));
+        var searchTextField = getOrCreateBrowser().findElement(By.id("tags"));
         searchTextField.sendKeys(title);
     }
 
     @Override
     protected List<StreamDetails> parseResults() {
-        return getBrowser().findElement(By.id("ui-id-1")).findElements(By.tagName("li"))
+        return getOrCreateBrowser().findElement(By.id("ui-id-1")).findElements(By.tagName("li"))
                 .stream()
                 .map(elt -> {
                     var link = elt.findElement(By.tagName("a"));

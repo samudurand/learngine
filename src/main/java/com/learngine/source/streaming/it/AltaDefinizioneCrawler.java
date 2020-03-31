@@ -21,12 +21,12 @@ public class AltaDefinizioneCrawler extends UICrawler {
 
     @Override
     protected void performSearch(String title) {
-        getBrowser().get(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
+        getOrCreateBrowser().get(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
     }
 
     @Override
     protected List<StreamDetails> parseResults() {
-        return getBrowser().findElements(By.xpath("//h5[@class='titleFilm']"))
+        return getOrCreateBrowser().findElements(By.xpath("//h5[@class='titleFilm']"))
                 .stream()
                 .map(elt -> {
                     var link = elt.findElement(By.xpath(".//parent::div/parent::div/parent::a"));

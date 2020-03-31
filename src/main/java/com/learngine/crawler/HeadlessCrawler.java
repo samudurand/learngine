@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * HtmlUnit library based crawler. Much faster than the Selenium traditional crawling.
+ */
 @Slf4j
 public abstract class HeadlessCrawler implements WebsiteCrawler {
 
@@ -29,7 +32,7 @@ public abstract class HeadlessCrawler implements WebsiteCrawler {
         return website;
     }
 
-    public WebClient getClient() {
+    public WebClient getOrCreateClient() {
         if (client == null) {
             client = clientSupplier.get();
         }
@@ -60,6 +63,6 @@ public abstract class HeadlessCrawler implements WebsiteCrawler {
 
     @Override
     public void closeClient() {
-        getClient().close();
+        getOrCreateClient().close();
     }
 }

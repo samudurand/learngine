@@ -25,7 +25,7 @@ public class SolarMovieCrawler extends HeadlessCrawler {
 
     @Override
     protected HtmlPage performSearch(String title) throws IOException {
-        return getClient().getPage(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
+        return getOrCreateClient().getPage(String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title)));
     }
 
     @Override
