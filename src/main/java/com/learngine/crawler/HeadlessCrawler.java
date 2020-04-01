@@ -4,9 +4,10 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,10 +41,10 @@ public abstract class HeadlessCrawler implements WebsiteCrawler {
     }
 
     @Override
-    public List<StreamDetails> searchTitleByName(String title) {
+    public List<StreamCompleteDetails> searchTitleByName(String title) {
         try {
             HtmlPage searchResultsPage = performSearch(title);
-            List<StreamDetails> resultsFound = parseResults(searchResultsPage);
+            List<StreamCompleteDetails> resultsFound = parseResults(searchResultsPage);
 
             log.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
             return resultsFound;
@@ -53,11 +54,22 @@ public abstract class HeadlessCrawler implements WebsiteCrawler {
         }
     }
 
+    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
+        throw new NotImplementedException("Method not yet implemented");
+    }
+
+    /**
+     * Navigate on the targeted website until it is in a state displaying the search results. Ready to be processed by {@link #parseResults(HtmlPage)}.
+     */
     protected HtmlPage performSearch(String title) throws IOException {
         throw new NotImplementedException("Method not yet implemented");
     }
 
-    protected List<StreamDetails> parseResults(HtmlPage page) {
+    /**
+     * Assume the website is currently displaying the search results. See {@link #performSearch(String)}
+     * Parse the web page content to extract all visible search results.
+     */
+    protected List<StreamCompleteDetails> parseResults(HtmlPage page) {
         throw new NotImplementedException("Method not yet implemented");
     }
 

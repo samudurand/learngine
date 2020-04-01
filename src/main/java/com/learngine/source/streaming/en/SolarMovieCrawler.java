@@ -6,7 +6,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.crawler.HeadlessCrawler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,8 +19,8 @@ import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 @Component
 public class SolarMovieCrawler extends HeadlessCrawler {
 
-    public SolarMovieCrawler(Supplier<WebClient> clientSupplier) {
-        super(new SolarMovie(), clientSupplier);
+    public SolarMovieCrawler(SolarMovie website, Supplier<WebClient> clientSupplier) {
+        super(website, clientSupplier);
     }
 
     @Override
@@ -29,13 +29,13 @@ public class SolarMovieCrawler extends HeadlessCrawler {
     }
 
     @Override
-    protected List<StreamDetails> parseResults(HtmlPage page) {
+    protected List<StreamCompleteDetails> parseResults(HtmlPage page) {
         List<HtmlElement> elts = page.getByXPath("//div[@class='result-item']");
         return elts.stream()
                 .map(elt -> {
                     HtmlAnchor link = elt.getFirstByXPath(".//div[@class='title']/a");
                     HtmlImage img = elt.getFirstByXPath(".//img");
-                    return new StreamDetails(
+                    return new StreamCompleteDetails(
                             link.getTextContent(),
                             link.getHrefAttribute(),
                             img.getSrcAttribute(),

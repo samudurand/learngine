@@ -1,7 +1,7 @@
 package com.learngine.source.streaming.it;
 
 import com.learngine.crawler.UICrawler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +27,7 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
     }
 
     @Override
-    protected List<StreamDetails> parseResults() {
+    protected List<StreamCompleteDetails> parseResults() {
         var result = getOrCreateBrowser().findElements(By.className("article-image"));
         log.info("Found {} elements", result.size());
         return getOrCreateBrowser().findElements(By.className("article-image"))
@@ -35,7 +35,7 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
                 .map(elt -> {
                     var link = elt.findElement(By.tagName("h3")).findElement(By.tagName("a"));
                     var img = elt.findElement(By.tagName("a")).findElement(By.tagName("img"));
-                    return new StreamDetails(
+                    return new StreamCompleteDetails(
                             link.getText(),
                             link.getAttribute("href"),
                             isImageRetrievable() ? img.getAttribute("src") : "",

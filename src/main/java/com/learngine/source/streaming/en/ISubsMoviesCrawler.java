@@ -7,7 +7,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.crawler.HeadlessCrawler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.utils.UrlFormatter;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +21,8 @@ import static com.learngine.source.utils.HttpUtils.alternativeEncodeSearchParams
 @Component
 class ISubsMoviesCrawler extends HeadlessCrawler {
 
-    public ISubsMoviesCrawler(Supplier<WebClient> clientSupplier) {
-        super(new ISubsMovies(), clientSupplier);
+    public ISubsMoviesCrawler(ISubsMovies website, Supplier<WebClient> clientSupplier) {
+        super(website, clientSupplier);
     }
 
     @Override
@@ -31,10 +31,10 @@ class ISubsMoviesCrawler extends HeadlessCrawler {
     }
 
     @Override
-    protected List<StreamDetails> parseResults(HtmlPage page) {
+    protected List<StreamCompleteDetails> parseResults(HtmlPage page) {
         List<HtmlElement> elts = page.getByXPath("//figcaption");
         return elts.stream()
-                .map(elt -> new StreamDetails(
+                .map(elt -> new StreamCompleteDetails(
                         ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
                         UrlFormatter.generateFullLink(website.getUrl(),
                                 ((HtmlAnchor) elt.getFirstByXPath(".//parent::figure/parent::a")).getHrefAttribute()),

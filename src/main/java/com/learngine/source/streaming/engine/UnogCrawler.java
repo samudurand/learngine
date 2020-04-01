@@ -2,7 +2,7 @@ package com.learngine.source.streaming.engine;
 
 import com.learngine.config.SearchFailedException;
 import com.learngine.crawler.UICrawler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
@@ -44,10 +44,10 @@ public class UnogCrawler extends UICrawler {
     }
 
     @Override
-    protected List<StreamDetails> parseResults() {
+    protected List<StreamCompleteDetails> parseResults() {
         return getOrCreateBrowser().findElements(By.className("videodiv"))
                 .stream()
-                .map(elt -> new StreamDetails(
+                .map(elt -> new StreamCompleteDetails(
                         elt.findElement(By.tagName("b")).getText(),
                         convertNetflixURL(elt.findElement(By.xpath(".//parent::a")).getAttribute("href")),
                         isImageRetrievable() ? elt.findElement(By.tagName("img")).getAttribute("src") : "",

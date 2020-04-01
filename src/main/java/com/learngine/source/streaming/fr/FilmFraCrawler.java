@@ -1,7 +1,7 @@
 package com.learngine.source.streaming.fr;
 
 import com.learngine.crawler.UICrawler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
@@ -29,12 +29,12 @@ class FilmFraCrawler extends UICrawler {
     }
 
     @Override
-    protected List<StreamDetails> parseResults() {
+    protected List<StreamCompleteDetails> parseResults() {
         return getOrCreateBrowser().findElement(By.id("ui-id-1")).findElements(By.tagName("li"))
                 .stream()
                 .map(elt -> {
                     var link = elt.findElement(By.tagName("a"));
-                    return new StreamDetails(
+                    return new StreamCompleteDetails(
                             link.getText(),
                             website.getUrl(),
                             "", // No direct results so no images

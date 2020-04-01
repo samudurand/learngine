@@ -1,7 +1,7 @@
 package com.learngine.crawler;
 
 import com.learngine.source.Website;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.WebDriver;
@@ -41,18 +41,25 @@ public abstract class UICrawler implements WebsiteCrawler {
         getOrCreateBrowser().get(website.getUrl());
     }
 
-    public List<StreamDetails> searchTitleByName(String title) {
+    public List<StreamCompleteDetails> searchTitleByName(String title) {
         performSearch(title);
-        List<StreamDetails> resultsFound = parseResults();
+        List<StreamCompleteDetails> resultsFound = parseResults();
 
         log.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
         return resultsFound;
     }
 
-    protected List<StreamDetails> parseResults() {
+    /**
+     * Navigate on the targeted website until it is in a state displaying the search results. Ready to be processed by {@link #parseResults()}.
+     */
+    protected List<StreamCompleteDetails> parseResults() {
         throw new NotImplementedException("Method not yet implemented");
     }
 
+    /**
+     * Assume the website is currently displaying the search results. See {@link #performSearch(String)}
+     * Parse the web page content to extract all visible search results.
+     */
     protected void performSearch(String title) {
         throw new NotImplementedException("Method not yet implemented");
     }

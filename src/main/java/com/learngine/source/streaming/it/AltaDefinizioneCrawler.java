@@ -1,7 +1,7 @@
 package com.learngine.source.streaming.it;
 
 import com.learngine.crawler.UICrawler;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
@@ -25,13 +25,13 @@ public class AltaDefinizioneCrawler extends UICrawler {
     }
 
     @Override
-    protected List<StreamDetails> parseResults() {
+    protected List<StreamCompleteDetails> parseResults() {
         return getOrCreateBrowser().findElements(By.xpath("//h5[@class='titleFilm']"))
                 .stream()
                 .map(elt -> {
                     var link = elt.findElement(By.xpath(".//parent::div/parent::div/parent::a"));
                     var img = elt.findElement(By.xpath(".//parent::div/parent::div//img"));
-                    return new StreamDetails(
+                    return new StreamCompleteDetails(
                             elt.getText(),
                             link.getAttribute("href"),
                             isImageRetrievable() ? img.getAttribute("src") : "",

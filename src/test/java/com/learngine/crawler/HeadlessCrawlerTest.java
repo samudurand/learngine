@@ -4,7 +4,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,14 +29,14 @@ import static org.mockito.Mockito.spy;
 @ExtendWith(MockitoExtension.class)
 class HeadlessCrawlerTest {
 
-    private final static StreamDetails matrixStream = getMatrixStreamDetails();
+    private final static StreamCompleteDetails matrixStream = getMatrixStreamDetails();
     HeadlessCrawler crawler;
     @Mock
     private Website matrixStreamingWebsite;
     private Supplier<WebClient> clientSupplier = () -> mock(WebClient.class);
 
-    private static StreamDetails getMatrixStreamDetails() {
-        return new StreamDetails(
+    private static StreamCompleteDetails getMatrixStreamDetails() {
+        return new StreamCompleteDetails(
                 "The Matrix",
                 "https://example/thematrix.html",
                 "http://example/matrix.jpg",

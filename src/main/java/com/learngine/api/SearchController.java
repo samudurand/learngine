@@ -3,7 +3,7 @@ package com.learngine.api;
 import com.learngine.WebCrawler;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.MetadataService;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +45,7 @@ public class SearchController {
     }
 
     @GetMapping(value = "/search/streams", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ParallelFlux<StreamDetails> searchForTitle(
+    public ParallelFlux<StreamCompleteDetails> searchForTitle(
             @RequestParam @NotNull String title,
             @RequestParam(defaultValue = "en") Language audio,
             @RequestParam(required = false) Language subtitles,

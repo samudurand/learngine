@@ -1,7 +1,7 @@
 package com.learngine.crawler;
 
 import com.learngine.source.Website;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,14 +22,14 @@ import static org.mockito.Mockito.spy;
 
 class UICrawlerTest {
 
-    private final static StreamDetails matrixStream = getMatrixStreamDetails();
+    private final static StreamCompleteDetails matrixStream = getMatrixStreamDetails();
     UICrawler crawler;
     @Mock
     private Website matrixStreamingWebsite;
     private Supplier<WebDriver> browserSupplier = () -> mock(WebDriver.class);
 
-    private static StreamDetails getMatrixStreamDetails() {
-        return new StreamDetails(
+    private static StreamCompleteDetails getMatrixStreamDetails() {
+        return new StreamCompleteDetails(
                 "The Matrix",
                 "https://example/thematrix.html",
                 "http://example/matrix.jpg",

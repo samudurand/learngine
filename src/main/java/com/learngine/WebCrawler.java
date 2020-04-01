@@ -3,7 +3,7 @@ package com.learngine;
 import com.learngine.common.Language;
 import com.learngine.crawler.WebsiteCrawler;
 import com.learngine.source.streaming.SearchEngine;
-import com.learngine.source.streaming.StreamDetails;
+import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class WebCrawler {
         this.streamingSources = streamingSources;
     }
 
-    public ParallelFlux<StreamDetails> search(String movieTitle, Language audio, Language subtitles, Boolean includeSearchEngines) {
+    public ParallelFlux<StreamCompleteDetails> search(String movieTitle, Language audio, Language subtitles, Boolean includeSearchEngines) {
         return findCompatibleSources(audio)
                 .parallel()
                 .runOn(Schedulers.parallel())
@@ -38,7 +38,7 @@ public class WebCrawler {
                 });
     }
 
-    private List<StreamDetails> performSearch(String movieTitle, WebsiteCrawler crawler) {
+    private List<StreamCompleteDetails> performSearch(String movieTitle, WebsiteCrawler crawler) {
         try {
             var results = crawler.searchTitleByName(movieTitle);
             crawler.closeClient();
