@@ -6,6 +6,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.learngine.WebsiteCrawlingException;
 import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
@@ -29,7 +30,8 @@ public class FiveMoviesCrawler extends HeadlessCrawler {
     protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
         var searchPageUrl = String.format("%s/movie/search/%s", website.getUrl(), encodeSearchParams(title));
         var resultsPage = Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(searchPageUrl));
-        return findAndParseResults(resultsPage);
+        return findAndParseResults(resultsPage)
+                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults(Mono<HtmlPage> page) {

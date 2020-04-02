@@ -1,7 +1,10 @@
 package com.learngine.source.streaming;
 
 import com.learngine.source.Website;
+import com.learngine.source.utils.StringUtils;
 import lombok.Data;
+
+import static com.learngine.source.utils.StringUtils.removeExtraWhitespaces;
 
 @Data
 public class StreamCompleteDetails {
@@ -20,7 +23,7 @@ public class StreamCompleteDetails {
     }
 
     public StreamCompleteDetails(StreamHtmlParsedData parsedData, Website source) {
-        this.title = parsedData.getTitle().toLowerCase();
+        this.title = removeExtraWhitespaces(parsedData.getTitle().toLowerCase());
         this.link = parsedData.getLink();
         this.imageUrl = parsedData.getImageUrl();
         this.sourceId = source.getId();

@@ -17,8 +17,8 @@ import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 @Component
 public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
-    public AnimeAltaDefinizioneCrawler(Supplier<WebDriver> browserSupplier) {
-        super(new AnimeAltaDefinizione(), browserSupplier);
+    public AnimeAltaDefinizioneCrawler(AnimeAltaDefinizione website, Supplier<WebDriver> browserSupplier) {
+        super(website, browserSupplier);
     }
 
     @Override

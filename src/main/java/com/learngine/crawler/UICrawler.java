@@ -5,7 +5,9 @@ import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.WebDriver;
+import reactor.core.publisher.Flux;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -39,6 +41,10 @@ public abstract class UICrawler implements WebsiteCrawler {
 
     public void navigateToWebsite() {
         getOrCreateBrowser().get(website.getUrl());
+    }
+
+    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
+        throw new NotImplementedException("Method not yet implemented");
     }
 
     public List<StreamCompleteDetails> searchTitleByName(String title) {

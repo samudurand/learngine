@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Component
 class FilmFraCrawler extends UICrawler {
 
-    public FilmFraCrawler(Supplier<WebDriver> browserSupplier) {
-        super(new FilmFra(), browserSupplier);
+    public FilmFraCrawler(FilmFra website, Supplier<WebDriver> browserSupplier) {
+        super(website, browserSupplier);
     }
 
     /**
