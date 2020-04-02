@@ -22,24 +22,25 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @ExtendWith(WireMockExtension.class)
-class FiveMoviesCrawlerTest {
+class ISubsMoviesCrawlerTest {
 
     @Managed
     WireMockServer wireMockServer = with(wireMockConfig().dynamicPort());
 
-    FiveMoviesCrawler crawler;
+    ISubsMoviesCrawler crawler;
+    String websiteUrl;
 
     @BeforeEach
     void setUp() {
-        var websiteUrl = "http://localhost:" + wireMockServer.port();
-        FiveMovies website = new MockWebsite(websiteUrl);
-        crawler = new FiveMoviesCrawler(website, new HeadlessCrawlerConfig().defaultWebClient());
+        websiteUrl = "http://localhost:" + wireMockServer.port();
+        ISubsMovies website = new ISubsMoviesCrawlerTest.MockWebsite(websiteUrl);
+        crawler = new ISubsMoviesCrawler(website, new HeadlessCrawlerConfig().defaultWebClient());
     }
 
     @Test
     void performSearchForTitleMatrixAndParseResults() throws IOException {
-        String html = FileUtils.readFile("/html/5movies/matrix.html");
-        stubFor(get("/movie/search/matrix").willReturn(aResponse().withBody(html)));
+        String html = FileUtils.readFile("/html/isubsmovies/matrix.html");
+        stubFor(get("/search/matrix").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("matrix");
 
@@ -48,8 +49,8 @@ class FiveMoviesCrawlerTest {
 
     @Test
     void performSearchForTitleWithoutResults() throws IOException {
-        String html = FileUtils.readFile("/html/5movies/no_results.html");
-        stubFor(get("/movie/search/no+results").willReturn(aResponse().withBody(html)));
+        String html = FileUtils.readFile("/html/isubsmovies/no_results.html");
+        stubFor(get("/search/no%20results").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("no results");
 
@@ -58,8 +59,8 @@ class FiveMoviesCrawlerTest {
 
     @Test
     void performSearchForMatrixFailsWhenElementLacksTitleElement() throws IOException {
-        String html = FileUtils.readFile("/html/5movies/missing_title.html");
-        stubFor(get("/movie/search/notitle").willReturn(aResponse().withBody(html)));
+        String html = FileUtils.readFile("/html/isubsmovies/missing_title.html");
+        stubFor(get("/search/notitle").willReturn(aResponse().withBody(html)));
 
         var resultFlux = crawler.performSearchAndParseResults("notitle");
 
@@ -73,26 +74,32 @@ class FiveMoviesCrawlerTest {
         return List.of(
                 new StreamCompleteDetails(
                         "the matrix",
-                        "https://5movies.cloud/film/the-matrix-1967/",
-                        "https://i.vodn.in/p-max/200/the-matrix-1967.jpg",
-                        "5movies",
-                        "5 Movies"),
-                new StreamCompleteDetails(
-                        "the matrix revolutions",
-                        "https://5movies.cloud/film/the-matrix-revolutions-1969/",
-                        "https://i.vodn.in/p-max/200/the-matrix-revolutions-1969.jpg",
-                        "5movies",
-                        "5 Movies"),
+                        websiteUrl + "/movie/watch-the-matrix-online-0133093",
+                        websiteUrl + "/admin/covers/27ed0fb950b856b06e1273989422e7d3",
+                        "isubsmovies",
+                        "I Subs Movies"),
                 new StreamCompleteDetails(
                         "the matrix reloaded",
-                        "https://5movies.cloud/film/the-matrix-reloaded-1968/",
-                        "https://i.vodn.in/p-max/200/the-matrix-reloaded-1968.jpg",
-                        "5movies",
-                        "5 Movies")
+                        websiteUrl + "/movie/watch-the-matrix-reloaded-online-0234215",
+                        websiteUrl + "/admin/covers/5dd3e474f6e08e3316ce5e3bc36c666e",
+                        "isubsmovies",
+                        "I Subs Movies"),
+                new StreamCompleteDetails(
+                        "the matrix revolutions",
+                        websiteUrl + "/movie/watch-the-matrix-revolutions-online-0242653",
+                        websiteUrl + "/admin/covers/acf666483bc8723fae7feda6f6a9cb7a",
+                        "isubsmovies",
+                        "I Subs Movies"),
+                new StreamCompleteDetails(
+                        "the animatrix",
+                        websiteUrl + "/movie/watch-the-animatrix-online-0328832",
+                        websiteUrl + "/admin/covers/754abf02507264c05c99e9880a63bac2",
+                        "isubsmovies",
+                        "I Subs Movies")
         );
     }
 
-    static class MockWebsite extends FiveMovies {
+    static class MockWebsite extends ISubsMovies {
         private final String wiremockUrl;
 
         public MockWebsite(String wiremockUrl) {

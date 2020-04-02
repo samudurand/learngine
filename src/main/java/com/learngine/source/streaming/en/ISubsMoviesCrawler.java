@@ -8,8 +8,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
+import com.learngine.source.streaming.StreamHtmlParsedData;
 import com.learngine.source.utils.UrlFormatter;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,22 +29,29 @@ class ISubsMoviesCrawler extends HeadlessCrawler {
     }
 
     @Override
-    protected HtmlPage performSearch(String title) throws IOException {
-        return getOrCreateClient().getPage(String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title)));
+    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
+        var searchPageUrl = String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title));
+        var resultsPage = Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(searchPageUrl));
+        return findAndParseResults(resultsPage);
     }
 
-    @Override
-    protected List<StreamCompleteDetails> parseResults(HtmlPage page) {
-        List<HtmlElement> elts = page.getByXPath("//figcaption");
-        return elts.stream()
-                .map(elt -> new StreamCompleteDetails(
-                        ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent(),
-                        UrlFormatter.generateFullLink(website.getUrl(),
-                                ((HtmlAnchor) elt.getFirstByXPath(".//parent::figure/parent::a")).getHrefAttribute()),
-                        UrlFormatter.generateFullLink(website.getUrl(),
-                                ((HtmlImage) elt.getFirstByXPath(".//parent::figure//img")).getSrcAttribute()),
-                        website.getId(),
-                        website.getName()
-                )).collect(Collectors.toList());
+    private Flux<StreamCompleteDetails> findAndParseResults(Mono<HtmlPage> page) {
+        return page
+                .flatMapMany(this::findResultHtmlElementsInPage)
+                .map(this::extractStreamDataFromHtmlElement)
+                .map(htmlData -> new StreamCompleteDetails(htmlData, website));
+    }
+
+    private Flux<HtmlElement> findResultHtmlElementsInPage(HtmlPage page) {
+        return Flux.fromIterable(page.getByXPath("//figcaption"));
+    }
+
+    private StreamHtmlParsedData extractStreamDataFromHtmlElement(HtmlElement elt) {
+        var title = ((HtmlHeading2) elt.getFirstByXPath(".//h2")).getTextContent();
+        var streamLink = UrlFormatter.generateFullLink(website.getUrl(),
+                ((HtmlAnchor) elt.getFirstByXPath(".//parent::figure/parent::a")).getHrefAttribute());
+        var imgLink = UrlFormatter.generateFullLink(website.getUrl(),
+                ((HtmlImage) elt.getFirstByXPath(".//parent::figure//img")).getSrcAttribute());
+        return new StreamHtmlParsedData(title, streamLink, imgLink);
     }
 }
