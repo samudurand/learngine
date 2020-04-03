@@ -7,11 +7,15 @@ import com.learngine.FileUtils;
 import com.learngine.WebsiteCrawlingException;
 import com.learngine.crawler.UICrawlerConfig;
 import com.learngine.source.streaming.StreamCompleteDetails;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testcontainers.containers.BrowserWebDriverContainer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -27,28 +31,18 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @ExtendWith(WireMockExtension.class)
-@Testcontainers
-class AltaDefinizioneCrawlerTest {
+class AltaDefinizioneCrawlerTest implements SeleniumTest {
 
     @Managed
-    WireMockServer wireMockServer = with(wireMockConfig().dynamicPort());
-
-    @Container
-    GenericContainer seleniumNode =
-            new GenericContainer<>("selenium/standalone-chrome:3.141.59-zirconium").withExposedPorts(4444).withNetworkMode("host");
-
-    UICrawlerConfig config = new UICrawlerConfig();
+    final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_APP_PORT));
 
     AltaDefinizioneCrawler crawler;
-    String websiteUrl;
+    String websiteUrl = SeleniumTest.EXPECTED_WEBSITE_URL;
 
     @BeforeEach
     void setUp() {
-        websiteUrl = "http://localhost:" + wireMockServer.port();
-        var seleniumNodeUrl = String.format("http://%s:%d/wd/hub", seleniumNode.getContainerIpAddress(), seleniumNode.getFirstMappedPort());
-
         AltaDefinizione website = new AltaDefinizioneCrawlerTest.MockWebsite(websiteUrl);
-        crawler = new AltaDefinizioneCrawler(website, config.remoteBrowser(seleniumNodeUrl, config.browserOptions()));
+        crawler = new AltaDefinizioneCrawler(website, seleniumNode::getWebDriver);
     }
 
     @Test
@@ -82,11 +76,6 @@ class AltaDefinizioneCrawlerTest {
                 .create(resultFlux)
                 .expectError(WebsiteCrawlingException.class)
                 .verify();
-    }
-
-    @AfterEach
-    public void closeDrivers() {
-        crawler.closeClient();
     }
 
     private List<StreamCompleteDetails> matrixStreams() {
