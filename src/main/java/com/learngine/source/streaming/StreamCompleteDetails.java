@@ -1,7 +1,6 @@
 package com.learngine.source.streaming;
 
 import com.learngine.source.Website;
-import com.learngine.source.utils.StringUtils;
 import lombok.Data;
 
 import static com.learngine.source.utils.StringUtils.removeExtraWhitespaces;

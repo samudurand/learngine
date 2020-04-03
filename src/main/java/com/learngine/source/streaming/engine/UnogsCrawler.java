@@ -8,7 +8,6 @@ import com.learngine.source.streaming.StreamHtmlParsedData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.learngine.source.utils.HttpUtils.alternativeEncodeSearchParams;
-import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 /**
  * Netflix search engine, currenlty not disabled.

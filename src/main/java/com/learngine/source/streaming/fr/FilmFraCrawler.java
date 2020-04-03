@@ -10,11 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 /**
  * This is not using the "Search" feature of this website,

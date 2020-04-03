@@ -4,7 +4,7 @@ import com.learngine.common.Language;
 import com.learngine.source.Website;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StreamCompleteDetailsTest {
 

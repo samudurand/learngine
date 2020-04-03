@@ -7,7 +7,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.WebDriver;
 import reactor.core.publisher.Flux;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
 

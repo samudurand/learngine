@@ -1,9 +1,5 @@
 package com.learngine.source.streaming.it;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlImage;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.WebsiteCrawlingException;
 import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
@@ -13,14 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
-import static com.learngine.source.utils.HttpUtils.alternativeEncodeSearchParams;
 import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
 
 @Component
@@ -32,9 +23,9 @@ public class AltaDefinizioneCrawler extends UICrawler {
 
     @Override
     protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
-            getOrCreateBrowser().get(buildSearchUrl(title));
-            return findAndParseResults()
-                    .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
+        getOrCreateBrowser().get(buildSearchUrl(title));
+        return findAndParseResults()
+                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
 
     private String buildSearchUrl(String title) {
