@@ -27,7 +27,7 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
     }
 
     @Override
-    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
+    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         getOrCreateBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));

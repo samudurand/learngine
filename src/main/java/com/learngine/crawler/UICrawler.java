@@ -43,7 +43,7 @@ public abstract class UICrawler implements WebsiteCrawler {
         getOrCreateBrowser().get(website.getUrl());
     }
 
-    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
+    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         throw new NotImplementedException("Method not yet implemented");
     }
 

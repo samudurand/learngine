@@ -6,7 +6,7 @@ import com.learngine.source.streaming.SearchEngine;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Unog implements Website, SearchEngine {
+public class Unogs implements Website, SearchEngine {
 
     public static final String netflixUrlPattern = "https://netflix.com/title/%s";
 
