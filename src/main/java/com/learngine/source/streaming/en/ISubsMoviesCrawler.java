@@ -31,15 +31,17 @@ class ISubsMoviesCrawler extends HeadlessCrawler {
 
     @Override
     protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
-        var searchPageUrl = String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title));
-        var resultsPage = Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(searchPageUrl));
-        return findAndParseResults(resultsPage)
+        return Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(buildSearchUrl(title)))
+                .flatMapMany(this::findAndParseResults)
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
 
-    private Flux<StreamCompleteDetails> findAndParseResults(Mono<HtmlPage> page) {
-        return page
-                .flatMapMany(this::findResultHtmlElementsInPage)
+    private String buildSearchUrl(String title) {
+        return String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title));
+    }
+
+    private Flux<StreamCompleteDetails> findAndParseResults(HtmlPage page) {
+        return findResultHtmlElementsInPage(page)
                 .map(this::extractStreamDataFromHtmlElement)
                 .map(htmlData -> new StreamCompleteDetails(htmlData, website));
     }

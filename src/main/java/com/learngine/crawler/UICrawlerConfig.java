@@ -55,7 +55,7 @@ public class UICrawlerConfig {
                 browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 return browser;
             } catch (MalformedURLException e) {
-                throw new SearchFailedException();
+                throw new SearchFailedException(e);
             }
         };
     }

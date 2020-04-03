@@ -4,6 +4,7 @@ import com.github.jenspiegsa.wiremockextension.Managed;
 import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.learngine.FileUtils;
+import com.learngine.WebsiteCrawlingException;
 import com.learngine.crawler.HeadlessCrawlerConfig;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import org.junit.jupiter.api.Assertions;
@@ -65,7 +66,7 @@ class FiveMoviesCrawlerTest {
 
         StepVerifier
                 .create(resultFlux)
-                .expectError(NullPointerException.class)
+                .expectError(WebsiteCrawlingException.class)
                 .verify();
     }
 

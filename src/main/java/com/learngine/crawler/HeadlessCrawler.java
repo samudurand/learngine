@@ -50,7 +50,7 @@ public abstract class HeadlessCrawler implements WebsiteCrawler {
             return resultsFound;
         } catch (IOException e) {
             log.error("Search failed on website " + website.getName(), e);
-            throw new SearchFailedException();
+            throw new SearchFailedException(e);
         }
     }
 

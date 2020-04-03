@@ -11,7 +11,7 @@ public class HttpUtils {
         try {
             return URLEncoder.encode(param, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            throw new SearchFailedException();
+            throw new SearchFailedException(e);
         }
     }
 

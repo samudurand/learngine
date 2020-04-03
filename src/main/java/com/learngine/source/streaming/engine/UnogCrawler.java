@@ -39,7 +39,7 @@ public class UnogCrawler extends UICrawler {
             searchButton.click();
 
         } catch (Exception e) {
-            throw new SearchFailedException();
+            throw new SearchFailedException(e);
         }
     }
 

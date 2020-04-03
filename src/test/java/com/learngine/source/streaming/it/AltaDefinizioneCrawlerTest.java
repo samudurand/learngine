@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
@@ -24,21 +27,28 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @ExtendWith(WireMockExtension.class)
+@Testcontainers
 class AltaDefinizioneCrawlerTest {
 
     @Managed
     WireMockServer wireMockServer = with(wireMockConfig().dynamicPort());
 
-    AltaDefinizioneCrawler crawler;
-    String websiteUrl;
+    @Container
+    GenericContainer seleniumNode =
+            new GenericContainer<>("selenium/standalone-chrome:3.141.59-zirconium").withExposedPorts(4444).withNetworkMode("host");
 
     UICrawlerConfig config = new UICrawlerConfig();
+
+    AltaDefinizioneCrawler crawler;
+    String websiteUrl;
 
     @BeforeEach
     void setUp() {
         websiteUrl = "http://localhost:" + wireMockServer.port();
+        var seleniumNodeUrl = String.format("http://%s:%d/wd/hub", seleniumNode.getContainerIpAddress(), seleniumNode.getFirstMappedPort());
+
         AltaDefinizione website = new AltaDefinizioneCrawlerTest.MockWebsite(websiteUrl);
-        crawler = new AltaDefinizioneCrawler(website, config.defaultBrowser(config.browserOptions()));
+        crawler = new AltaDefinizioneCrawler(website, config.remoteBrowser(seleniumNodeUrl, config.browserOptions()));
     }
 
     @Test
@@ -86,7 +96,7 @@ class AltaDefinizioneCrawlerTest {
                         "https://altadefinizione.style/matrix-reloaded-streaming-ita/",
                         "",
                         "altadefinizione",
-                        "Alta Definizione"), container
+                        "Alta Definizione"),
                 new StreamCompleteDetails(
                         "matrix",
                         "https://altadefinizione.style/matrix-streaming-ita/",
