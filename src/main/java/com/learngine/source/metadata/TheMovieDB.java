@@ -16,7 +16,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.function.Function;
 
-import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
 
 @Component
 @Slf4j
@@ -41,7 +41,7 @@ public class TheMovieDB implements MetadataSource {
     }
 
     private String buildSearchMoviesUrl(String title) {
-        return String.format("%s/%s/search/movie?api_key=%s&query=%s", baseUrl, apiVersion, apiToken, encodeSearchParams(title));
+        return String.format("%s/%s/search/movie?api_key=%s&query=%s", baseUrl, apiVersion, apiToken, encodeRequestParams(title));
     }
 
     private Function<String, Publisher<? extends MovieMetadata>> parseBodyIntoMoviesMetadata(String title) {

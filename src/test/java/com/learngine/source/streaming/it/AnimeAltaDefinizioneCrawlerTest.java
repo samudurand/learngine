@@ -4,7 +4,7 @@ import com.github.jenspiegsa.wiremockextension.Managed;
 import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.learngine.FileUtils;
-import com.learngine.WebsiteCrawlingException;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

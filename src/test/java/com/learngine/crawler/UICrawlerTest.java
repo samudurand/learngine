@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebDriver;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,41 +20,21 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 class UICrawlerTest {
 
-    private final static StreamCompleteDetails matrixStream = getMatrixStreamDetails();
-    UICrawler crawler;
-    @Mock
-    private Website matrixStreamingWebsite;
+    private UICrawler crawler;
     private Supplier<WebDriver> browserSupplier = () -> mock(WebDriver.class);
-
-    private static StreamCompleteDetails getMatrixStreamDetails() {
-        return new StreamCompleteDetails(
-                "The Matrix",
-                "https://example/thematrix.html",
-                "http://example/matrix.jpg",
-                "loveMatrix",
-                "Love Matrix");
-    }
 
     @BeforeEach
     void setUp() {
-        crawler = spy(new UICrawler(matrixStreamingWebsite, browserSupplier) {
-        });
-    }
-
-    @Test
-    void searchByTitlePerformsSearchThenParseResults() throws IOException {
-        doNothing().when(crawler).performSearch("matrix");
-        var expectedResults = List.of(matrixStream);
-        doReturn(expectedResults).when(crawler).parseResults();
-
-        var result = crawler.searchTitleByName("matrix");
-
-        Mockito.verify(crawler).performSearch("matrix");
-        Mockito.verify(crawler).parseResults();
-        assertIterableEquals(expectedResults, result);
+        crawler = new UICrawler(mock(Website.class), browserSupplier) {
+            @Override
+            public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
+                return null;
+            }
+        };
     }
 
     @Test

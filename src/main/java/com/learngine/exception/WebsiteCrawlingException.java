@@ -1,4 +1,4 @@
-package com.learngine;
+package com.learngine.exception;
 
 import com.learngine.source.Website;
 

@@ -1,4 +1,4 @@
-package com.learngine.config;
+package com.learngine.exception;
 
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;

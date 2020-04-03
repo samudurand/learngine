@@ -1,6 +1,6 @@
 package com.learngine.source.streaming.fr;
 
-import com.learngine.WebsiteCrawlingException;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
@@ -25,7 +25,7 @@ class FilmFraCrawler extends UICrawler {
     }
 
     @Override
-    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
+    public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         performSearch(title);
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));

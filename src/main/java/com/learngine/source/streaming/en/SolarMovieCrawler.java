@@ -5,7 +5,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.WebsiteCrawlingException;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
@@ -13,10 +13,9 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.function.Supplier;
 
-import static com.learngine.source.utils.HttpUtils.alternativeEncodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeUrlPathParams;
 
 @Component
 public class SolarMovieCrawler extends HeadlessCrawler {
@@ -26,14 +25,14 @@ public class SolarMovieCrawler extends HeadlessCrawler {
     }
 
     @Override
-    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
+    public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         return Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(buildSearchUrl(title)))
                 .flatMapMany(this::findAndParseResults)
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
 
     private String buildSearchUrl(String title) {
-        return String.format("%s/search/%s", website.getUrl(), alternativeEncodeSearchParams(title));
+        return String.format("%s/search/%s", website.getUrl(), encodeUrlPathParams(title));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults(HtmlPage page) {

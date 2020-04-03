@@ -1,6 +1,6 @@
 package com.learngine.crawler;
 
-import com.learngine.config.SearchFailedException;
+import com.learngine.exception.ConfigurationException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -55,7 +55,7 @@ public class UICrawlerConfig {
                 browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 return browser;
             } catch (MalformedURLException e) {
-                throw new SearchFailedException(e);
+                throw new ConfigurationException(e);
             }
         };
     }

@@ -1,19 +1,14 @@
 package com.learngine.crawler;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.config.SearchFailedException;
 import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Flux;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,45 +24,17 @@ import static org.mockito.Mockito.spy;
 @ExtendWith(MockitoExtension.class)
 class HeadlessCrawlerTest {
 
-    private final static StreamCompleteDetails matrixStream = getMatrixStreamDetails();
-    HeadlessCrawler crawler;
-    @Mock
-    private Website matrixStreamingWebsite;
+    private HeadlessCrawler crawler;
     private Supplier<WebClient> clientSupplier = () -> mock(WebClient.class);
-
-    private static StreamCompleteDetails getMatrixStreamDetails() {
-        return new StreamCompleteDetails(
-                "The Matrix",
-                "https://example/thematrix.html",
-                "http://example/matrix.jpg",
-                "loveMatrix",
-                "Love Matrix");
-    }
 
     @BeforeEach
     void setUp() {
-        crawler = spy(new HeadlessCrawler(matrixStreamingWebsite, clientSupplier) {
-        });
-    }
-
-    @Test
-    void searchByTitlePerformsSearchThenParseResults() throws IOException {
-        var searchResultPage = Mockito.mock(HtmlPage.class);
-        doReturn(searchResultPage).when(crawler).performSearch("matrix");
-        var expectedResults = List.of(matrixStream);
-        doReturn(expectedResults).when(crawler).parseResults(searchResultPage);
-
-        var result = crawler.searchTitleByName("matrix");
-
-        Mockito.verify(crawler).performSearch("matrix");
-        Mockito.verify(crawler).parseResults(searchResultPage);
-        assertIterableEquals(expectedResults, result);
-    }
-
-    @Test
-    void searchByTitleFails() throws IOException {
-        doThrow(new IOException("Search failed")).when(crawler).performSearch(any());
-        assertThrows(SearchFailedException.class, () -> crawler.searchTitleByName("matrix"));
+        crawler = new HeadlessCrawler(mock(Website.class), clientSupplier) {
+            @Override
+            public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
+                return null;
+            }
+        };
     }
 
     @Test

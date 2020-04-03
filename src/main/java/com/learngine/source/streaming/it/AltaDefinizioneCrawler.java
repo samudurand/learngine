@@ -1,6 +1,6 @@
 package com.learngine.source.streaming.it;
 
-import com.learngine.WebsiteCrawlingException;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.UICrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.function.Supplier;
 
-import static com.learngine.source.utils.HttpUtils.encodeSearchParams;
+import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
 
 @Component
 public class AltaDefinizioneCrawler extends UICrawler {
@@ -22,14 +22,14 @@ public class AltaDefinizioneCrawler extends UICrawler {
     }
 
     @Override
-    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
+    public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         getOrCreateBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
 
     private String buildSearchUrl(String title) {
-        return String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title));
+        return String.format("%s?s=%s", website.getUrl(), encodeRequestParams(title));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults() {

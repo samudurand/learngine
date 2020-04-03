@@ -42,33 +42,6 @@ public abstract class UICrawler implements WebsiteCrawler {
         getOrCreateBrowser().get(website.getUrl());
     }
 
-    protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
-        throw new NotImplementedException("Method not yet implemented");
-    }
-
-    public List<StreamCompleteDetails> searchTitleByName(String title) {
-        performSearch(title);
-        List<StreamCompleteDetails> resultsFound = parseResults();
-
-        log.debug("Found {} results for '{}' search: {}", resultsFound.size(), title, resultsFound);
-        return resultsFound;
-    }
-
-    /**
-     * Navigate on the targeted website until it is in a state displaying the search results. Ready to be processed by {@link #parseResults()}.
-     */
-    protected List<StreamCompleteDetails> parseResults() {
-        throw new NotImplementedException("Method not yet implemented");
-    }
-
-    /**
-     * Assume the website is currently displaying the search results. See {@link #performSearch(String)}
-     * Parse the web page content to extract all visible search results.
-     */
-    protected void performSearch(String title) {
-        throw new NotImplementedException("Method not yet implemented");
-    }
-
     protected Boolean isImageRetrievable() {
         return !website.isCloudflareProtected();
     }

@@ -34,19 +34,19 @@ public class WebCrawler {
                     if (source.getWebsite() instanceof SearchEngine && !includeSearchEngines) {
                         return Flux.fromIterable(new ArrayList<>());
                     }
-                    return Flux.fromIterable(performSearch(movieTitle, source));
+                    return performSearch(movieTitle, source);
                 });
     }
 
-    private List<StreamCompleteDetails> performSearch(String movieTitle, WebsiteCrawler crawler) {
+    private Flux<StreamCompleteDetails> performSearch(String movieTitle, WebsiteCrawler crawler) {
         try {
-            var results = crawler.searchTitleByName(movieTitle);
+            var results = crawler.performSearchAndParseResults(movieTitle);
             crawler.closeClient();
             return results;
         } catch (Exception ex) {
             log.error("An exception occurred during the search on website " + crawler.getWebsite().getName(), ex);
             crawler.closeClient();
-            return new ArrayList<>();
+            return Flux.empty();
         }
     }
 
