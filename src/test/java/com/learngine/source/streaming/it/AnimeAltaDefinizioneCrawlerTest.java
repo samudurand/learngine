@@ -22,33 +22,33 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @ExtendWith(WireMockExtension.class)
-class AltaDefinizioneCrawlerTest implements SeleniumTest {
+class AnimeAltaDefinizioneCrawlerTest implements SeleniumTest {
 
     @Managed
     final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_APP_PORT));
 
-    AltaDefinizioneCrawler crawler;
+    AnimeAltaDefinizioneCrawler crawler;
     String websiteUrl = SeleniumTest.EXPECTED_WEBSITE_URL;
 
     @BeforeEach
     void setUp() {
-        AltaDefinizione website = new AltaDefinizioneCrawlerTest.MockWebsite(websiteUrl);
-        crawler = new AltaDefinizioneCrawler(website, seleniumNode::getWebDriver);
+        AnimeAltaDefinizione website = new AnimeAltaDefinizioneCrawlerTest.MockWebsite(websiteUrl);
+        crawler = new AnimeAltaDefinizioneCrawler(website, seleniumNode::getWebDriver);
     }
 
     @Test
     void performSearchForTitleMatrixAndParseResults() throws IOException {
-        String html = FileUtils.readFile("/html/altaDefinizione/matrix.html");
-        stubFor(get("/?s=matrix").willReturn(aResponse().withBody(html)));
+        String html = FileUtils.readFile("/html/animealtadefinizione/naruto.html");
+        stubFor(get("/?s=naruto").willReturn(aResponse().withBody(html)));
 
-        var results = crawler.performSearchAndParseResults("matrix");
+        var results = crawler.performSearchAndParseResults("naruto");
 
-        Assertions.assertIterableEquals(matrixStreams(), results.toIterable());
+        Assertions.assertIterableEquals(narutoStreams(), results.toIterable());
     }
 
     @Test
     void performSearchForTitleWithoutResults() throws IOException {
-        String html = FileUtils.readFile("/html/altaDefinizione/no_results.html");
+        String html = FileUtils.readFile("/html/animealtadefinizione/no_results.html");
         stubFor(get("/?s=no+results").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("no results");
@@ -58,7 +58,7 @@ class AltaDefinizioneCrawlerTest implements SeleniumTest {
 
     @Test
     void performSearchForMatrixFailsWhenElementLacksAnchorElement() throws IOException {
-        String html = FileUtils.readFile("/html/altadefinizione/missing_link.html");
+        String html = FileUtils.readFile("/html/animealtadefinizione/missing_link.html");
         stubFor(get("/?s=notitle").willReturn(aResponse().withBody(html)));
 
         var resultFlux = crawler.performSearchAndParseResults("notitle");
@@ -69,30 +69,24 @@ class AltaDefinizioneCrawlerTest implements SeleniumTest {
                 .verify();
     }
 
-    private List<StreamCompleteDetails> matrixStreams() {
+    private List<StreamCompleteDetails> narutoStreams() {
         return List.of(
                 new StreamCompleteDetails(
-                        "matrix reloaded",
-                        "https://altadefinizione.style/matrix-reloaded-streaming-ita/",
+                        "naruto shippuden ita",
+                        "https://www.animealtadefinizione.it/naruto-shippuden-ita-streaming-download/",
                         "",
-                        "altadefinizione",
-                        "Alta Definizione"),
+                        "animealtadefinizione",
+                        "Anime Alta Definizione"),
                 new StreamCompleteDetails(
-                        "matrix",
-                        "https://altadefinizione.style/matrix-streaming-ita/",
+                        "naruto ita",
+                        "https://www.animealtadefinizione.it/naruto-ita-streaming-download/",
                         "",
-                        "altadefinizione",
-                        "Alta Definizione"),
-                new StreamCompleteDetails(
-                        "matrix revolutions",
-                        "https://altadefinizione.style/matrix-revolutions-stream/",
-                        "",
-                        "altadefinizione",
-                        "Alta Definizione")
+                        "animealtadefinizione",
+                        "Anime Alta Definizione")
         );
     }
 
-    static class MockWebsite extends AltaDefinizione {
+    static class MockWebsite extends AnimeAltaDefinizione {
         private final String wiremockUrl;
 
         public MockWebsite(String wiremockUrl) {

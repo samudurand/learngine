@@ -32,10 +32,13 @@ public class AltaDefinizioneCrawler extends UICrawler {
 
     @Override
     protected Flux<StreamCompleteDetails> performSearchAndParseResults(String title) throws IOException {
-            final var searchPageUrl = String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title));
-            getOrCreateBrowser().get(searchPageUrl);
+            getOrCreateBrowser().get(buildSearchUrl(title));
             return findAndParseResults()
                     .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
+    }
+
+    private String buildSearchUrl(String title) {
+        return String.format("%s?s=%s", website.getUrl(), encodeSearchParams(title));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults() {

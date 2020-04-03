@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @Component
 public class UnogCrawler extends UICrawler {
 
-    public UnogCrawler(Supplier<WebDriver> browserSupplier) {
-        super(new Unog(), browserSupplier);
+    public UnogCrawler(Unog website, Supplier<WebDriver> browserSupplier) {
+        super(website, browserSupplier);
     }
 
     @Override
@@ -24,11 +24,6 @@ public class UnogCrawler extends UICrawler {
             // Prevent failed loading of the main page
             getOrCreateBrowser().get("http://localhost");
             navigateToWebsite();
-
-            // Attempt to handle ads redirection
-            //if (!browser.getCurrentUrl().contains(website.getUrl())) {
-            //    navigateToWebsite();
-            //}
 
             // Wait a little to leave some time to the JS to execute
             Thread.sleep(2000);
