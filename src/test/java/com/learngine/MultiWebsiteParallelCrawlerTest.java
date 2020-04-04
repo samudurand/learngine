@@ -103,7 +103,7 @@ class MultiWebsiteParallelCrawlerTest {
     }
 
     @Test
-    public void aSingleCrawlerFailingDoesNotFailTheWholeSearch() {
+    public void aSingleCrawlerFailingDoesNotFailTheWholeSearchAndStillCloseClient() {
         setupNewCrawlerWithNewResult(uiCrawler, Language.ENGLISH);
         setupNewCrawlerWithNewResult(headlessCrawler, Language.ENGLISH);
         when(uiCrawler.performSearchAndParseResults("matrix")).thenThrow(WebsiteCrawlingException.class);
@@ -115,6 +115,7 @@ class MultiWebsiteParallelCrawlerTest {
                 .recordWith(ArrayList::new)
                 .expectNextCount(1)
                 .verifyComplete();
+        verify(uiCrawler, times(1)).closeClient();
     }
 
     private StreamCompleteDetails setupNewCrawlerWithNewResult(WebsiteCrawler crawler, Language language) {
