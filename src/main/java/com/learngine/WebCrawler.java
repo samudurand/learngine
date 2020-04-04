@@ -3,7 +3,6 @@ package com.learngine;
 import com.learngine.common.Language;
 import com.learngine.crawler.WebsiteCrawler;
 import com.learngine.exception.WebsiteCrawlingException;
-import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +31,11 @@ public class WebCrawler {
         this.streamingSources = streamingSources;
     }
 
-    public ParallelFlux<StreamCompleteDetails> search(String movieTitle, Language audio, Language subtitles, Boolean includeSearchEngines) {
+    public ParallelFlux<StreamCompleteDetails> search(String movieTitle, Language audio) {
         return findCompatibleSources(audio)
                 .parallel()
                 .runOn(Schedulers.parallel())
-                .flatMap(source -> {
-                    if (source.getWebsite() instanceof SearchEngine && !includeSearchEngines) {
-                        return Flux.fromIterable(new ArrayList<>());
-                    }
-                    return performSearch(movieTitle, source);
-                });
+                .flatMap(source -> performSearch(movieTitle, source));
     }
 
     private Flux<StreamCompleteDetails> performSearch(final String movieTitle, final WebsiteCrawler crawler) {
@@ -63,7 +57,6 @@ public class WebCrawler {
 
     private Flux<WebsiteCrawler> findCompatibleSources(Language audio) {
         return Flux.fromIterable(streamingSources)
-                .filter(crawler -> crawler.getWebsite() instanceof SearchEngine
-                        || crawler.getWebsite().getAudioLanguage().equals(audio));
+                .filter(crawler -> crawler.getWebsite().getAudioLanguage().equals(audio));
     }
 }
