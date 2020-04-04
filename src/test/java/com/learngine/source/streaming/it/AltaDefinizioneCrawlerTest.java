@@ -76,19 +76,22 @@ class AltaDefinizioneCrawlerTest implements SeleniumTest {
                         "https://altadefinizione.style/matrix-reloaded-streaming-ita/",
                         "",
                         "altadefinizione",
-                        "Alta Definizione"),
+                        "Alta Definizione",
+                        ""),
                 new StreamCompleteDetails(
                         "matrix",
                         "https://altadefinizione.style/matrix-streaming-ita/",
                         "",
                         "altadefinizione",
-                        "Alta Definizione"),
+                        "Alta Definizione",
+                        ""),
                 new StreamCompleteDetails(
                         "matrix revolutions",
                         "https://altadefinizione.style/matrix-revolutions-stream/",
                         "",
                         "altadefinizione",
-                        "Alta Definizione")
+                        "Alta Definizione",
+                        "")
         );
     }
 

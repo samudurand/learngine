@@ -78,25 +78,29 @@ class ISubsMoviesCrawlerTest {
                         websiteUrl + "/movie/watch-the-matrix-online-0133093",
                         websiteUrl + "/admin/covers/27ed0fb950b856b06e1273989422e7d3",
                         "isubsmovies",
-                        "I Subs Movies"),
+                        "I Subs Movies",
+                        ""),
                 new StreamCompleteDetails(
                         "the matrix reloaded",
                         websiteUrl + "/movie/watch-the-matrix-reloaded-online-0234215",
                         websiteUrl + "/admin/covers/5dd3e474f6e08e3316ce5e3bc36c666e",
                         "isubsmovies",
-                        "I Subs Movies"),
+                        "I Subs Movies",
+                        ""),
                 new StreamCompleteDetails(
                         "the matrix revolutions",
                         websiteUrl + "/movie/watch-the-matrix-revolutions-online-0242653",
                         websiteUrl + "/admin/covers/acf666483bc8723fae7feda6f6a9cb7a",
                         "isubsmovies",
-                        "I Subs Movies"),
+                        "I Subs Movies",
+                        ""),
                 new StreamCompleteDetails(
                         "the animatrix",
                         websiteUrl + "/movie/watch-the-animatrix-online-0328832",
                         websiteUrl + "/admin/covers/754abf02507264c05c99e9880a63bac2",
                         "isubsmovies",
-                        "I Subs Movies")
+                        "I Subs Movies",
+                        "")
         );
     }
 

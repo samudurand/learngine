@@ -5,8 +5,8 @@ import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.learngine.FileUtils;
 import com.learngine.exception.WebsiteCrawlingException;
-import com.learngine.crawler.HeadlessCrawlerConfig;
 import com.learngine.source.streaming.StreamCompleteDetails;
+import com.learngine.source.streaming.it.SeleniumTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,25 +23,24 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
 @ExtendWith(WireMockExtension.class)
-class SolarMovieCrawlerTest {
+class SolarMovieCrawlerTest implements SeleniumTest {
 
     @Managed
-    WireMockServer wireMockServer = with(wireMockConfig().dynamicPort());
+    final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_APP_PORT));
 
     SolarMovieCrawler crawler;
-    String websiteUrl;
+    String websiteUrl = SeleniumTest.EXPECTED_WEBSITE_URL;
 
     @BeforeEach
     void setUp() {
-        websiteUrl = "http://localhost:" + wireMockServer.port();
         SolarMovie website = new SolarMovieCrawlerTest.MockWebsite(websiteUrl);
-        crawler = new SolarMovieCrawler(website, new HeadlessCrawlerConfig().defaultWebClient());
+        crawler = new SolarMovieCrawler(website, seleniumNode::getWebDriver);
     }
 
     @Test
     void performSearchForTitleMatrixAndParseResults() throws IOException {
         String html = FileUtils.readFile("/html/solarmovie/matrix.html");
-        stubFor(get("/search/matrix").willReturn(aResponse().withBody(html)));
+        stubFor(get("/movie/search/matrix.html").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("matrix");
 
@@ -51,7 +50,7 @@ class SolarMovieCrawlerTest {
     @Test
     void performSearchForTitleWithoutResults() throws IOException {
         String html = FileUtils.readFile("/html/solarmovie/no_results.html");
-        stubFor(get("/search/no%20results").willReturn(aResponse().withBody(html)));
+        stubFor(get("/movie/search/no+results.html").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("no results");
 
@@ -61,7 +60,7 @@ class SolarMovieCrawlerTest {
     @Test
     void performSearchForMatrixFailsWhenElementLacksTitleElement() throws IOException {
         String html = FileUtils.readFile("/html/solarmovie/missing_title.html");
-        stubFor(get("/search/notitle").willReturn(aResponse().withBody(html)));
+        stubFor(get("/movie/search/notitle.html").willReturn(aResponse().withBody(html)));
 
         var resultFlux = crawler.performSearchAndParseResults("notitle");
 
@@ -74,23 +73,32 @@ class SolarMovieCrawlerTest {
     private List<StreamCompleteDetails> matrixStreams() {
         return List.of(
                 new StreamCompleteDetails(
-                        "the matrix revolutions",
-                        "https://solarmovie.network/movies/the-matrix-revolutions-27833",
-                        "https://image.tmdb.org/t/p/w92/sKogjhfs5q3azmpW7DFKKAeLEG8.jpg",
+                        "the matrix (1999)",
+                        "https://solarmoviefree.ac/movie/the-matrix-1999-1080p.44280.html",
+                        "https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&" +
+                                "gadget=a&no_expand=1&refresh=604800&url=" +
+                                "https://img.moviescdn.live/crop/215/310/media/images/160713_124155/the-matrix-1999.jpg",
                         "solarmovie",
-                        "Solar Movie"),
+                        "Solar Movie",
+                        "https://www1.solarmovie.to"),
                 new StreamCompleteDetails(
-                        "the matrix reloaded",
-                        "https://solarmovie.network/movies/the-matrix-reloaded-27832",
-                        "https://image.tmdb.org/t/p/w92/ezIurBz2fdUc68d98Fp9dRf5ihv.jpg",
+                        "the matrix reloaded (2003)",
+                        "https://solarmoviefree.ac/movie/the-matrix-reloaded-2003-1080p.73129.html",
+                        "https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&" +
+                                "no_expand=1&refresh=604800&url=" +
+                                "https://img.moviescdn.live/crop/215/310/media/images/160713_015409/the-matrix-reloaded-2003.jpg",
                         "solarmovie",
-                        "Solar Movie"),
+                        "Solar Movie",
+                        "https://www1.solarmovie.to"),
                 new StreamCompleteDetails(
-                        "the matrix",
-                        "https://solarmovie.network/movies/the-matrix-28276",
-                        "https://image.tmdb.org/t/p/w92/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg",
+                        "the matrix revolutions (2003)",
+                        "https://solarmoviefree.ac/movie/the-matrix-revolutions-2003-1080p.52700.html",
+                        "https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&" +
+                                "no_expand=1&refresh=604800&url=" +
+                                "https://img.moviescdn.live/crop/215/310/media/images/160905_040912/the-matrix-revolutions.jpg",
                         "solarmovie",
-                        "Solar Movie")
+                        "Solar Movie",
+                        "https://www1.solarmovie.to")
         );
     }
 

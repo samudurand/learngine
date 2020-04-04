@@ -2,6 +2,7 @@ package com.learngine;
 
 import com.learngine.common.Language;
 import com.learngine.crawler.WebsiteCrawler;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.SearchEngine;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +39,17 @@ public class WebCrawler {
                 });
     }
 
-    private Flux<StreamCompleteDetails> performSearch(String movieTitle, WebsiteCrawler crawler) {
+    private Flux<StreamCompleteDetails> performSearch(final String movieTitle, final WebsiteCrawler crawler) {
         try {
             var results = crawler.performSearchAndParseResults(movieTitle);
-            crawler.closeClient();
-            return results;
+//            crawler.closeClient();
+            return results
+//                    .doOnComplete(crawler::closeClient)
+                    .onErrorMap(ex -> {
+                log.error("An exception occurred during the search on website " + crawler.getWebsite().getName(), ex);
+                crawler.closeClient();
+                return new WebsiteCrawlingException(crawler.getWebsite(), ex);
+            });
         } catch (Exception ex) {
             log.error("An exception occurred during the search on website " + crawler.getWebsite().getName(), ex);
             crawler.closeClient();

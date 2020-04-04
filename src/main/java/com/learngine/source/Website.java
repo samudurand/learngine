@@ -18,6 +18,10 @@ public interface Website {
         return Optional.empty();
     }
 
+    default Optional<String> getAlternativeUrl() {
+        return Optional.empty();
+    }
+
     Language getAudioLanguage();
 
     /**

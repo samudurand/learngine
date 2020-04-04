@@ -76,13 +76,15 @@ class AnimeAltaDefinizioneCrawlerTest implements SeleniumTest {
                         "https://www.animealtadefinizione.it/naruto-shippuden-ita-streaming-download/",
                         "",
                         "animealtadefinizione",
-                        "Anime Alta Definizione"),
+                        "Anime Alta Definizione",
+                        ""),
                 new StreamCompleteDetails(
                         "naruto ita",
                         "https://www.animealtadefinizione.it/naruto-ita-streaming-download/",
                         "",
                         "animealtadefinizione",
-                        "Anime Alta Definizione")
+                        "Anime Alta Definizione",
+                        "")
         );
     }
 

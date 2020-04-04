@@ -77,19 +77,22 @@ class FiveMoviesCrawlerTest {
                         "https://5movies.cloud/film/the-matrix-1967/",
                         "https://i.vodn.in/p-max/200/the-matrix-1967.jpg",
                         "5movies",
-                        "5 Movies"),
+                        "5 Movies",
+                        ""),
                 new StreamCompleteDetails(
                         "the matrix revolutions",
                         "https://5movies.cloud/film/the-matrix-revolutions-1969/",
                         "https://i.vodn.in/p-max/200/the-matrix-revolutions-1969.jpg",
                         "5movies",
-                        "5 Movies"),
+                        "5 Movies",
+                        ""),
                 new StreamCompleteDetails(
                         "the matrix reloaded",
                         "https://5movies.cloud/film/the-matrix-reloaded-1968/",
                         "https://i.vodn.in/p-max/200/the-matrix-reloaded-1968.jpg",
                         "5movies",
-                        "5 Movies")
+                        "5 Movies",
+                        "")
         );
     }
 

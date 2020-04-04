@@ -1,6 +1,7 @@
 package com.learngine.crawler;
 
 import com.learngine.exception.ConfigurationException;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+@Slf4j
 @Configuration
 public class UICrawlerConfig {
 
@@ -32,7 +34,7 @@ public class UICrawlerConfig {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Profile("local-driver")
+    @Profile("default | local-driver")
     public Supplier<WebDriver> defaultBrowser(ChromeOptions options) {
         return () -> {
             System.setProperty("webdriver.chrome.silentOutput", "true");
@@ -44,7 +46,7 @@ public class UICrawlerConfig {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Profile("default | dev | preprod | prod")
+    @Profile("dev | preprod | prod")
     public Supplier<WebDriver> remoteBrowser(@Value("${selenium.node.url}") String seleniumNodeUrl, ChromeOptions options) {
         return () -> {
             var capabilities = DesiredCapabilities.chrome();
@@ -55,6 +57,7 @@ public class UICrawlerConfig {
                 browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 return browser;
             } catch (MalformedURLException e) {
+                log.error("Could not start remote Selenium driver", e);
                 throw new ConfigurationException(e);
             }
         };
