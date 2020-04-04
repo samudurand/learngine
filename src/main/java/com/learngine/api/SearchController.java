@@ -1,6 +1,6 @@
 package com.learngine.api;
 
-import com.learngine.WebCrawler;
+import com.learngine.MultiWebsiteParallelCrawler;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.MetadataService;
 import com.learngine.source.streaming.StreamCompleteDetails;
@@ -21,10 +21,10 @@ import java.util.List;
 @Validated
 public class SearchController {
 
-    private final WebCrawler crawler;
+    private final MultiWebsiteParallelCrawler crawler;
     private final MetadataService metadataService;
 
-    public SearchController(WebCrawler crawler, MetadataService metadataService) {
+    public SearchController(MultiWebsiteParallelCrawler crawler, MetadataService metadataService) {
         this.crawler = crawler;
         this.metadataService = metadataService;
     }
