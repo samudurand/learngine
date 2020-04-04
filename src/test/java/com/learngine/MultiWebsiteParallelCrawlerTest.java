@@ -5,11 +5,8 @@ import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.crawler.UICrawler;
 import com.learngine.crawler.WebsiteCrawler;
 import com.learngine.exception.WebsiteCrawlingException;
-import com.learngine.source.Website;
 import com.learngine.source.streaming.StreamCompleteDetails;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +20,7 @@ import java.util.List;
 
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,6 +39,8 @@ class MultiWebsiteParallelCrawlerTest {
 
     @BeforeEach
     void setUp() {
+        lenient().when(uiCrawler.provideStreamsIn(any())).thenCallRealMethod();
+        lenient().when(headlessCrawler.provideStreamsIn(any())).thenCallRealMethod();
     }
 
     @Test
@@ -126,36 +126,4 @@ class MultiWebsiteParallelCrawlerTest {
         return result1;
     }
 
-    private static class TestWebsite implements Website {
-
-        private String id;
-        private String name;
-        private Language audio;
-
-        public TestWebsite(String id, String name, Language audio) {
-            this.id = id;
-            this.name = name;
-            this.audio = audio;
-        }
-
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String getUrl() {
-            return "http://headless/website";
-        }
-
-        @Override
-        public Language getAudioLanguage() {
-            return audio;
-        }
-    }
 }

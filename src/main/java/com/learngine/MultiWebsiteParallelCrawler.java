@@ -31,7 +31,8 @@ public class MultiWebsiteParallelCrawler {
     }
 
     public ParallelFlux<StreamCompleteDetails> search(String movieTitle, Language audio) {
-        return findCompatibleSources(audio)
+        return Flux.fromIterable(streamingSources)
+                .filter(crawler -> crawler.provideStreamsIn(audio))
                 .parallel()
                 .runOn(Schedulers.parallel())
                 .flatMap(source -> performSearchThenCloseClients(movieTitle, source));
@@ -62,10 +63,5 @@ public class MultiWebsiteParallelCrawler {
         log.error("An exception occurred during the search on website " + crawler.getWebsite().getName(), ex);
         crawler.closeClient();
         return Flux.empty();
-    }
-
-    private Flux<WebsiteCrawler> findCompatibleSources(Language audio) {
-        return Flux.fromIterable(streamingSources)
-                .filter(crawler -> crawler.getWebsite().getAudioLanguage().equals(audio));
     }
 }
