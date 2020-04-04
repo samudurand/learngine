@@ -1,39 +1,36 @@
 package com.learngine.source.streaming.en;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlImage;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.learngine.crawler.UICrawler;
 import com.learngine.exception.WebsiteCrawlingException;
-import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.function.Supplier;
 
 import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
-import static com.learngine.source.utils.HttpUtils.encodeUrlPathParams;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Slf4j
-@Component
+@Scope(value=SCOPE_PROTOTYPE)
 public class SolarMovieCrawler extends UICrawler {
 
     public SolarMovieCrawler(SolarMovie website, Supplier<WebDriver> browserSupplier) {
         super(website, browserSupplier);
+        log.info("created");
     }
 
     @Override
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
-        getOrCreateBrowser().get(buildSearchUrl(title));
+        getBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> {
                     log.error("Error while searching on " + website.getName() + " : " + e.getMessage(), e);
@@ -52,7 +49,7 @@ public class SolarMovieCrawler extends UICrawler {
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {
-        return Flux.fromIterable(getOrCreateBrowser().findElements(By.xpath("//div[@class='ml-item']")));
+        return Flux.fromIterable(getBrowser().findElements(By.xpath("//div[@class='ml-item']")));
     }
 
     private StreamHtmlParsedData extractStreamDataFromHtmlElement(WebElement elt) {

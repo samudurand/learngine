@@ -8,15 +8,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.util.function.Supplier;
 
 import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Slf4j
 @Component
+@Scope(value=SCOPE_PROTOTYPE)
 public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
     public AnimeAltaDefinizioneCrawler(AnimeAltaDefinizione website, Supplier<WebDriver> browserSupplier) {
@@ -25,7 +28,7 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
     @Override
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
-        getOrCreateBrowser().get(buildSearchUrl(title));
+        getBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
@@ -41,7 +44,7 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {
-        return Flux.fromIterable(getOrCreateBrowser().findElements(By.className("article-image")));
+        return Flux.fromIterable(getBrowser().findElements(By.className("article-image")));
     }
 
     private StreamHtmlParsedData extractStreamDataFromHtmlElement(WebElement elt) {

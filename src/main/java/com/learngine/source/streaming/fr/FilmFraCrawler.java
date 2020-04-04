@@ -7,10 +7,13 @@ import com.learngine.source.streaming.StreamHtmlParsedData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.util.function.Supplier;
+
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 /**
  * This is not using the "Search" feature of this website,
@@ -18,6 +21,7 @@ import java.util.function.Supplier;
  * However, the autocomplete feature on the search box is more flexible, for this reason we are only typing the searched name without submission.
  */
 @Component
+@Scope(value=SCOPE_PROTOTYPE)
 class FilmFraCrawler extends UICrawler {
 
     public FilmFraCrawler(FilmFra website, Supplier<WebDriver> browserSupplier) {
@@ -33,7 +37,7 @@ class FilmFraCrawler extends UICrawler {
 
     protected void performSearch(String title) {
         navigateToWebsite();
-        var searchTextField = getOrCreateBrowser().findElement(By.id("tags"));
+        var searchTextField = getBrowser().findElement(By.id("tags"));
         searchTextField.sendKeys(title);
     }
 
@@ -44,7 +48,7 @@ class FilmFraCrawler extends UICrawler {
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {
-        return Flux.fromIterable(getOrCreateBrowser()
+        return Flux.fromIterable(getBrowser()
                 .findElement(By.id("ui-id-1"))
                 .findElements(By.tagName("li")));
     }

@@ -1,13 +1,9 @@
 package com.learngine.crawler;
 
 import com.learngine.source.Website;
-import com.learngine.source.streaming.StreamCompleteDetails;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.WebDriver;
-import reactor.core.publisher.Flux;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -31,7 +27,7 @@ public abstract class UICrawler implements WebsiteCrawler {
         return website;
     }
 
-    public WebDriver getOrCreateBrowser() {
+    public WebDriver getBrowser() {
         if (browser == null) {
             browser = browserSupplier.get();
         }
@@ -39,7 +35,7 @@ public abstract class UICrawler implements WebsiteCrawler {
     }
 
     public void navigateToWebsite() {
-        getOrCreateBrowser().get(website.getUrl());
+        getBrowser().get(website.getUrl());
     }
 
     protected Boolean isImageRetrievable() {
@@ -48,6 +44,6 @@ public abstract class UICrawler implements WebsiteCrawler {
 
     @Override
     public void closeClient() {
-        getOrCreateBrowser().quit();
+        getBrowser().quit();
     }
 }

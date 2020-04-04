@@ -10,6 +10,7 @@ import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,8 +18,10 @@ import reactor.core.publisher.Mono;
 import java.util.function.Supplier;
 
 import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Component
+@Scope(value=SCOPE_PROTOTYPE)
 public class FiveMoviesCrawler extends HeadlessCrawler {
 
     public FiveMoviesCrawler(FiveMovies website, Supplier<WebClient> clientSupplier) {

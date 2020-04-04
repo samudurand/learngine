@@ -7,14 +7,17 @@ import com.learngine.source.streaming.StreamHtmlParsedData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.util.function.Supplier;
 
 import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Component
+@Scope(value=SCOPE_PROTOTYPE)
 public class AltaDefinizioneCrawler extends UICrawler {
 
     public AltaDefinizioneCrawler(AltaDefinizione website, Supplier<WebDriver> browserSupplier) {
@@ -23,7 +26,7 @@ public class AltaDefinizioneCrawler extends UICrawler {
 
     @Override
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
-        getOrCreateBrowser().get(buildSearchUrl(title));
+        getBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
     }
@@ -39,7 +42,7 @@ public class AltaDefinizioneCrawler extends UICrawler {
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {
-        return Flux.fromIterable(getOrCreateBrowser().findElements(By.xpath("//h5[@class='titleFilm']")));
+        return Flux.fromIterable(getBrowser().findElements(By.xpath("//h5[@class='titleFilm']")));
     }
 
     private StreamHtmlParsedData extractStreamDataFromHtmlElement(WebElement elt) {

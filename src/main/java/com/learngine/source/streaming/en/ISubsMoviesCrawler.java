@@ -11,6 +11,7 @@ import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
 import com.learngine.source.utils.UrlFormatter;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,8 +19,10 @@ import reactor.core.publisher.Mono;
 import java.util.function.Supplier;
 
 import static com.learngine.source.utils.HttpUtils.encodeUrlPathParams;
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Component
+@Scope(value=SCOPE_PROTOTYPE)
 class ISubsMoviesCrawler extends HeadlessCrawler {
 
     public ISubsMoviesCrawler(ISubsMovies website, Supplier<WebClient> clientSupplier) {
