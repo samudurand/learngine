@@ -20,12 +20,12 @@ import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Slf4j
+@Component
 @Scope(value=SCOPE_PROTOTYPE)
 public class SolarMovieCrawler extends UICrawler {
 
     public SolarMovieCrawler(SolarMovie website, Supplier<WebDriver> browserSupplier) {
         super(website, browserSupplier);
-        log.info("created");
     }
 
     @Override
