@@ -5,6 +5,7 @@ import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.learngine.FileUtils;
 import com.learngine.exception.WebsiteCrawlingException;
+import com.learngine.source.streaming.SeleniumTest;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 class AltaDefinizioneCrawlerTest implements SeleniumTest {
 
     @Managed
-    final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_APP_PORT));
+    final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_WIREMOCK_PORT));
 
     AltaDefinizioneCrawler crawler;
     String websiteUrl = SeleniumTest.EXPECTED_WEBSITE_URL;
@@ -38,7 +39,7 @@ class AltaDefinizioneCrawlerTest implements SeleniumTest {
 
     @Test
     void performSearchForTitleMatrixAndParseResults() throws IOException {
-        String html = FileUtils.readFile("/html/altaDefinizione/matrix.html");
+        String html = FileUtils.readFile("/html/altadefinizione/matrix.html");
         stubFor(get("/?s=matrix").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("matrix");
@@ -48,7 +49,7 @@ class AltaDefinizioneCrawlerTest implements SeleniumTest {
 
     @Test
     void performSearchForTitleWithoutResults() throws IOException {
-        String html = FileUtils.readFile("/html/altaDefinizione/no_results.html");
+        String html = FileUtils.readFile("/html/altadefinizione/no_results.html");
         stubFor(get("/?s=no+results").willReturn(aResponse().withBody(html)));
 
         var results = crawler.performSearchAndParseResults("no results");

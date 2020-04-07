@@ -6,8 +6,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading2;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.HeadlessCrawler;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
 import org.springframework.context.annotation.Scope;
@@ -21,7 +21,7 @@ import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Component
-@Scope(value=SCOPE_PROTOTYPE)
+@Scope(value = SCOPE_PROTOTYPE)
 public class FiveMoviesCrawler extends HeadlessCrawler {
 
     public FiveMoviesCrawler(FiveMovies website, Supplier<WebClient> clientSupplier) {
@@ -32,17 +32,17 @@ public class FiveMoviesCrawler extends HeadlessCrawler {
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         return Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(buildSearchUrl(title)))
                 .flatMapMany(this::findAndParseResults)
-                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
+                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(getWebsite(), e));
     }
 
     private String buildSearchUrl(String title) {
-        return String.format("%s/movie/search/%s", website.getUrl(), encodeRequestParams(title));
+        return String.format("%s/movie/search/%s", getWebsite().getUrl(), encodeRequestParams(title));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults(HtmlPage page) {
         return findResultHtmlElementsInPage(page)
                 .map(this::extractStreamDataFromHtmlElement)
-                .map(htmlData -> new StreamCompleteDetails(htmlData, website));
+                .map(htmlData -> new StreamCompleteDetails(htmlData, getWebsite()));
     }
 
     private Flux<HtmlElement> findResultHtmlElementsInPage(HtmlPage page) {

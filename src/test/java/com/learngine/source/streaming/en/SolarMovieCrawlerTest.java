@@ -5,8 +5,8 @@ import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.learngine.FileUtils;
 import com.learngine.exception.WebsiteCrawlingException;
+import com.learngine.source.streaming.SeleniumTest;
 import com.learngine.source.streaming.StreamCompleteDetails;
-import com.learngine.source.streaming.it.SeleniumTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 class SolarMovieCrawlerTest implements SeleniumTest {
 
     @Managed
-    final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_APP_PORT));
+    final WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_WIREMOCK_PORT));
 
     SolarMovieCrawler crawler;
     String websiteUrl = SeleniumTest.EXPECTED_WEBSITE_URL;

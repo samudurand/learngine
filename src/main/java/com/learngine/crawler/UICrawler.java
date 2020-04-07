@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 @Slf4j
 public abstract class UICrawler implements WebsiteCrawler {
 
-    protected final Website website;
+    private final Website website;
     private final Supplier<WebDriver> browserSupplier;
     private WebDriver browser;
 
@@ -35,11 +35,11 @@ public abstract class UICrawler implements WebsiteCrawler {
     }
 
     public void navigateToWebsite() {
-        getBrowser().get(website.getUrl());
+        getBrowser().get(getWebsite().getUrl());
     }
 
     protected Boolean isImageRetrievable() {
-        return !website.isCloudflareProtected();
+        return !getWebsite().isCloudflareProtected();
     }
 
     @Override

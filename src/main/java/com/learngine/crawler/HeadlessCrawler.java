@@ -1,7 +1,6 @@
 package com.learngine.crawler;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.learngine.common.Language;
 import com.learngine.source.Website;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +12,7 @@ import java.util.function.Supplier;
 @Slf4j
 public abstract class HeadlessCrawler implements WebsiteCrawler {
 
-    protected final Website website;
+    private final Website website;
     private final Supplier<WebClient> clientSupplier;
     private WebClient client;
 

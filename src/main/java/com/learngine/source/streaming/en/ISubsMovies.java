@@ -2,10 +2,15 @@ package com.learngine.source.streaming.en;
 
 import com.learngine.common.Language;
 import com.learngine.source.Website;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ISubsMovies implements Website {
+
+    @Value("${streaming.urls.isubsmovies}")
+    private String url;
+
     @Override
     public String getId() {
         return "isubsmovies";
@@ -18,7 +23,7 @@ public class ISubsMovies implements Website {
 
     @Override
     public String getUrl() {
-        return "https://isubsmovies.com";
+        return url;
     }
 
     @Override

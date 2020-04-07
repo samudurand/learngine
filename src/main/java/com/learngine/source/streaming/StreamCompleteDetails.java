@@ -3,10 +3,12 @@ package com.learngine.source.streaming;
 import com.learngine.source.Website;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static com.learngine.source.utils.StringUtils.removeExtraWhitespaces;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class StreamCompleteDetails {
     private String title;

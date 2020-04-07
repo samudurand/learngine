@@ -12,3 +12,12 @@ selenium:
 
 learngineui:
   domain: http://localhost:3000
+
+streaming:
+  urls:
+    fivemovies: https://5movies.cloud
+    isubsmovies: https://isubsmovies.com
+    solarmovie: https://solarmoviefree.ac
+    filmfra: http://filmfra.com
+    altadefinizione: https://altadefinizione.style
+    animealtadefinizione: https://www.animealtadefinizione.it

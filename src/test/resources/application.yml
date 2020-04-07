@@ -1,0 +1,28 @@
+themoviedb:
+  url: http://host.testcontainers.internal:5000
+  apiVersion: 3
+  apiToken: ${THEMOVIEDB_TOKEN}
+
+server:
+  port: 9000
+
+selenium:
+  node:
+    url: http://localhost:4444/wd/hub
+
+learngineui:
+  domain: http://localhost:3000
+
+wiremock:
+  port: 5000
+  url: http://localhost:${wiremock.port}
+  seleniumUrl: http://host.testcontainers.internal:${wiremock.port}
+
+streaming:
+  urls:
+    fivemovies: ${wiremock.url}/5movies
+    isubsmovies: ${wiremock.url}/isubsmovies
+    solarmovie: ${wiremock.seleniumUrl}/solarmovie
+    filmfra: ${wiremock.seleniumUrl}/filmfra
+    altadefinizione: ${wiremock.seleniumUrl}/altadefinizione
+    animealtadefinizione: ${wiremock.seleniumUrl}/anime-altadefinizione

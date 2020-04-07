@@ -8,9 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
@@ -21,7 +19,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 
 @Slf4j
 @Component
-@Scope(value=SCOPE_PROTOTYPE)
+@Scope(value = SCOPE_PROTOTYPE)
 public class SolarMovieCrawler extends UICrawler {
 
     public SolarMovieCrawler(SolarMovie website, Supplier<WebDriver> browserSupplier) {
@@ -33,19 +31,19 @@ public class SolarMovieCrawler extends UICrawler {
         getBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
                 .onErrorMap(Exception.class, (e) -> {
-                    log.error("Error while searching on " + website.getName() + " : " + e.getMessage(), e);
-                    return new WebsiteCrawlingException(website, e);
+                    log.error("Error while searching on " + getWebsite().getName() + " : " + e.getMessage(), e);
+                    return new WebsiteCrawlingException(getWebsite(), e);
                 });
     }
 
     private String buildSearchUrl(String title) {
-        return String.format("%s/movie/search/%s.html", website.getUrl(), encodeRequestParams(title));
+        return String.format("%s/movie/search/%s.html", getWebsite().getUrl(), encodeRequestParams(title));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults() {
         return findResultHtmlElementsInPage()
                 .map(this::extractStreamDataFromHtmlElement)
-                .map(htmlData -> new StreamCompleteDetails(htmlData, website));
+                .map(htmlData -> new StreamCompleteDetails(htmlData, getWebsite()));
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {

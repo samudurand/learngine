@@ -1,7 +1,7 @@
 package com.learngine.source.streaming.fr;
 
-import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.UICrawler;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
 import org.openqa.selenium.By;
@@ -21,7 +21,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
  * However, the autocomplete feature on the search box is more flexible, for this reason we are only typing the searched name without submission.
  */
 @Component
-@Scope(value=SCOPE_PROTOTYPE)
+@Scope(value = SCOPE_PROTOTYPE)
 class FilmFraCrawler extends UICrawler {
 
     public FilmFraCrawler(FilmFra website, Supplier<WebDriver> browserSupplier) {
@@ -32,7 +32,7 @@ class FilmFraCrawler extends UICrawler {
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         performSearch(title);
         return findAndParseResults()
-                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
+                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(getWebsite(), e));
     }
 
     protected void performSearch(String title) {
@@ -44,7 +44,7 @@ class FilmFraCrawler extends UICrawler {
     private Flux<StreamCompleteDetails> findAndParseResults() {
         return findResultHtmlElementsInPage()
                 .map(this::extractStreamDataFromHtmlElement)
-                .map(htmlData -> new StreamCompleteDetails(htmlData, website));
+                .map(htmlData -> new StreamCompleteDetails(htmlData, getWebsite()));
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {
@@ -55,7 +55,7 @@ class FilmFraCrawler extends UICrawler {
 
     private StreamHtmlParsedData extractStreamDataFromHtmlElement(WebElement elt) {
         var title = elt.findElement(By.tagName("a")).getText();
-        var streamLink = website.getUrl();
+        var streamLink = getWebsite().getUrl();
         return new StreamHtmlParsedData(title, streamLink, "");
     }
 }

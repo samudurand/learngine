@@ -1,7 +1,7 @@
 package com.learngine.source.streaming.it;
 
-import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.crawler.UICrawler;
+import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 
 @Slf4j
 @Component
-@Scope(value=SCOPE_PROTOTYPE)
+@Scope(value = SCOPE_PROTOTYPE)
 public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
     public AnimeAltaDefinizioneCrawler(AnimeAltaDefinizione website, Supplier<WebDriver> browserSupplier) {
@@ -30,17 +30,17 @@ public class AnimeAltaDefinizioneCrawler extends UICrawler {
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         getBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
-                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(website, e));
+                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(getWebsite(), e));
     }
 
     private String buildSearchUrl(String title) {
-        return String.format("%s?s=%s", website.getUrl(), encodeRequestParams(title));
+        return String.format("%s?s=%s", getWebsite().getUrl(), encodeRequestParams(title));
     }
 
     private Flux<StreamCompleteDetails> findAndParseResults() {
         return findResultHtmlElementsInPage()
                 .map(this::extractStreamDataFromHtmlElement)
-                .map(htmlData -> new StreamCompleteDetails(htmlData, website));
+                .map(htmlData -> new StreamCompleteDetails(htmlData, getWebsite()));
     }
 
     private Flux<WebElement> findResultHtmlElementsInPage() {

@@ -1,4 +1,4 @@
-package com.learngine.source.streaming.it;
+package com.learngine.source.streaming;
 
 import com.learngine.crawler.UICrawlerConfig;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,12 +18,12 @@ public interface SeleniumTest {
     /**
      * Indicates where the app tested should be running (applies also to Wiremock)
      */
-    Integer EXPECTED_APP_PORT = 5000;
-    String EXPECTED_WEBSITE_URL = "http://host.testcontainers.internal:" + EXPECTED_APP_PORT;
+    Integer EXPECTED_WIREMOCK_PORT = 5000;
+    String EXPECTED_WEBSITE_URL = "http://host.testcontainers.internal:" + EXPECTED_WIREMOCK_PORT;
 
     @BeforeAll
     static void oneTimeSetup() {
-        Testcontainers.exposeHostPorts(SeleniumTest.EXPECTED_APP_PORT);
+        Testcontainers.exposeHostPorts(SeleniumTest.EXPECTED_WIREMOCK_PORT);
         seleniumNode.start();
     }
 }
