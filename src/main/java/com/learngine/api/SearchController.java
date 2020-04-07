@@ -46,7 +46,7 @@ public class SearchController {
 
     @GetMapping(value = "/search/streams", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ParallelFlux<StreamCompleteDetails> searchForTitle(
-            @RequestParam @NotNull String title,
+            @RequestParam @NotBlank String title,
             @RequestParam(defaultValue = "en") Language audio
     ) {
         return crawler.search(title, audio);
