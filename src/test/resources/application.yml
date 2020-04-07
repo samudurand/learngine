@@ -1,15 +1,3 @@
-themoviedb:
-  url: http://host.testcontainers.internal:5000
-  apiVersion: 3
-  apiToken: ${THEMOVIEDB_TOKEN}
-
-server:
-  port: 9000
-
-selenium:
-  node:
-    url: http://localhost:4444/wd/hub
-
 learngineui:
   domain: http://localhost:3000
 
@@ -17,6 +5,11 @@ wiremock:
   port: 5000
   url: http://localhost:${wiremock.port}
   seleniumUrl: http://host.testcontainers.internal:${wiremock.port}
+
+themoviedb:
+  url: ${wiremock.url}
+  apiVersion: 3
+  apiToken: token
 
 streaming:
   urls:

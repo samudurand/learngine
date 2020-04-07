@@ -38,7 +38,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ExtendWith(WireMockExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureWebTestClient(timeout = "30000")
-class SearchControllerTest implements SeleniumTest {
+class SearchControllerSearchStreamTest implements SeleniumTest {
 
     @Managed
     WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_WIREMOCK_PORT));
