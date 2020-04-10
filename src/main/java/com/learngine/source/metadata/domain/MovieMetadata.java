@@ -17,12 +17,12 @@ public class MovieMetadata {
     String originalTitle;
 
     @JsonProperty("release_date")
-    Optional<String> releaseDate;
+    Optional<String> releaseDate = Optional.empty();
 
     @JsonProperty("poster_path")
-    Optional<String> posterPath;
+    Optional<String> posterPath = Optional.empty();
 
-    Optional<String> overview;
+    Optional<String> overview = Optional.empty();
 
     @JsonProperty("vote_average")
     Float voteAverage;

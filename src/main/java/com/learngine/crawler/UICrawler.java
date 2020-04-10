@@ -44,6 +44,10 @@ public abstract class UICrawler implements WebsiteCrawler {
 
     @Override
     public void closeClient() {
-        getBrowser().quit();
+        try {
+            getBrowser().quit();
+        } catch (Exception e) {
+            log.error("Unable to close selenium driver", e);
+        }
     }
 }

@@ -1,0 +1,18 @@
+{
+  "id": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
+  "name": "search_movies_by_title",
+  "request": {
+    "url": "/3/search/movie?api_key=token&query=matrix_miss_props",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "{\"page\":1,\"total_results\":63,\"total_pages\":4,\"results\":[{\"popularity\":41.633,\"vote_count\":16386,\"video\":false,\"id\":603,\"adult\":false,\"original_language\":\"en\",\"original_title\":\"The Matrix\",\"genre_ids\":[28,878],\"title\":\"The Matrix\",\"vote_average\":8.1}]}",
+    "headers": {
+      "Content-Type": "application/json;charset=utf-8"
+    }
+  },
+  "uuid": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
+  "persistent": true,
+  "insertionIndex": 1
+}

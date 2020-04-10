@@ -56,9 +56,9 @@ public class UICrawlerConfig {
                 var browser = new RemoteWebDriver(new URL(seleniumNodeUrl), capabilities);
                 browser.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 return browser;
-            } catch (MalformedURLException e) {
+            } catch (Exception e) {
                 log.error("Could not start remote Selenium driver", e);
-                throw new ConfigurationException(e);
+                return null;
             }
         };
     }

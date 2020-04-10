@@ -58,6 +58,14 @@ class TheMovieDBTest {
     }
 
     @Test
+    void searchMoviesWithTitleMatrixReturnsResultsWithMissingProperties() {
+        var result = theMovieDB.searchMoviesByTitle("matrix_miss_props");
+        assertIterableEquals(List.of(
+                new MovieMetadata(603, "The Matrix", Optional.empty(), Optional.empty(), Optional.empty(), 8.1f)
+        ), result.toIterable());
+    }
+
+    @Test
     void findAlternativeTitlesWithMatrixMovieId() {
         var result = theMovieDB.findAlternativeTitles(603);
         assertIterableEquals(matrixTitles(), result.toIterable());
