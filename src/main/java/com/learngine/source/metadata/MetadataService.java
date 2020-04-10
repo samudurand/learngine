@@ -37,8 +37,7 @@ public class MetadataService {
 
     public Flux<MovieSummary> findMatchingMovies(String title) {
         return metadataSource.searchMoviesByTitle(title)
-                .map(convertToSummary())
-                .sort(Comparator.comparingDouble(MovieSummary::getVoteAverage).reversed());
+                .map(convertToSummary());
     }
 
     private Function<MovieMetadata, MovieSummary> convertToSummary() {

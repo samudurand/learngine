@@ -80,18 +80,6 @@ class MetadataServiceTest {
     }
 
     @Test
-    void retrieveMoviesMetadataOrderedByVoteAverage() {
-        metadata.get(0).setVoteAverage(2f);
-        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
-
-        var result = service.findMatchingMovies("matrix").toIterable();
-
-        defaultResultMovies.get(0).setVoteAverage(2f);
-        var expectedResult = List.of(defaultResultMovies.get(1), defaultResultMovies.get(0));
-        assertIterableEquals(expectedResult, result);
-    }
-
-    @Test
     void findAllTitlesInEnglish() {
         when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
 
