@@ -83,7 +83,8 @@ public class MetadataService {
     public Flux<String> findLocalizedTitles(Integer movieId, Language audio) {
         return metadataSource.findAlternativeTitles(movieId)
                 .filter(isTitleFromCountrySpeakingWantedLanguage(audio))
-                .map(AlternativeTitle::getTitle);
+                .map(AlternativeTitle::getTitle)
+                .distinct();
     }
 
     private Predicate<AlternativeTitle> isTitleFromCountrySpeakingWantedLanguage(Language audio) {

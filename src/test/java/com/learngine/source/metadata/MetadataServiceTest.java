@@ -5,6 +5,7 @@ import com.learngine.common.Country;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.MovieMetadata;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +84,18 @@ class MetadataServiceTest {
 
     @Test
     void findAllTitlesInEnglish() {
-        when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(Flux.fromIterable(matrixAlternativeTitles()));
+
+        var result = service.findLocalizedTitles(123, Language.ENGLISH);
+
+        assertIterableEquals(List.of("The Matrix", "The Matrix for USA"), result.toIterable());
+    }
+
+    @Test
+    void findAllTitlesInEnglishWithoutDuplication() {
+        var titles = matrixAlternativeTitles();
+        titles.add(titles.get(0));
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(Flux.fromIterable(titles));
 
         var result = service.findLocalizedTitles(123, Language.ENGLISH);
 
@@ -90,7 +104,7 @@ class MetadataServiceTest {
 
     @Test
     void findNoTitlesInItalian() {
-        when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(Flux.fromIterable(matrixAlternativeTitles()));
 
         var result = service.findLocalizedTitles(123, Language.ITALIAN);
 
@@ -99,7 +113,7 @@ class MetadataServiceTest {
 
     @Test
     void findNoTitlesForUnsupportedLanguage() {
-        when(metadataSource.findAlternativeTitles(123)).thenReturn(matrixAlternativeTitles());
+        when(metadataSource.findAlternativeTitles(123)).thenReturn(Flux.fromIterable(matrixAlternativeTitles()));
 
         var result = service.findLocalizedTitles(123, Language.ITALIAN);
 
@@ -140,11 +154,11 @@ class MetadataServiceTest {
         );
     }
 
-    private Flux<AlternativeTitle> matrixAlternativeTitles() {
-        return Flux.fromIterable(List.of(
-                new AlternativeTitle(Country.GB, "The Matrix"),
-                new AlternativeTitle(Country.US, "The Matrix for USA"),
-                new AlternativeTitle(Country.ES, "The Matrix por Espana")
-        ));
+    private List<AlternativeTitle> matrixAlternativeTitles() {
+        var list = new ArrayList<AlternativeTitle>();
+        list.add(new AlternativeTitle(Country.GB, "The Matrix"));
+        list.add(new AlternativeTitle(Country.US, "The Matrix for USA"));
+        list.add(new AlternativeTitle(Country.ES, "The Matrix por Espana"));
+        return list;
     }
 }
