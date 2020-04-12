@@ -9,7 +9,7 @@ orbs:
 jobs:
   build:
     machine:
-      image: circleci/openjdk:11-jdk
+      image: circleci/classic:latest
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
