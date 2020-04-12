@@ -2,8 +2,10 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 executorType: machine
+orbs:
+  vm-install-tools: entur/vm-install-tools@0.0.6
 jobs:
   build:
     machine:
@@ -23,6 +25,8 @@ jobs:
 
     steps:
       - checkout
+
+      - vm-install-tools/install openjdk-11
 
       # Download and cache dependencies
       - restore_cache:
