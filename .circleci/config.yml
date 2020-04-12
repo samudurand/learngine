@@ -26,7 +26,7 @@ jobs:
     steps:
       - checkout
 
-      - vm-install-tools/install openjdk-11 
+      - vm-install-tools/install-java11
 
       # Download and cache dependencies
       - restore_cache:
