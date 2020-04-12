@@ -42,7 +42,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 class SearchControllerSearchTitlesTest {
 
     @Managed
-    WireMockServer wireMockServer = with(wireMockConfig().dynamicPort());
+    WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_WIREMOCK_PORT));
 
     @Autowired
     private WebTestClient client;
