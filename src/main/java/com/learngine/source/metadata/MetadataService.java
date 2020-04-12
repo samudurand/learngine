@@ -65,7 +65,7 @@ public class MetadataService {
         try {
             return LocalDate.parse(d);
         } catch (DateTimeParseException e) {
-            log.error("Parsing of date failed : " + d, e);
+            log.debug("Parsing of date failed : [" + d + "]", e);
             return DEFAULT_RELEASE_DATE;
         }
     }
