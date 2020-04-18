@@ -9,9 +9,13 @@ Local selenium:
 ```
 docker run -d -p 4444:4444 --name selenium --shm-size=2g selenium/standalone-chrome:3.141.59-20200326
 ```
+Or using a local chromedriver (Mac)
+```
+brew cask upgrade caskroom/versions/chromedriver-beta
+```
 
 ### Docker
 
 ```
-
+docker build -t firens/learngine .
 ```
