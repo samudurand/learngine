@@ -66,6 +66,7 @@ class SearchControllerSearchStreamTest implements SeleniumTest {
                 .toIterable()
                 .forEach(results::add);
 
+        assertEquals(englishMatrixSearchResults().size(), results.size());
         assertEquals(englishMatrixSearchResults(), results);
     }
 

@@ -11,7 +11,6 @@ import static com.learngine.source.utils.StringUtils.removeExtraWhitespaces;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class StreamCompleteDetails {
     private String title;
     private String link;
@@ -19,6 +18,15 @@ public class StreamCompleteDetails {
     private String sourceId;
     private String source;
     private String alternativeUrl;
+
+    public StreamCompleteDetails(String title, String link, String imageUrl, String sourceId, String source, String alternativeUrl) {
+        this.title = sanitizeHTML(title);
+        this.link = sanitizeHTML(link);
+        this.imageUrl = sanitizeHTML(imageUrl);
+        this.sourceId = sourceId;
+        this.source = source;
+        this.alternativeUrl = alternativeUrl;
+    }
 
     public StreamCompleteDetails(StreamHtmlParsedData parsedData, Website source) {
         this.title = removeExtraWhitespaces(sanitizeHTML(parsedData.getTitle().toLowerCase()));
