@@ -21,8 +21,8 @@ public class StreamCompleteDetails {
 
     public StreamCompleteDetails(String title, String link, String imageUrl, String sourceId, String source, String alternativeUrl) {
         this.title = sanitizeHTML(title);
-        this.link = sanitizeHTML(link);
-        this.imageUrl = sanitizeHTML(imageUrl);
+        this.link = link;
+        this.imageUrl = imageUrl;
         this.sourceId = sourceId;
         this.source = source;
         this.alternativeUrl = alternativeUrl;
@@ -30,8 +30,8 @@ public class StreamCompleteDetails {
 
     public StreamCompleteDetails(StreamHtmlParsedData parsedData, Website source) {
         this.title = removeExtraWhitespaces(sanitizeHTML(parsedData.getTitle().toLowerCase()));
-        this.link = sanitizeHTML(parsedData.getLink());
-        this.imageUrl = sanitizeHTML(parsedData.getImageUrl());
+        this.link = parsedData.getLink();
+        this.imageUrl = parsedData.getImageUrl();
         this.sourceId = source.getId();
         this.source = source.getName();
         this.alternativeUrl = source.getAlternativeUrl().orElse("");
