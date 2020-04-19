@@ -1,6 +1,6 @@
 themoviedb:
   url: https://api.themoviedb.org
-  apiVersion: 3
+  apiVersion: 4
   apiToken: ${THEMOVIEDB_TOKEN}
 
 server:

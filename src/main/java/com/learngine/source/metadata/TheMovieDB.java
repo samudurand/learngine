@@ -35,13 +35,18 @@ public class TheMovieDB implements MetadataSource {
     @Override
     public Flux<MovieMetadata> searchMoviesByTitle(String title) {
         var searchUrl = buildSearchMoviesUrl(title);
-        return webClient.get().uri(searchUrl).exchange()
+        var authHeader = buildAuhtorizationHeader();
+        return webClient.get().uri(searchUrl).header("Authorization", authHeader).exchange()
                 .flatMap(response -> response.bodyToMono(String.class))
                 .flatMapMany(parseBodyIntoMoviesMetadata(title));
     }
 
+    private String buildAuhtorizationHeader() {
+        return String.format("Bearer %s", apiToken);
+    }
+
     private String buildSearchMoviesUrl(String title) {
-        return String.format("%s/%s/search/movie?api_key=%s&query=%s", baseUrl, apiVersion, apiToken, encodeRequestParams(title));
+        return String.format("%s/%s/search/movie?query=%s", baseUrl, apiVersion, encodeRequestParams(title));
     }
 
     private Function<String, Publisher<? extends MovieMetadata>> parseBodyIntoMoviesMetadata(String title) {
