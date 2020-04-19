@@ -2,7 +2,7 @@
   "id": "05dac993-2e93-41e6-9c63-a596c78d7bca",
   "name": "search_alternative_titles_missing_attribute",
   "request": {
-    "url": "/3/movie/0/alternative_titles?api_key=token",
+    "url": "/4/movie/0/alternative_titles",
     "method": "GET"
   },
   "response": {

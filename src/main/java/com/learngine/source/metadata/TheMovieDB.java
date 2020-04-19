@@ -70,7 +70,7 @@ public class TheMovieDB implements MetadataSource {
     }
 
     private String buildSearchAlternativeTitlesUrl(int movieId) {
-        return String.format("%s/%s/movie/%d/alternative_titles?api_key=%s", baseUrl, apiVersion, movieId, apiToken);
+        return String.format("%s/%s/movie/%d/alternative_titles", baseUrl, apiVersion, movieId);
     }
 
     private Function<String, Publisher<? extends AlternativeTitle>> parseBodyIntoTitlesList(int movieId) {

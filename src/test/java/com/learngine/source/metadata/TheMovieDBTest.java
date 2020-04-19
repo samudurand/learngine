@@ -108,8 +108,7 @@ class TheMovieDBTest {
     private TheMovieDB buildAndSetupTestMovieDB(String serverUrl) {
         var theMovieDB = new TheMovieDB();
         ReflectionTestUtils.setField(theMovieDB, "baseUrl", serverUrl);
-        ReflectionTestUtils.setField(theMovieDB, "apiVersion", "3");
-        ReflectionTestUtils.setField(theMovieDB, "apiToken", "token");
+        ReflectionTestUtils.setField(theMovieDB, "apiVersion", "4");
         return theMovieDB;
     }
 //

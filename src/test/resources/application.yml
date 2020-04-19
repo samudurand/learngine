@@ -8,7 +8,7 @@ wiremock:
 
 themoviedb:
   url: ${wiremock.url}
-  apiVersion: 3
+  apiVersion: 4
   apiToken: token
 
 streaming:

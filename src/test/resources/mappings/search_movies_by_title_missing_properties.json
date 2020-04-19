@@ -2,7 +2,7 @@
   "id": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
   "name": "search_movies_by_title",
   "request": {
-    "url": "/3/search/movie?api_key=token&query=matrix_miss_props",
+    "url": "/4/search/movie?query=matrix_miss_props",
     "method": "GET"
   },
   "response": {
