@@ -34,7 +34,7 @@ public class UICrawlerConfig {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Profile("default | local-driver")
+    @Profile("local-driver")
     public Supplier<WebDriver> defaultBrowser(ChromeOptions options) {
         return () -> {
             System.setProperty("webdriver.chrome.silentOutput", "true");
@@ -46,7 +46,7 @@ public class UICrawlerConfig {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    @Profile("dev | preprod | prod")
+    @Profile("default | dev | preprod | prod")
     public Supplier<WebDriver> remoteBrowser(@Value("${selenium.node.url}") String seleniumNodeUrl, ChromeOptions options) {
         return () -> {
             var capabilities = DesiredCapabilities.chrome();

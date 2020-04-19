@@ -11,7 +11,7 @@ docker run -d -p 4444:4444 --name selenium --shm-size=2g selenium/standalone-chr
 ```
 Or using a local chromedriver (Mac)
 ```
-brew cask upgrade caskroom/versions/chromedriver-beta
+brew cask install/upgrade caskroom/versions/chromedriver-beta
 ```
 
 ### Docker
