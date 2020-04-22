@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnimeAltaDefinizione implements Website {
 
-    @Value("${streaming.urls.animealtadefinizione}")
+    @Value("${streaming.animealtadefinizione.url}")
     private String url;
 
     @Override

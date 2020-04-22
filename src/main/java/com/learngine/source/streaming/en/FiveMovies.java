@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FiveMovies implements Website {
 
-    @Value("${streaming.urls.fivemovies}")
+    @Value("${streaming.fivemovies.url}")
     private String url;
 
     @Override

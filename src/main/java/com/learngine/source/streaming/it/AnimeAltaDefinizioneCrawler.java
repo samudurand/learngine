@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -17,9 +18,9 @@ import java.util.function.Supplier;
 import static com.learngine.source.utils.HttpUtils.encodeRequestParams;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
-@Slf4j
 @Component
 @Scope(value = SCOPE_PROTOTYPE)
+@ConditionalOnProperty(value="streaming.animealtadefinizione.enabled", havingValue = "true")
 public class AnimeAltaDefinizioneCrawler extends UICrawler {
 
     public AnimeAltaDefinizioneCrawler(AnimeAltaDefinizione website, Supplier<WebDriver> browserSupplier) {

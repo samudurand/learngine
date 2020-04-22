@@ -7,6 +7,7 @@ import com.learngine.source.streaming.StreamHtmlParsedData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -18,6 +19,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 
 @Component
 @Scope(value = SCOPE_PROTOTYPE)
+@ConditionalOnProperty(value="streaming.altadefinizione.enabled", havingValue = "true")
 public class AltaDefinizioneCrawler extends UICrawler {
 
     public AltaDefinizioneCrawler(AltaDefinizione website, Supplier<WebDriver> browserSupplier) {

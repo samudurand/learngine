@@ -10,7 +10,7 @@ import java.util.Optional;
 @Component
 public class SolarMovie implements Website {
 
-    @Value("${streaming.urls.solarmovie}")
+    @Value("${streaming.solarmovie.url}")
     private String url;
 
     @Override

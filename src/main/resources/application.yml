@@ -14,10 +14,21 @@ learngineui:
   domain: http://localhost:3000
 
 streaming:
-  urls:
-    fivemovies: https://5movies.cloud
-    isubsmovies: https://isubsmovies.com
-    solarmovie: https://solarmoviefree.ac
-    filmfra: http://filmfra.com
-    altadefinizione: https://altadefinizione.style
-    animealtadefinizione: https://www.animealtadefinizione.it
+  fivemovies:
+    enabled: false
+    url: https://5movies.cloud
+  isubsmovies:
+    enabled: true
+    url: https://isubsmovies.com
+  solarmovie:
+    enabled: true
+    url: https://solarmoviefree.ac
+  filmfra:
+    enabled: true
+    url: http://filmfra.com
+  altadefinizione:
+    enabled: true
+    url: https://altadefinizione.style
+  animealtadefinizione:
+    enabled: true
+    url: https://www.animealtadefinizione.it

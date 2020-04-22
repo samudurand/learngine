@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -20,6 +21,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Slf4j
 @Component
 @Scope(value = SCOPE_PROTOTYPE)
+@ConditionalOnProperty(value="streaming.solarmovie.enabled", havingValue = "true")
 public class SolarMovieCrawler extends UICrawler {
 
     public SolarMovieCrawler(SolarMovie website, Supplier<WebDriver> browserSupplier) {

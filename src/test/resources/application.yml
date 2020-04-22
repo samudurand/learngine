@@ -12,10 +12,21 @@ themoviedb:
   apiToken: token
 
 streaming:
-  urls:
-    fivemovies: ${wiremock.url}/5movies
-    isubsmovies: ${wiremock.url}/isubsmovies
-    solarmovie: ${wiremock.seleniumUrl}/solarmovie
-    filmfra: ${wiremock.seleniumUrl}/filmfra
-    altadefinizione: ${wiremock.seleniumUrl}/altadefinizione
-    animealtadefinizione: ${wiremock.seleniumUrl}/anime-altadefinizione
+  fivemovies:
+    enabled: true
+    url: ${wiremock.url}/5movies
+  isubsmovies:
+    enabled: true
+    url: ${wiremock.url}/isubsmovies
+  solarmovie:
+    enabled: true
+    url: ${wiremock.seleniumUrl}/solarmovie
+  filmfra:
+    enabled: true
+    url: ${wiremock.seleniumUrl}/filmfra
+  altadefinizione:
+    enabled: true
+    url: ${wiremock.seleniumUrl}/altadefinizione
+  animealtadefinizione:
+    enabled: true
+    url: ${wiremock.seleniumUrl}/anime-altadefinizione

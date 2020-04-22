@@ -10,7 +10,7 @@ import java.util.Optional;
 @Component
 public class AltaDefinizione implements Website {
 
-    @Value("${streaming.urls.altadefinizione}")
+    @Value("${streaming.altadefinizione.url}")
     private String url;
 
     @Override
