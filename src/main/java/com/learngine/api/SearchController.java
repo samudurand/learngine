@@ -9,14 +9,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.ParallelFlux;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Validated
@@ -31,7 +29,7 @@ public class SearchController {
     }
 
     @GetMapping("/search/movies")
-    public Flux<MovieSummary> searchMatchingMovies(
+    public Mono<MovieSearchResult> searchMatchingMovies(
             @RequestParam @NotBlank String title,
             @RequestParam(defaultValue = "1") Integer page
     ) {

@@ -1,10 +1,13 @@
-[
-  {
-    "id": 603,
-    "title": "the matrix",
-    "imageUrl": "http://image.tmdb.org/t/p/w92/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg",
-    "date": "1999",
-    "description": "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.",
-    "voteAverage": 8.1
-  }
-]
+{
+  "totalPages": 4,
+  "movies": [
+    {
+      "id": 603,
+      "title": "the matrix",
+      "imageUrl": "http://image.tmdb.org/t/p/w92/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg",
+      "date": "1999",
+      "description": "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.",
+      "voteAverage": 8.1
+    }
+  ]
+}

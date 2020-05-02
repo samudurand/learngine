@@ -1,14 +1,23 @@
 package com.learngine.source.metadata.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MovieMetadataSearchResult {
     private Integer page;
-    private Integer total_results;
+
+    @JsonProperty("total_results")
+    private Integer totalResults;
+
+    @JsonProperty("total_pages")
+    private Integer totalPages;
 
     @JsonProperty("results")
     private List<MovieMetadata> movies;

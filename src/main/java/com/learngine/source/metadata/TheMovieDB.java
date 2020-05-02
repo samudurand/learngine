@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.AlternativeTitleSearchResult;
-import com.learngine.source.metadata.domain.MovieMetadata;
 import com.learngine.source.metadata.domain.MovieMetadataSearchResult;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
@@ -33,12 +33,12 @@ public class TheMovieDB implements MetadataSource {
     private String apiToken;
 
     @Override
-    public Flux<MovieMetadata> searchMoviesByTitle(String title, Integer page) {
+    public Mono<MovieMetadataSearchResult> searchMoviesByTitle(String title, Integer page) {
         var searchUrl = buildSearchMoviesUrl(title, page);
         var authHeader = buildAuhtorizationHeader();
         return webClient.get().uri(searchUrl).header("Authorization", authHeader).exchange()
                 .flatMap(response -> response.bodyToMono(String.class))
-                .flatMapMany(parseBodyIntoMoviesMetadata(title));
+                .flatMap(parseBodyIntoMoviesMetadata(title));
     }
 
     private String buildAuhtorizationHeader() {
@@ -50,14 +50,13 @@ public class TheMovieDB implements MetadataSource {
                 baseUrl, apiVersion, encodeRequestParams(title), page);
     }
 
-    private Function<String, Publisher<? extends MovieMetadata>> parseBodyIntoMoviesMetadata(String title) {
+    private Function<String, Mono<MovieMetadataSearchResult>> parseBodyIntoMoviesMetadata(String title) {
         return body -> {
             try {
-                var movieMetadataList = mapper.readValue(body, MovieMetadataSearchResult.class).getMovies();
-                return Flux.fromIterable(movieMetadataList);
+                return Mono.fromCallable(() -> mapper.readValue(body, MovieMetadataSearchResult.class));
             } catch (Exception e) {
                 log.error("Could not retrieve titles matching '" + title + "'", e);
-                return Flux.empty();
+                return Mono.empty();
             }
         };
     }

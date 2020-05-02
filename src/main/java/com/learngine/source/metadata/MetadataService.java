@@ -1,13 +1,16 @@
 package com.learngine.source.metadata;
 
+import com.learngine.api.MovieSearchResult;
 import com.learngine.api.MovieSummary;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.MovieMetadata;
+import com.learngine.source.metadata.domain.MovieMetadataSearchResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -15,6 +18,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -35,21 +39,25 @@ public class MetadataService {
         this.metadataSource = metadataSource;
     }
 
-    public Flux<MovieSummary> findMatchingMovies(String title, Integer page) {
+    public Mono<MovieSearchResult> findMatchingMovies(String title, Integer page) {
         return metadataSource
                 .searchMoviesByTitle(title, page)
                 .map(convertToSummary());
     }
 
-    private Function<MovieMetadata, MovieSummary> convertToSummary() {
-        return movie -> new MovieSummary(
-                movie.getId(),
-                buildTitle(movie),
-                buildImagePath(movie.getPosterPath()),
-                buildDate(movie.getReleaseDate()),
-                buildDescription(movie.getOverview()),
-                movie.getVoteAverage()
-        );
+    private Function<MovieMetadataSearchResult, MovieSearchResult> convertToSummary() {
+        return searchResult -> {
+            var movies = searchResult.getMovies().stream()
+                    .map(movie -> new MovieSummary(
+                            movie.getId(),
+                            buildTitle(movie),
+                            buildImagePath(movie.getPosterPath()),
+                            buildDate(movie.getReleaseDate()),
+                            buildDescription(movie.getOverview()),
+                            movie.getVoteAverage()
+                    )).collect(Collectors.toList());
+            return new MovieSearchResult(searchResult.getTotalPages(), movies);
+        };
     }
 
     private String buildTitle(MovieMetadata movie) {
