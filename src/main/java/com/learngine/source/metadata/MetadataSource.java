@@ -5,7 +5,7 @@ import com.learngine.source.metadata.domain.MovieMetadata;
 import reactor.core.publisher.Flux;
 
 public interface MetadataSource {
-    Flux<MovieMetadata> searchMoviesByTitle(String title);
+    Flux<MovieMetadata> searchMoviesByTitle(String title, Integer page);
 
     Flux<AlternativeTitle> findAlternativeTitles(int movieId);
 }

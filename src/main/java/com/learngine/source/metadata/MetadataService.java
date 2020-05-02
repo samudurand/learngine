@@ -35,8 +35,9 @@ public class MetadataService {
         this.metadataSource = metadataSource;
     }
 
-    public Flux<MovieSummary> findMatchingMovies(String title) {
-        return metadataSource.searchMoviesByTitle(title)
+    public Flux<MovieSummary> findMatchingMovies(String title, Integer page) {
+        return metadataSource
+                .searchMoviesByTitle(title, page)
                 .map(convertToSummary());
     }
 

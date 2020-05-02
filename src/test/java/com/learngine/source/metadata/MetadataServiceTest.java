@@ -42,9 +42,9 @@ class MetadataServiceTest {
 
     @Test
     void retrieveMoviesMetadata() {
-        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix", 1)).thenReturn(Flux.fromIterable(metadata));
 
-        var result = service.findMatchingMovies("matrix").toIterable();
+        var result = service.findMatchingMovies("matrix", 1).toIterable();
 
         assertIterableEquals(defaultResultMovies, result);
     }
@@ -52,9 +52,9 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataWithoutDate() {
         metadata.get(0).setReleaseDate(Optional.empty());
-        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix", 1)).thenReturn(Flux.fromIterable(metadata));
 
-        var result = service.findMatchingMovies("matrix").toIterable();
+        var result = service.findMatchingMovies("matrix", 1).toIterable();
 
         defaultResultMovies.get(0).setDate(MetadataService.DEFAULT_RELEASE_DATE);
         assertIterableEquals(defaultResultMovies, result);
@@ -63,9 +63,9 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataWithBadlyFormattedDate() {
         metadata.get(0).setReleaseDate(Optional.of("2006-23-xx"));
-        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix", 1)).thenReturn(Flux.fromIterable(metadata));
 
-        var result = service.findMatchingMovies("matrix").toIterable();
+        var result = service.findMatchingMovies("matrix", 1).toIterable();
 
         defaultResultMovies.get(0).setDate(MetadataService.DEFAULT_RELEASE_DATE);
         assertIterableEquals(defaultResultMovies, result);
@@ -74,9 +74,9 @@ class MetadataServiceTest {
     @Test
     void retrieveMoviesMetadataWithMissingDescription() {
         metadata.get(0).setOverview(Optional.empty());
-        when(metadataSource.searchMoviesByTitle("matrix")).thenReturn(Flux.fromIterable(metadata));
+        when(metadataSource.searchMoviesByTitle("matrix", 1)).thenReturn(Flux.fromIterable(metadata));
 
-        var result = service.findMatchingMovies("matrix").toIterable();
+        var result = service.findMatchingMovies("matrix", 1).toIterable();
 
         defaultResultMovies.get(0).setDescription("");
         assertIterableEquals(defaultResultMovies, result);

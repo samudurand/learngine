@@ -21,14 +21,14 @@ streaming:
     enabled: true
     url: https://isubsmovies.com
   solarmovie:
-    enabled: true
+    enabled: false
     url: https://solarmoviefree.ac
   filmfra:
     enabled: true
     url: http://filmfra.com
   altadefinizione:
     enabled: true
-    url: https://altadefinizione.style
+    url: https://altadefinizione.studio
   animealtadefinizione:
     enabled: true
     url: https://www.animealtadefinizione.it

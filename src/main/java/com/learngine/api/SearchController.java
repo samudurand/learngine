@@ -16,6 +16,7 @@ import reactor.core.publisher.ParallelFlux;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Validated
@@ -31,9 +32,10 @@ public class SearchController {
 
     @GetMapping("/search/movies")
     public Flux<MovieSummary> searchMatchingMovies(
-            @RequestParam @NotBlank String title
+            @RequestParam @NotBlank String title,
+            @RequestParam(defaultValue = "1") Integer page
     ) {
-        return metadataService.findMatchingMovies(title);
+        return metadataService.findMatchingMovies(title, page);
     }
 
     @GetMapping(value = "/search/titles", produces = MediaType.APPLICATION_JSON_VALUE)

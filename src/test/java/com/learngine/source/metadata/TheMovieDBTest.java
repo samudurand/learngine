@@ -35,31 +35,31 @@ class TheMovieDBTest {
 
     @Test
     void searchMoviesWithTitleMatrix() {
-        var result = theMovieDB.searchMoviesByTitle("matrix");
+        var result = theMovieDB.searchMoviesByTitle("matrix", 1);
         assertIterableEquals(matrixMovies(), result.toIterable());
     }
 
     @Test
     void searchMoviesWithNonExistingTitleMatrixReturnsNoResults() {
-        var result = theMovieDB.searchMoviesByTitle("neverproduced");
+        var result = theMovieDB.searchMoviesByTitle("neverproduced", 1);
         assertIterableEquals(Collections.emptyList(), result.toIterable());
     }
 
     @Test
     void searchMoviesReturnsEmptyWhenJSONIsMissingData() {
-        var result = theMovieDB.searchMoviesByTitle("missingattribute");
+        var result = theMovieDB.searchMoviesByTitle("missingattribute", 1);
         assertIterableEquals(Collections.emptyList(), result.toIterable());
     }
 
     @Test
     void searchMoviesReturnsEmptyWhenJSONIsBadlyFormatted() {
-        var result = theMovieDB.searchMoviesByTitle("badjson");
+        var result = theMovieDB.searchMoviesByTitle("badjson", 1);
         assertIterableEquals(Collections.emptyList(), result.toIterable());
     }
 
     @Test
     void searchMoviesWithTitleMatrixReturnsResultsWithMissingProperties() {
-        var result = theMovieDB.searchMoviesByTitle("matrix_miss_props");
+        var result = theMovieDB.searchMoviesByTitle("matrix_miss_props", 1);
         assertIterableEquals(List.of(
                 new MovieMetadata(603, "The Matrix", Optional.empty(), Optional.empty(), Optional.empty(), 8.1f)
         ), result.toIterable());

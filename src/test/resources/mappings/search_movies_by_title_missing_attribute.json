@@ -2,7 +2,7 @@
   "id": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
   "name": "search_movies_by_title_json_missing_attribute",
   "request": {
-    "url": "/4/search/movie?query=missingattribute",
+    "url": "/4/search/movie?query=missingattribute&page=1",
     "method": "GET"
   },
   "response": {

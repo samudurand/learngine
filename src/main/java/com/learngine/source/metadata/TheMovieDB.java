@@ -33,8 +33,8 @@ public class TheMovieDB implements MetadataSource {
     private String apiToken;
 
     @Override
-    public Flux<MovieMetadata> searchMoviesByTitle(String title) {
-        var searchUrl = buildSearchMoviesUrl(title);
+    public Flux<MovieMetadata> searchMoviesByTitle(String title, Integer page) {
+        var searchUrl = buildSearchMoviesUrl(title, page);
         var authHeader = buildAuhtorizationHeader();
         return webClient.get().uri(searchUrl).header("Authorization", authHeader).exchange()
                 .flatMap(response -> response.bodyToMono(String.class))
@@ -45,8 +45,9 @@ public class TheMovieDB implements MetadataSource {
         return String.format("Bearer %s", apiToken);
     }
 
-    private String buildSearchMoviesUrl(String title) {
-        return String.format("%s/%s/search/movie?query=%s", baseUrl, apiVersion, encodeRequestParams(title));
+    private String buildSearchMoviesUrl(String title, Integer page) {
+        return String.format("%s/%s/search/movie?query=%s&page=%d",
+                baseUrl, apiVersion, encodeRequestParams(title), page);
     }
 
     private Function<String, Publisher<? extends MovieMetadata>> parseBodyIntoMoviesMetadata(String title) {

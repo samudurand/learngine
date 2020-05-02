@@ -43,6 +43,20 @@ class SearchControllerSearchMoviesTest {
     }
 
     @Test
+    public void searchForSecondPageOfMoviesWithTitleMatrix() throws Exception {
+        String expectedJson = FileUtils.readFile("/json/search_movies_matrix_p2.json");
+
+        client.get()
+                .uri("/search/movies?title=matrix&page=2")
+                .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_VALUE)
+                .expectBody()
+                .json(expectedJson);
+    }
+
+    @Test
     public void searchForMoviesWithEmptyTitleFail() throws Exception {
         client.get()
                 .uri("/search/movies?title=")

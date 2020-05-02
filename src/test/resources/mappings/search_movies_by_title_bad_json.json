@@ -2,7 +2,7 @@
   "id": "78b86e45-52aa-4a98-afa8-1071f20d84ae",
   "name": "search_movies_by_title_json_badly_formatted",
   "request": {
-    "url": "/4/search/movie?query=badjson",
+    "url": "/4/search/movie?query=badjson&page=1",
     "method": "GET"
   },
   "response": {
