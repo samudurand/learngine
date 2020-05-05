@@ -27,27 +27,26 @@ public class TheMovieDB implements MetadataSource {
 
     @Value("${themoviedb.url}")
     private String baseUrl;
-    @Value("${themoviedb.apiVersion}")
-    private String apiVersion;
-    @Value("${themoviedb.apiToken}")
-    private String apiToken;
+    @Value("${themoviedb.apiTokenV3}")
+    private String apiTokenV3;
+    @Value("${themoviedb.apiTokenV4}")
+    private String apiTokenV4;
 
     @Override
     public Mono<MovieMetadataSearchResult> searchMoviesByTitle(String title, Integer page) {
         var searchUrl = buildSearchMoviesUrl(title, page);
-        var authHeader = buildAuhtorizationHeader();
+        var authHeader = buildAuhtorizationHeaderForV4API();
         return webClient.get().uri(searchUrl).header("Authorization", authHeader).exchange()
                 .flatMap(response -> response.bodyToMono(String.class))
                 .flatMap(parseBodyIntoMoviesMetadata(title));
     }
 
-    private String buildAuhtorizationHeader() {
-        return String.format("Bearer %s", apiToken);
+    private String buildAuhtorizationHeaderForV4API() {
+        return String.format("Bearer %s", apiTokenV4);
     }
 
     private String buildSearchMoviesUrl(String title, Integer page) {
-        return String.format("%s/%s/search/movie?query=%s&page=%d",
-                baseUrl, apiVersion, encodeRequestParams(title), page);
+        return String.format("%s/4/search/movie?query=%s&page=%d", baseUrl, encodeRequestParams(title), page);
     }
 
     private Function<String, Mono<MovieMetadataSearchResult>> parseBodyIntoMoviesMetadata(String title) {
@@ -70,7 +69,7 @@ public class TheMovieDB implements MetadataSource {
     }
 
     private String buildSearchAlternativeTitlesUrl(int movieId) {
-        return String.format("%s/%s/movie/%d/alternative_titles", baseUrl, apiVersion, movieId);
+        return String.format("%s/3/movie/%d/alternative_titles?api_key=%s", baseUrl, movieId, apiTokenV3);
     }
 
     private Function<String, Publisher<? extends AlternativeTitle>> parseBodyIntoTitlesList(int movieId) {
