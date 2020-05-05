@@ -54,7 +54,8 @@ public class TheMovieDB implements MetadataSource {
             try {
                 return Mono.fromCallable(() -> mapper.readValue(body, MovieMetadataSearchResult.class));
             } catch (Exception e) {
-                log.error("Could not retrieve titles matching '" + title + "'", e);
+                log.error("Could not retrieve titles matching '" + title + "'. Request response {}." +
+                        "Exception: {}", body, e);
                 return Mono.empty();
             }
         };
