@@ -71,6 +71,45 @@ class SearchControllerSearchStreamTest implements SeleniumTest {
     }
 
     @Test
+    public void peformSearchWithTitleMatrixReturnsResultWithOneMalformedResult() throws Exception {
+        String htmlWithOneMalformedResult = FileUtils.readFile("/html/solarmovie/matrix_malformed.html");
+        stubFor(get("/solarmovie/movie/search/matrix+malformed.html").willReturn(aResponse().withBody(htmlWithOneMalformedResult)));
+        stubFor(get("/isubsmovies/search/matrix").willReturn(aResponse().withBody("<html></html>")));
+
+        var results = new HashSet<StreamCompleteDetails>();
+        client.get()
+                .uri("/search/streams?title=matrix malformed")
+                .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+                .exchange()
+                .expectStatus().isOk()
+                .returnResult(StreamCompleteDetails.class)
+                .getResponseBody()
+                .toIterable()
+                .forEach(results::add);
+
+        assertEquals(Set.of(
+                new StreamCompleteDetails(
+                        "the matrix (1999)",
+                        "https://solarmoviefree.ac/movie/the-matrix-1999-1080p.44280.html",
+                        "https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&" +
+                                "gadget=a&no_expand=1&refresh=604800&url=" +
+                                "https://img.moviescdn.live/crop/215/310/media/images/160713_124155/the-matrix-1999.jpg",
+                        "solarmovie",
+                        "Solar Movie",
+                        "https://www1.solarmovie.to"),
+                new StreamCompleteDetails(
+                        "the matrix revolutions (2003)",
+                        "https://solarmoviefree.ac/movie/the-matrix-revolutions-2003-1080p.52700.html",
+                        "https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&" +
+                                "no_expand=1&refresh=604800&url=" +
+                                "https://img.moviescdn.live/crop/215/310/media/images/160905_040912/the-matrix-revolutions.jpg",
+                        "solarmovie",
+                        "Solar Movie",
+                        "https://www1.solarmovie.to")
+        ), results);
+    }
+
+    @Test
     public void peformSearchWithoutTitleFails() throws Exception {
         client.get()
                 .uri("/search/streams")

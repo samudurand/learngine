@@ -58,19 +58,6 @@ class ISubsMoviesCrawlerTest {
         Assertions.assertIterableEquals(List.of(), results.toIterable());
     }
 
-    @Test
-    void performSearchForMatrixFailsWhenElementLacksTitleElement() throws IOException {
-        String html = FileUtils.readFile("/html/isubsmovies/missing_title.html");
-        stubFor(get("/search/notitle").willReturn(aResponse().withBody(html)));
-
-        var resultFlux = crawler.performSearchAndParseResults("notitle");
-
-        StepVerifier
-                .create(resultFlux)
-                .expectError(WebsiteCrawlingException.class)
-                .verify();
-    }
-
     private List<StreamCompleteDetails> matrixStreams() {
         return List.of(
                 new StreamCompleteDetails(

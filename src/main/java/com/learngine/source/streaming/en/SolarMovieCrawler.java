@@ -32,9 +32,8 @@ public class SolarMovieCrawler extends UICrawler {
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         getBrowser().get(buildSearchUrl(title));
         return findAndParseResults()
-                .onErrorMap(Exception.class, (e) -> {
+                .onErrorContinue(Exception.class, (e, stream) -> {
                     log.error("Error while searching on " + getWebsite().getName() + " : " + e.getMessage(), e);
-                    return new WebsiteCrawlingException(getWebsite(), e);
                 });
     }
 

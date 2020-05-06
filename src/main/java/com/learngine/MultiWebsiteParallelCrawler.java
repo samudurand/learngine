@@ -42,8 +42,8 @@ public class MultiWebsiteParallelCrawler {
             final String movieTitle, final WebsiteCrawler crawler) {
         try {
             return crawler.performSearchAndParseResults(movieTitle)
-                    .doOnComplete(crawler::closeClient)
-                    .onErrorContinue(logErrorForSingleResult(crawler));
+                    .onErrorContinue(logErrorForSingleResult(crawler))
+                    .doOnComplete(crawler::closeClient);
         } catch (Exception ex) {
             return logAndBypassErrorForSingleCrawler(crawler, ex);
         }

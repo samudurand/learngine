@@ -57,19 +57,6 @@ class FiveMoviesCrawlerTest {
         Assertions.assertIterableEquals(List.of(), results.toIterable());
     }
 
-    @Test
-    void performSearchForMatrixFailsWhenElementLacksTitleElement() throws IOException {
-        String html = FileUtils.readFile("/html/5movies/missing_title.html");
-        stubFor(get("/movie/search/notitle").willReturn(aResponse().withBody(html)));
-
-        var resultFlux = crawler.performSearchAndParseResults("notitle");
-
-        StepVerifier
-                .create(resultFlux)
-                .expectError(WebsiteCrawlingException.class)
-                .verify();
-    }
-
     private List<StreamCompleteDetails> matrixStreams() {
         return List.of(
                 new StreamCompleteDetails(

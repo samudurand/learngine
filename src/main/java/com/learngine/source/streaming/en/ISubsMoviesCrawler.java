@@ -11,6 +11,7 @@ import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
 import com.learngine.source.utils.UrlFormatter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Component
 @Scope(value = SCOPE_PROTOTYPE)
 @ConditionalOnProperty(value="streaming.isubsmovies.enabled", havingValue = "true")
+@Slf4j
 class ISubsMoviesCrawler extends HeadlessCrawler {
 
     public ISubsMoviesCrawler(ISubsMovies website, Supplier<WebClient> clientSupplier) {
@@ -34,8 +36,11 @@ class ISubsMoviesCrawler extends HeadlessCrawler {
     @Override
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         return Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(buildSearchUrl(title)))
-                .flatMapMany(this::findAndParseResults)
-                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(getWebsite(), e));
+                .onErrorResume((e) -> {
+                    log.error("Unable to process results from {}", getWebsite().getName());
+                    return Mono.empty();
+                })
+                .flatMapMany(this::findAndParseResults);
     }
 
     private String buildSearchUrl(String title) {

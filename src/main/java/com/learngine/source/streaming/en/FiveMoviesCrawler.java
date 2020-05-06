@@ -10,6 +10,7 @@ import com.learngine.crawler.HeadlessCrawler;
 import com.learngine.exception.WebsiteCrawlingException;
 import com.learngine.source.streaming.StreamCompleteDetails;
 import com.learngine.source.streaming.StreamHtmlParsedData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 
 @Component
 @Scope(value = SCOPE_PROTOTYPE)
+@Slf4j
 @ConditionalOnProperty(value="streaming.fivemovies.enabled", havingValue = "true")
 public class FiveMoviesCrawler extends HeadlessCrawler {
 
@@ -33,8 +35,11 @@ public class FiveMoviesCrawler extends HeadlessCrawler {
     @Override
     public Flux<StreamCompleteDetails> performSearchAndParseResults(String title) {
         return Mono.<HtmlPage>fromCallable(() -> getOrCreateClient().getPage(buildSearchUrl(title)))
-                .flatMapMany(this::findAndParseResults)
-                .onErrorMap(Exception.class, (e) -> new WebsiteCrawlingException(getWebsite(), e));
+                .onErrorResume((e) -> {
+                    log.error("Unable to process results from {}", getWebsite().getName());
+                    return Mono.empty();
+                })
+                .flatMapMany(this::findAndParseResults);
     }
 
     private String buildSearchUrl(String title) {
@@ -44,7 +49,8 @@ public class FiveMoviesCrawler extends HeadlessCrawler {
     private Flux<StreamCompleteDetails> findAndParseResults(HtmlPage page) {
         return findResultHtmlElementsInPage(page)
                 .map(this::extractStreamDataFromHtmlElement)
-                .map(htmlData -> new StreamCompleteDetails(htmlData, getWebsite()));
+                .map(htmlData -> new StreamCompleteDetails(htmlData, getWebsite()))
+                .onErrorContinue((e, obj) -> log.error("Unable to process {}", obj));
     }
 
     private Flux<HtmlElement> findResultHtmlElementsInPage(HtmlPage page) {
