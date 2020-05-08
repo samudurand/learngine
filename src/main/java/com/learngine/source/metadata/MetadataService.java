@@ -1,7 +1,7 @@
 package com.learngine.source.metadata;
 
-import com.learngine.api.MovieSearchResult;
-import com.learngine.api.MovieSummary;
+import com.learngine.api.model.MovieSearchResult;
+import com.learngine.api.model.MovieSummary;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.MovieMetadata;
@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;

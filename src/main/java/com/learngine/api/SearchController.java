@@ -1,6 +1,7 @@
 package com.learngine.api;
 
 import com.learngine.MultiWebsiteParallelCrawler;
+import com.learngine.api.model.MovieSearchResult;
 import com.learngine.common.Language;
 import com.learngine.source.metadata.MetadataService;
 import com.learngine.source.streaming.StreamCompleteDetails;

@@ -3,7 +3,6 @@ package com.learngine.source.metadata;
 import com.github.jenspiegsa.wiremockextension.Managed;
 import com.github.jenspiegsa.wiremockextension.WireMockExtension;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.learngine.api.MovieSearchResult;
 import com.learngine.common.Country;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.MovieMetadata;

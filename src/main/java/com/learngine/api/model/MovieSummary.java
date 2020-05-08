@@ -1,4 +1,4 @@
-package com.learngine.api;
+package com.learngine.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

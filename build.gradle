@@ -17,17 +17,19 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.apache.commons:commons-lang3:3.9'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6'
+	implementation 'com.google.cloud:google-cloud-translate:1.94.5'
+	implementation 'com.google.guava:guava:28.1-jre'
+	implementation 'com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20191001.1'
+	implementation 'net.sourceforge.htmlunit:htmlunit:2.38.0'
+	implementation 'org.apache.logging.log4j:log4j-to-slf4j:2.13.2'
+	implementation 'org.apache.logging.log4j:log4j-api:2.13.2'
+	implementation 'org.apache.commons:commons-lang3:3.9'
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.10.Final'
 	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-	implementation 'net.sourceforge.htmlunit:htmlunit:2.38.0'
 	implementation 'org.springframework.boot:spring-boot-starter'
     // implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20191001.1'
-	implementation 'org.apache.logging.log4j:log4j-to-slf4j:2.13.2'
-	implementation 'org.apache.logging.log4j:log4j-api:2.13.2'
 
 	// Documentation, requires webflux libraries, not yet available in Springfox
 	//	implementation 'io.springfox:springfox-swagger2:2.9.2'

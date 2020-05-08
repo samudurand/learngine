@@ -1,5 +1,6 @@
-package com.learngine.api;
+package com.learngine.api.model;
 
+import com.learngine.api.model.MovieSummary;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
