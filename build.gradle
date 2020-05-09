@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
     // implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'io.grpc:grpc-netty-shaded:1.29.0'
 
 	// Documentation, requires webflux libraries, not yet available in Springfox
 	//	implementation 'io.springfox:springfox-swagger2:2.9.2'
