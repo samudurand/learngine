@@ -21,7 +21,8 @@ public class GoogleCloudClient {
                 translateService.translate(
                         text,
                         Translate.TranslateOption.sourceLanguage(ENGLISH_LANG_CODE),
-                        Translate.TranslateOption.targetLanguage(targetLanguage)))
+                        Translate.TranslateOption.targetLanguage(targetLanguage),
+                        Translate.TranslateOption.format("text")))
                 .map(Translation::getTranslatedText);
     }
 
