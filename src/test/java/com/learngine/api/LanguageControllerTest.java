@@ -68,7 +68,7 @@ public class LanguageControllerTest {
             var mockService = mock(Translate.class);
             var mockTranslation = mock(Translation.class);
             when(mockTranslation.getTranslatedText()).thenReturn("Ciao");
-            when(mockService.translate(anyString(), any(), any())).thenReturn(mockTranslation);
+            when(mockService.translate(anyString(), any(), any(), any())).thenReturn(mockTranslation);
             return mockService;
         }
     }
