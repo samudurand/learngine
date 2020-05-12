@@ -38,25 +38,34 @@ public class MetadataService {
         this.metadataSource = metadataSource;
     }
 
-    public Mono<MovieSearchResult> findMatchingMovies(String title, Integer page) {
+    public Mono<MovieSummary> getMovieDetails(Integer movieId) {
         return metadataSource
-                .searchMoviesByTitle(title, page)
+                .getMovie(movieId)
                 .map(convertToSummary());
     }
 
-    private Function<MovieMetadataSearchResult, MovieSearchResult> convertToSummary() {
+    public Mono<MovieSearchResult> findMatchingMovies(String title, Integer page) {
+        return metadataSource
+                .searchMoviesByTitle(title, page)
+                .map(convertToSummaries());
+    }
+
+    private Function<MovieMetadataSearchResult, MovieSearchResult> convertToSummaries() {
         return searchResult -> {
-            var movies = searchResult.getMovies().stream()
-                    .map(movie -> new MovieSummary(
-                            movie.getId(),
-                            buildTitle(movie),
-                            buildImagePath(movie.getPosterPath()),
-                            buildDate(movie.getReleaseDate()),
-                            buildDescription(movie.getOverview()),
-                            movie.getVoteAverage()
-                    )).collect(Collectors.toList());
+            var movies = searchResult.getMovies().stream().map(convertToSummary()).collect(Collectors.toList());
             return new MovieSearchResult(searchResult.getTotalPages(), movies);
         };
+    }
+
+    private Function<MovieMetadata, MovieSummary> convertToSummary() {
+        return movie -> new MovieSummary(
+                movie.getId(),
+                buildTitle(movie),
+                buildImagePath(movie.getPosterPath()),
+                buildDate(movie.getReleaseDate()),
+                buildDescription(movie.getOverview()),
+                movie.getVoteAverage()
+        );
     }
 
     private String buildTitle(MovieMetadata movie) {

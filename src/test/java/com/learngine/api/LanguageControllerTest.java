@@ -8,6 +8,7 @@ import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import com.learngine.api.model.TextToTranslate;
+import com.learngine.source.streaming.SeleniumTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,9 +36,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@ExtendWith(WireMockExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureWebTestClient
 public class LanguageControllerTest {
+
+    @Managed
+    WireMockServer wireMockServer = with(wireMockConfig().port(SeleniumTest.EXPECTED_WIREMOCK_PORT));
 
     @Autowired
     private WebTestClient client;
@@ -46,7 +51,7 @@ public class LanguageControllerTest {
     public void translateFromEnglishToItalian() throws Exception {
         client.post()
                 .uri("/languages/translate")
-                .body(BodyInserters.fromValue(new TextToTranslate("hello", "it")))
+                .body(BodyInserters.fromValue(new TextToTranslate(603, "it")))
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .exchange()
                 .expectStatus().isOk()

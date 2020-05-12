@@ -43,6 +43,15 @@ class MetadataServiceTest {
     }
 
     @Test
+    void retrieveMovieMetadata() {
+        when(metadataSource.getMovie(603)).thenReturn(Mono.fromCallable(() -> singleMovieTestMetadata()));
+
+        var result = service.getMovieDetails(603).block();
+
+        assertEquals(singleResultMovie(), result);
+    }
+
+    @Test
     void retrieveMoviesMetadata() {
         when(metadataSource.searchMoviesByTitle("matrix", 1)).thenReturn(Mono.fromCallable(() -> metadata));
 
@@ -122,22 +131,44 @@ class MetadataServiceTest {
         assertIterableEquals(Collections.emptyList(), result.toIterable());
     }
 
+    private MovieMetadata singleMovieTestMetadata() {
+        return new MovieMetadata(
+                603,
+                "The Matrix",
+                Optional.of("1999-03-13"),
+                Optional.of("/matrix.png"),
+                Optional.of("a great movie"),
+                7.5f
+        );
+    }
+
     private MovieMetadataSearchResult defaultTestMetadata() {
         return new MovieMetadataSearchResult(1, 2, 2,
                 List.of(
-                new MovieMetadata(1,
-                        "The Matrix",
-                        Optional.of("1999-03-13"),
-                        Optional.of("/matrix.png"),
-                        Optional.of("a great movie"),
-                        7.5f),
-                new MovieMetadata(20,
-                        "The Matrix revolution",
-                        Optional.of("2015-05-27"),
-                        Optional.of("/mtx-revolution.jpg"),
-                        Optional.of("another Great movie"),
-                        7f)
-        ));
+                        new MovieMetadata(1,
+                                "The Matrix",
+                                Optional.of("1999-03-13"),
+                                Optional.of("/matrix.png"),
+                                Optional.of("a great movie"),
+                                7.5f),
+                        new MovieMetadata(20,
+                                "The Matrix revolution",
+                                Optional.of("2015-05-27"),
+                                Optional.of("/mtx-revolution.jpg"),
+                                Optional.of("another Great movie"),
+                                7f)
+                ));
+    }
+
+    private MovieSummary singleResultMovie() {
+        return new MovieSummary(
+                603,
+                "the matrix",
+                "http://image.tmdb.org/t/p/w92/matrix.png",
+                LocalDate.parse("1999-03-13"),
+                "a great movie",
+                7.5f
+        );
     }
 
     private MovieSearchResult defaultResultMovies() {

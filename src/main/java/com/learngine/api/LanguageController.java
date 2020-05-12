@@ -24,7 +24,7 @@ public class LanguageController {
     @PostMapping("/languages/translate")
     public Mono<TranslationResult> translate(@RequestBody @Valid TextToTranslate toTranslate) {
         return translateService
-                .translate(toTranslate.getText(), toTranslate.getTarget())
+                .translateDescription(toTranslate.getMovieId(), toTranslate.getTarget())
                 .map(TranslationResult::new);
     }
 }

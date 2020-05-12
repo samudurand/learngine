@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.learngine.source.metadata.domain.AlternativeTitle;
 import com.learngine.source.metadata.domain.AlternativeTitleSearchResult;
+import com.learngine.source.metadata.domain.MovieMetadata;
 import com.learngine.source.metadata.domain.MovieMetadataSearchResult;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
@@ -31,6 +32,30 @@ public class TheMovieDB implements MetadataSource {
     private String apiTokenV3;
     @Value("${themoviedb.apiTokenV4}")
     private String apiTokenV4;
+
+    @Override
+    public Mono<MovieMetadata> getMovie(Integer movieId) {
+        var movieUrl = buildGetMovieUrl(movieId);
+        return webClient.get().uri(movieUrl).exchange()
+                .flatMap(response -> response.bodyToMono(String.class))
+                .flatMap(parseBodyIntoMovieMetadata(movieId));
+    }
+
+    private String buildGetMovieUrl(Integer movieId) {
+        return String.format("%s/3/movie/%d?api_key=%s", baseUrl, movieId, apiTokenV3);
+    }
+
+    private Function<String, Mono<MovieMetadata>> parseBodyIntoMovieMetadata(Integer movieId) {
+        return body -> {
+            try {
+                return Mono.fromCallable(() -> mapper.readValue(body, MovieMetadata.class));
+            } catch (Exception e) {
+                log.error("Could not retrieve movie details for id '" + movieId + "'. Request response {}." +
+                        "Exception: {}", body, e);
+                return Mono.empty();
+            }
+        };
+    }
 
     @Override
     public Mono<MovieMetadataSearchResult> searchMoviesByTitle(String title, Integer page) {
