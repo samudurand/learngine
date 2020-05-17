@@ -6,6 +6,10 @@ wiremock:
   url: http://localhost:${wiremock.port}
   seleniumUrl: http://host.testcontainers.internal:${wiremock.port}
 
+translate:
+  google:
+    enabled: true
+
 themoviedb:
   url: ${wiremock.url}
   apiTokenV3: token

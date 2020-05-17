@@ -1,10 +1,14 @@
+server:
+  port: 9000
+
 themoviedb:
   url: https://api.themoviedb.org
   apiTokenV3: ${THEMOVIEDB_TOKEN_V3}
   apiTokenV4: ${THEMOVIEDB_TOKEN_V4}
 
-server:
-  port: 9000
+translate:
+  google:
+    enabled: ${GOOGLE_TRANSLATE_ENABLED:false}
 
 selenium:
   node:
